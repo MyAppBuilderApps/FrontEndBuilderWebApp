@@ -1,0 +1,88 @@
+<ion-view>
+ <ion-header-bar  class="bar bar-header" ng-class="bar_color">
+
+	  <button class="button icon ion-ios7-arrow-back" ng-click="backdisplayaudio();" ng-class="bar_button_color"></button>
+	   <h1 class="title" style="padding:0% 19% 0% 6%;">{{appTitle}}</h1>
+	    <div class="buttons">
+			<button class="button icon ion-home" ng-click="homedisplayaudio();" ng-class="bar_button_color"></button>&nbsp;&nbsp;
+              <button class="button icon ion-ios7-chatbubble" ng-click="elementAppwallgoFun();" ng-show='elementAppWall' ng-class="bar_button_color"></button>
+		</div>
+		
+ </ion-header-bar>
+ <br/>
+  <div class="bar bar-subheader" style="margin-top:8px;">
+	  	  <div style="margin-left:5%;font-size:16px;">
+	  <input type="text" id="displayaudiotitle" class="doubleline" ng-model="createdisplayaudio.displayaudiotitle">
+	</div>
+     </div>    
+
+  <ion-content > 
+
+   <div style="padding:8% 25% 0% 25%;">
+  
+<p>
+	      <a href="http://www.facebook.com/sharer.php?u={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="img/ic_fb.png" alt="" style="width:32px;height:32px;"/></a>
+	      <a href="http://twitter.com/share?url={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="img/ic_twitter.png" alt="" style="width:32px;height:32px;"/></a>
+		  <a href="mailto:?Subject={{appTitle}}&Body=To%20Download%20This%20App%20Click%20This%20Link!%20 {{float1}}"><img src="img/ic_mail1.png" alt="" style="width:32px;height:32px;"/></a>
+
+	</p>
+	
+       <div class="list list-inset">
+        
+		    <div class="item item-text-wrap" style="padding:4px 0px 4px 0px;">
+				<textarea style="height:100%;" ng-model="createdisplayaudio.displayaudiotext" ui-tinymce="tinymceOptions" ></textarea>        
+				<input type="file" id="imageSelect2" ng-hide="true" />
+	        </div>
+
+	        	
+	     <div class="item item-input" style="padding:1px 0px 0px 0px;width:100%;">
+             <div class="col col-50"><span class="input-label">Audio upload</span></div> 
+             <div class="col col-20"><img id="audiodisurlimg" style="width:50px;heigth:50px;" src="img/no_audio.png" alt="your image" /></div>               
+		     <div class="col col-30"><input type="file" name="audiodisplay" accept="audio/*" id="audiodisplay" /></div> 
+		 </div>    
+
+        <div class="item item-input" style="padding:1px 0px 0px 0px;width:100%;">
+              <div class="col col-50"><span class="input-label">Audio thumbnail upload</span></div>          
+              <div class="col col-20"><img id="audiodisplayimg" style="width:50px;heigth:50px;" src="img/no_image.png" alt="your image" /></div>
+		      <div class="col col-30"><input type="file" name="audio_thumbdisplay" id="audio_thumbdisplay" /></div> 
+		</div>    
+
+       
+       <button style="margin-top:5%;" ng-class="button_color" class="button button-full" ng-click="updateaudiodisplay();" ng-class="button_color">Update</button>
+	  	  
+	  
+			<div class="item item-divider">
+				Custom values
+			</div>
+			<ul class="list" >          
+				<li ng-repeat="item in disaudiopage" type="item-text-wrap" >				    
+					<div class="item item-button-right">
+						  <h2>{{item.title}}</h2>
+						  <p>{{item.value}}	</p>
+						  <button class="button button-clear button-assertive" ng-click="removeaudiodisCustomValue(item.id)"><i class="icon ion-close-round"></i></button>
+                    </div>						 
+	           </li>   
+            </ul>
+            
+			<label class="item item-input item-stacked-label">
+				  <span>Title</span>
+				  <br/>
+				  <input type="text" id="discusaudiotitle" ng-model="cusdisplayaudio.customdisaudioTitle" >
+			</label>
+
+			  <label class="item item-input item-stacked-label">
+					<span>Value</span>
+					<br/>
+					<input type="text" id="discusaudiovalue" ng-model="cusdisplayaudio.customdisaudiovalue" >
+			  </label>
+	
+			<button class="button button-full" ng-class="button_color" ng-click="createaudiodis();" >Create</button>
+       </div>
+
+	</div>
+ </ion-content>
+</ion-view>
+
+
+      
+    

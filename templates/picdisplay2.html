@@ -1,0 +1,98 @@
+<ion-view>
+ <ion-header-bar  class="bar bar-header" ng-class="bar_color">
+
+	  <button class="button icon ion-ios7-arrow-back" ng-click="backdispic();" ng-class="bar_button_color"></button>
+	   <h1 class="title" style="padding:0% 19% 0% 8%;">{{appTitle}}</h1>
+	    <div class="buttons">
+			<button class="button icon ion-home" ng-click="homedispic();" ng-class="bar_button_color"></button>&nbsp;&nbsp;
+              <button class="button icon ion-ios7-chatbubble" ng-click="elementAppwallgoFun();" ng-show='elementAppWall'  ng-class="bar_button_color"></button>
+		</div>
+		
+ </ion-header-bar>
+ <br/>
+  <div class="bar bar-subheader" style="margin-top:8px;">
+	 <div style="margin-left:5%;font-size:16px;">
+		   <input type="text" style="color:black;" id="dispicTitle" class="doubleline" ng-model="textCreatedis.distitle">
+	 </div>
+  </div>    
+ 
+  <ion-content > 
+
+   <div style="padding:8% 25% 0% 25%;">
+      
+		    <div class="item item-text-wrap" style="padding:4px 2px 4px 2px;">
+				<textarea  style="height:100%;" ng-model="textCreatedis.distext" ui-tinymce="tinymceOptions" >{{description}}</textarea>        
+				<input type="file" id="imageSelect2" ng-hide="true" />
+	        </div>  	
+      
+       <button style="margin-top:4%;" ng-class="button_color" class="button button-full" ng-click="updatedistext();" >Update</button>
+		
+			
+			<ul class="list" >          
+			<li ng-repeat="item in dispicpage" type="item-text-wrap" >				    
+				<div class="item item-button-right">
+					<img ng-src="{{item.url}}" style="width:50px;height:50px;">
+					<button class="button button-clear button-assertive" ng-click="removepicdisCustom(item.id)"><i class="icon ion-close-round"></i></button>
+				</div>			
+			 
+			</li>   
+		</ul>  
+
+		<div class="row" style="padding:1px 10px 0px 3px;">
+				 <div class="col col-40"><span class="input-label">New Image</span></div>          
+				 <div class="col col-20"><img id="dispictext" style="width:50px;heigth:50px;" src="img/no_image.png" alt="your image" /></div>				  
+				 <div class="col col-40"><input type="file" id="textdis" style="width:100%;"/></div> 
+		</div>   
+		  
+			<button class="button button-full" ng-class="button_color" ng-click="uploaddisplay();" >Upload</button>
+	  	  	
+			<br/>	
+		
+				<tags-input placeholder="Add a tag" ng-model="contenteditCreate.elementeditTag" ></tags-input>	
+				<button class="button button-full" ng-class="button_color" ng-click="ok();">Update</button>
+			<br/>
+			
+			
+			<div class="item item-divider">
+				Custom values
+			</div>
+			<ul class="list" >          
+				<li ng-repeat="item in distxtpage" type="item-text-wrap" >				    
+					<div class="item item-button-right">
+						  <h2>{{item.title}}</h2>
+						  <p>{{item.value}}	</p>
+						  <button class="button button-clear button-assertive" ng-click="removedistxtCustomValue(item.id)"><i class="icon ion-close-round"></i></button>
+                    </div>						 
+	           </li>   
+            </ul>
+            
+			  <label class="item item-input item-stacked-label">
+				  <span>Title</span>
+				  <br/>
+				  <input type="text" id="distitle" ng-model="dispic.customdisTitle" >
+			  </label>
+
+			   <label class="item item-input item-stacked-label">
+				  <span>Value</span>
+				  <br/>
+				  <input type="text" id="disvalue" ng-model="dispic.customedisvalue" >
+			   </label>
+
+	
+			<button class="button button-full" ng-class="button_color" ng-click="createpicdis();" >Create</button>
+
+	</div>
+ </ion-content>
+ 
+ <div align="center" style="position:fixed;bottom: 0;right:45%;">
+		<a href="http://www.facebook.com/sharer.php?u={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="http://kopepasah.com.s3.amazonaws.com/assets/codepen.io/1396343749_facebook_circle_color.png" alt="" style="width:32px;height:32px;"/></a>
+	      <a href="http://twitter.com/share?url={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="http://kopepasah.com.s3.amazonaws.com/assets/codepen.io/1396344405_twitter_circle_color.png" alt="" style="width:32px;height:32px;"/></a>
+		 <a href="mailto:?Subject={{appTitle}}&Body=To%20Download%20This%20App%20Click%20This%20Link!%20 {{float1}}"><img src="img/ic_mail.png" alt="" style="width:32px;height:32px;"/></a>
+
+	</div>
+	
+</ion-view>
+
+
+      
+    

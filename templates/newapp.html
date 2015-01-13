@@ -1,0 +1,108 @@
+<ion-view>
+	
+ <ion-header-bar  class="bar bar-header" ng-class="bar_color">
+
+	<div class="buttons">  
+		<button class="button" style="width:38px;height:23px;" ng-class="bar_button_color"><img src="img/list_add.png"/></button>
+    </div>
+     
+    <h1 class="title" style="width:65%;margin-left:4%;">			
+    		<input type="text" id="gridAppTitle" ng-model="appcreate.gridAppTitle" placeholder="Enter App Title">
+	</h1>
+    
+    <div class="buttons">
+		<button class="button icon ion-home" ng-click="home();" ng-class="bar_button_color"></button>
+    </div>
+
+ </ion-header-bar>
+
+
+   <ion-content > 
+
+    <div class="card" style="padding:12px 25% 0px 25%;">
+		
+		    <label class="item item-divider">
+				General Settings
+			</label>
+		
+    
+			<div class="item item-text-wrap" style="padding:2px 0px 0px 0px;">
+			  <span class="input-label">Description</span>
+				<textarea style="height:30%;" ng-model="appcreate.mypost" ui-tinymce="tinymceOptions"></textarea>   
+				<input name="image" type="file" id="imageSelect" ng-hide="true" />
+			 </div>
+
+         <div class="item url-edit" style="padding:2px 0px 0px 0px;">
+                <span class="item item-divider">Url</span>
+               <div class="row">
+					<div style="width:15%;"><span class="input-label">http://</span></div>
+					<div style="width:5%;"></div>
+					<div style="width:80%;"><label class="item item-input" >
+                         <input type="text" placeholder="Type subdomain. Only lower case letters, digits and -" ng-model="book.subdomain">
+                            </label>
+                     </div>
+                </div>
+<br/>
+             <div class="row" >
+			   <div style="width:13%;"></div>
+                <div style="width:3%;"><span class="input-label">.</span></div>
+                <div style="width:2%;"></div>
+                <div style="width:83%;"><select style="width:100%;" ng-model="book.domain">
+					  <option>buildap.ps</option>
+					  <option>cloudap.ps</option>
+					  <option>raindrop.co</option>
+					  <option>dealershi.ps</option>
+                     </select></div>
+              </div>
+        </div>
+          
+			
+       <div class="item item-input" style="padding:1px 4px 8px 0px;width:100%;">
+          <div class="col col-40"><span class="input-label">Bar color</span></div>
+          <div class="col col-20"><img id="barimg" src="img/positive.png" style="width:50px;heigth:50px;" alt="your image" /></div>
+          <div class="col col-40"><button ng-click="bar();" ng-model="book.bar_color">Choose</button></div> 
+      </div>
+      
+       <div class="item item-input" style="padding:1px 4px 8px 0px;width:100%;">		
+          <div class="col col-40"><span class="input-label">Bar button color</span></div>
+           <div class="col col-20"><img id="barbuttonimg" src="img/positive.png" style="width:50px;heigth:50px;" alt="your image" /></div>
+          <div class="col col-40"><button ng-click="barbutton();" ng-model="book.bar_button_color">Choose</button></div>
+      </div>
+        
+     <div class="item item-input" style="padding:1px 4px 8px 0px;width:100%;">		
+       <div class="col col-40"><span class="input-label">Button color</span></div>
+        <div class="col col-20"><img id="buttonimg" src="img/positive.png" style="width:50px;heigth:50px;" alt="your image" /></div> 
+       <div class="col col-40"><button ng-click="button();" ng-model="book.button_color">Choose</button></div>    
+     </div>  
+          
+     <div class="item item-input" style="padding:1px 0px 8px 0px;width:100%;">
+           <div class="col col-40"><span class="input-label">Splash Image 320x460</span></div>
+           <div class="col col-20"><img id="splash" src="img/no_image.png" style="width:50px;heigth:50px;" alt="your image" /></div>
+		   <div class="col col-40"><input type="file" id="splashimage" /></div> 	  	
+	 </div>
+           
+       <div class="item item-input" style="padding:1px 0px 8px 0px;width:100%;">
+             <div class="col col-40"><span class="input-label">App Image 114x114</span></div>
+             <div class="col col-20"><img id="app" src="img/no_image.png" style="width:50px;heigth:50px;" alt="your image" /></div>
+             <div class="col col-40"><input type="file" id="appimage"  /></div>  	
+	   </div> 
+
+            
+       <div class="item item-input" style="padding:1px 0px 8px 0px;width:100%;">	  
+            <div class="col col-40"><span class="input-label">AppStore Image 512x512</span></div>
+             <div class="col col-20"><img id="store" style="width:50px;heigth:50px;" src="img/no_image.png" alt="your image" /></div>
+            <div class="col col-40"><input type="file" id="storeimage" /></div> 
+	  </div>
+		
+     <button class="button button-full" ng-class="button_color" ng-click="updatesettings();" >Update General Settings</button>
+
+	</div>
+
+           
+ </ion-content>
+      
+</ion-view>
+
+     
+  
+

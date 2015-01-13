@@ -1,0 +1,69 @@
+<ion-view>
+  <ion-header-bar class="bar bar-header" ng-class="bar_color">
+    <button class="button icon ion-ios7-arrow-back button-positive" ng-click="backmodal();"></button>
+    <h1 class="title" >Subscriber</h1>
+    </ion-header-bar>
+    
+    <ion-content>
+    
+    <div style="padding:8% 25% 0% 25%;" align="center">
+    <div style="margin:auto;width:40%;">
+    
+   <div class="file-input-wrapper5">
+    <button class="btn-file-input5"></button>
+    <input type="file" id="tst" />
+    </div>
+    
+    </div>
+    </div>
+    
+    <br/><br/>
+    
+    <div class="list" style="margin-left:27%;width:50%;">
+    <label class="item item-input" style="background-image:url(img/text_box.png);background-size:100% 100%;">
+    <input type="text" placeholder="Firstname" ng-model="data3.firstname"/>
+    </label>
+    </div>
+    
+    <div class="list" style="margin-left:27%;width:50%;">
+    <label class="item item-input" style="background-image:url(img/text_box.png);background-size:100% 100%;">
+    <input type="text" placeholder="Lastname"  ng-model="data3.lastname" />
+    </label>
+    </div>
+    
+    <div class="list" style="margin-left:27%;width:50%;">
+    <label class="item item-input" style="background-image:url(img/text_box.png);background-size:100% 100%;">
+    <input type="text" placeholder="Username"  ng-model="data3.username" />
+    </label>
+    </div>
+    
+    <div class="list" style="margin-left:27%;width:50%;">
+    <label class="item item-input" style="background-image:url(img/text_box.png);background-size:100% 100%;">
+    <input type="email"  placeholder="Enter valid email id"  ng-model="data3.email" />
+    </label>
+    </div>
+    
+    <div class="list" style="margin-left:27%;width:50%;">
+    <label class="item item-input" style="background-image:url(img/text_box.png);background-size:100% 100%;">
+    <input type="password"  placeholder="Password"  ng-model="data3.password" />
+    </label>
+    </div>
+    
+    <div class="list" style="margin-left:27%;width:50%;">
+    <label class="item item-input" style="background-image:url(img/text_box.png);background-size:100% 100%;">
+    <input type="password"  placeholder="Confirm Password"  ng-model="data3.confirmpassword" />
+    </label>
+    </div>
+    
+    <div class="list" style="margin-left:27%;width:50%;">
+    <label class="item item-input" style="background-image:url(img/text_box.png);background-size:100% 100%;" >
+    <input type="phone"  placeholder="Phone"  ng-model="data3.phone"/ >
+    </label>
+    </div>
+    
+    <div  align="center" style="padding: 4% 0% 0% 0%;">
+    <button class="button" ng-class="button_color" ng-click="updatesubs();">Update Subscriber</button>
+    </div>
+    
+    </ion-content>
+    </ion-view>

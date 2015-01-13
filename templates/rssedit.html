@@ -1,0 +1,74 @@
+<ion-view>
+ <ion-header-bar  class="bar bar-header" ng-class="bar_color">
+
+ <button class="button" style="width:38px;height:23px;" ng-click="naveditrss();" ng-class="bar_button_color"><img src="img/list_add.png" /></button>
+	   <h1 class="title" style="padding:0% 19% 0% 8%;">{{appTitle}}</h1>
+	    <div class="buttons">
+			<button class="button icon ion-home" ng-click="homeeditrss();" ng-class="bar_button_color"></button>&nbsp;&nbsp;
+			<button class="button icon ion-ios7-arrow-back" ng-click="backeditrss();" ng-class="bar_button_color"></button>
+		</div>
+		
+ </ion-header-bar>
+<br/>
+  <div class="bar bar-subheader" style="margin-top:8px;">
+	  	  <div style="margin-left:5%;font-size:16px;">
+			<input type="text" name="title" class="doubleline" ng-model="createrssedit.editrssname" required>
+	      </div>
+  </div>     
+
+  <ion-content > 
+
+   <div style="padding:10% 25% 0% 25%;">
+  
+       <div class="list list-inset">
+        
+		    <div class="item item-text-wrap" style="padding:4px 2px 4px 2px;">
+				<textarea style="height:30%;" ng-model="createrssedit.editrssdesc" ui-tinymce="tinymceOptions" >{{description}}</textarea>        
+				<!--<input type="file" id="imageSelect2" ng-hide="true" />-->
+	        </div>
+	        
+	 <label class="item item-input" style="padding:5px 0px 5px 0px;width:100%;">
+             <input type="text" id="webname" ng-model="createrssedit.editrssurl" >
+	 </label>
+
+     	
+      
+       <button style="margin-top:5%;" ng-class="button_color" class="button button-full" ng-click="updaterss();" >Update</button>  
+	  
+	  
+			<div class="item item-divider">
+				Custom values
+			</div>
+			<ul class="list" >          
+				<li ng-repeat="item in editrsspage" type="item-text-wrap" >				    
+					<div class="item item-button-right">
+						  <h2>{{item.title}}</h2>
+						  <p>{{item.value}}	</p>
+						  <button class="button button-clear button-assertive" ng-click="removerssCustomValue(item.id)"><i class="icon ion-close-round"></i></button>
+                    </div>						 
+	           </li>   
+            </ul>
+            
+			 <label class="item item-input item-stacked-label">
+					  <span>Title</span>
+					  <br/>
+					  <input type="text" id="editrsstitle" ng-model="editcusrss.cuseditrsstitle" >
+			</label>
+
+       
+			   <label class="item item-input item-stacked-label">
+					  <span>Value</span>
+					  <br/>
+					   <input type="text" id="editrssvalue" ng-model="editcusrss.cuseditrssvalue" >
+				</label>
+
+	
+			<button class="button button-full" ng-class="button_color" ng-click="createcusrss();" >Create</button>
+</div>
+	</div>
+ </ion-content>
+</ion-view>
+
+
+      
+    

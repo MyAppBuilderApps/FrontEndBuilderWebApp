@@ -1,0 +1,45 @@
+<ion-view>
+  
+  <ion-content >
+	  
+	  
+ <div class="card"  align="center" style="padding:90px 25% 260px 25%;">
+      <div class="item item-divider" style="background-color:#335397;background-size:100% 100%;color:white;height:60px;">
+			MAB Front End Builder
+	  </div>
+ 
+  
+  <div class="item item-text-wrap" style="padding:2px 0px 7px 0px;">
+	  
+      <label class="item item-input" style="background-color:white;background-size:100% 100%;margin-top:35px;width:50%;" >
+         <i class="icon "><img src="img/username.png" style="width:30px;height:30px;"/></i>
+         <input type="text" id="userId" placeholder="Username" value="" style="margin-left:8%;">
+      </label>
+      
+      <br/>
+      <label class="item item-input" style="background-color:white;background-size:100% 100%;width:50%;">
+		   <i class="icon "><img src="img/password.png" style="width:30px;height:30px;"/></i>
+           <input type="password" id="password" placeholder="Password" value="" style="margin-left:8%;">
+      </label>
+      
+    <br/>
+ 
+		<button class="button" ng-click="loginFtn();" style="background-color:#d6dbe6;background-size:100% 100%;margin-top:34px;width:30%;" name="button" type="submit">Login</button>&nbsp;&nbsp; 
+		<button class="button" style="background-color:#d6dbe6;background-size:100% 100%;margin-top:34px;width:30%;" ng-click="registerPageCallFtn();">Register</button>
+
+    <br/>
+    
+      <button class="button icon-left ion-social-facebook" ng-click="fbLogin();" style="background-color:#335397;background-size:100% 100%;color:white;margin-top:47px;align:left">Facebook</button>&nbsp;&nbsp;&nbsp;
+      <button class="button icon-left ion-social-twitter" ng-click="twitterLogin();" style="background-color:#00c7f7;background-size:100% 100%;color:white;margin-top:47px;align:left">Twitter</button>&nbsp;&nbsp;&nbsp;
+      <button class="button icon-left ion-social-googleplus" ng-click="googleLogin();" style="background-color:#FE2E2E;background-size:100% 100%;margin-top:47px;color:white;">Google+</button>
+      
+       <br/><br/>
+       
+     </div>
+     
+  </div>
+  </ion-content>
+	
+</ion-view>
+
+
