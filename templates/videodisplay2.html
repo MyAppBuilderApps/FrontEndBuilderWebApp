@@ -31,24 +31,9 @@
 	    <div class="item item-input" style="padding:1px 0px 0px 0px;width:100%;">
              <div class="col col-50"><span class="input-label">Video upload</span></div> 
              <div class="col col-20"><img id="videodisurlimg" style="width:50px;heigth:50px;" src="img/no_video.png" alt="your image" /></div>               
-		     <div class="col col-30"><input type="file" name="videodisplay" accept="video/*" id="videodisplay" ng-click="logbuttonlist1();" /></div> 
+		     <div class="col col-30"><input type="file" name="videodisplay" accept="video/*" id="videodisplay" /></div> 
 		</div>    
-		
-		 <div style="padding:4px 0px 10px 0px;width:100%;text-align: center;" ng-hide='AppEditor'>
 
-				<video id='videoframe' width="420" height="340" controls>
-							  <source src="{{frame1}}" >
-							  Your browser does not support the video tag.
-				 </video>
-				 
-				 <br/>
-				 
-				 <span></span>
-				<button onclick="shoot()" style="width: 64px;border: solid 2px #ccc;">Capture</button><br/><br/>
-				
-				
-				<div id="output" style="display: inline-block;top: 6px; position: relative ;border: dotted 1px #ccc; padding: 2px;"></div>
-		</div>
 
 	   <div class="item item-input" style="padding:1px 0px 0px 0px;width:100%;">
             <div class="col col-50"><span class="input-label">Video thumbnail upload</span></div>          
@@ -94,8 +79,8 @@
  
  <div align="center" style="position:fixed;bottom: 0;right:45%;">
 		<a href="http://www.facebook.com/sharer.php?u={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="http://kopepasah.com.s3.amazonaws.com/assets/codepen.io/1396343749_facebook_circle_color.png" alt="" style="width:32px;height:32px;"/></a>
-	      <a href="http://twitter.com/share?url={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="http://kopepasah.com.s3.amazonaws.com/assets/codepen.io/1396344405_twitter_circle_color.png" alt="" style="width:32px;height:32px;"/></a>
-		 <a href="mailto:?Subject={{appTitle}}&Body=To%20Download%20This%20App%20Click%20This%20Link!%20 {{float1}}"><img src="img/ic_mail.png" alt="" style="width:32px;height:32px;"/></a>
+	    <a href="http://twitter.com/share?url={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="http://kopepasah.com.s3.amazonaws.com/assets/codepen.io/1396344405_twitter_circle_color.png" alt="" style="width:32px;height:32px;"/></a>
+		<a href="mailto:?Subject={{appTitle}}&Body=To%20Download%20This%20App%20Click%20This%20Link!%20 {{float1}}"><img src="img/ic_mail.png" alt="" style="width:32px;height:32px;"/></a>
 
 	</div>
 	

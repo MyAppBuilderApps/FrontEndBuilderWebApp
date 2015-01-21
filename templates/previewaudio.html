@@ -22,10 +22,9 @@
    <div style="padding:8% 25% 0% 25%;">
   
 <p>
-	      <a href="http://www.facebook.com/sharer.php?u={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="img/ic_fb.png" alt="" style="width:32px;height:32px;"/></a>
+		 <a href="http://www.facebook.com/sharer.php?u={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="img/ic_fb.png" alt="" style="width:32px;height:32px;"/></a>
 	      <a href="http://twitter.com/share?url={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="img/ic_twitter.png" alt="" style="width:32px;height:32px;"/></a>
 		  <a href="mailto:?Subject={{appTitle}}&Body=To%20Download%20This%20App%20Click%20This%20Link!%20 {{float1}}"><img src="img/ic_mail1.png" alt="" style="width:32px;height:32px;"/></a>
-
 	</p>
 	
        <div class="list list-inset">
@@ -65,19 +64,20 @@
  </ion-content>
 </ion-view>
 
-
    <script id="my-modal.html" type="text/ng-template">
 	<div class="modal">
 	<ion-header-bar>
 		<h1 class="title">Audio</h1>
-		<button class="button button-clear button-primary" ng-click="audioclickclose();"><img src="img/close.png" style="width:30px;height:30px;"/></button>
+		<button class="button button-clear button-primary" ng-click="registerpop.hide();"><img src="img/close.png" style="width:30px;height:30px;"/></button>
 	</ion-header-bar>
 	
 	<ion-content>
 		  <iframe style="margin-top:7%;margin-left:17%;" class="playaudio" src="{{contentaudio}}">
 			  <p>Your browser does not support iframes.</p>
 		 </iframe>
-	</ion-content>	  
+	</ion-content>	 
 	
 </script>   
+    
+      
     

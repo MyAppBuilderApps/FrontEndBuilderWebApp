@@ -5,26 +5,25 @@
 	
  </ion-header-bar>
    
- <ion-content  >  
+ <ion-content  > 
    <div style="padding:5% 25% 0% 25%;">
-	<ion-list ng-hide="AppEditor">
+  <ion-list ng-hide="AppEditor">
         
         <ion-item ng-repeat="item in appKey" type="item-text-wrap" class="item item-avatar-left" style="color:white;" ng-click="listViewClickFtn(item.api_key,item.title,item.description,item.app_image);">      
 
             <img src="{{item.app_image}}" >
-			<h2 style="color:black;" class="sampletitle">{{item.title}}</h2>
- 
+          <h2 style="color:black;" class="sampletitle">{{item.title}}</h2>
+
+          
         </ion-item>
 
-	</ion-list> 
- 
+    </ion-list>  
 
-    </div> 
- </ion-content>
+    <ion-footer-bar  class="bar bar-footer" ng-click="listViewBack();">
+        <h1 class="title">Admin</h1>
+    </ion-footer-bar >
+
+   </div> 
+  </ion-content>
  
-    <div class="tabs tabs-positive">
-		<a class="tab-item" ng-click="listViewBack();" style="font-size:20px;">
-			Admin
-		</a>
-   </div>
 </ion-view>

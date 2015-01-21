@@ -3,10 +3,10 @@
 
 	  <button class="button icon ion-ios7-arrow-back" ng-click="backprevaudio();" ng-class="bar_button_color"></button>
 	   <h1 class="title" style="padding:0% 19% 0% 8%;">{{appTitle}}</h1>
-	    <div class="buttons">
+	   <div class="buttons">
 		<button class="button icon ion-home" ng-click="homeprevaudio();" ng-class="bar_button_color"></button>&nbsp;&nbsp;
-	<button class="button icon ion-ios7-chatbubble" ng-click="elementAppwallgoFun();" ng-class="bar_button_color"></button>
-		</div>  
+<button class="button icon ion-ios7-chatbubble" ng-click="elementAppwallgoFun();" ng-class="bar_button_color"></button>
+		</div>   
 		
  </ion-header-bar>
  
@@ -25,12 +25,14 @@
         
          <div class="item item-text-wrap" ng-bind-html="elementtext" style="padding:8px 2px 8px 2px;">
 	        </div>  
+
 	        	
 	     <div class="item item-input" style="padding:1px 0px 0px 0px;width:100%;">
             <div class="col col-70"><span class="input-label">Audio upload</span></div> 
              <div class="col col-5"></div>
             <div class="col col-25"><img id="audioprevurlimg" style="width:50px;heigth:50px;" src="img/no_audio.png" alt="your image" ng-click="audioclick();"/></div>               
-		</div> 
+		</div>    
+
        
 	    <div class="item item-input" style="width:100%;padding:1px 0px 0px 0px;">
             <div class="col col-70"><span class="input-label">Audio thumbnail upload</span></div>          
@@ -59,7 +61,7 @@
 	<div class="modal">
 	<ion-header-bar>
 		<h1 class="title">Audio</h1>
-		<button class="button button-clear button-primary" ng-click="audioclickclose();"><img src="img/close.png" style="width:30px;height:30px;"/></button>
+		<button class="button button-clear button-primary" ng-click="registerpop.hide();"><img src="img/close.png" style="width:30px;height:30px;"/></button>
 	</ion-header-bar>
 	
 	<ion-content>
@@ -69,4 +71,5 @@
 	</ion-content>	 
 	
 </script>
+      
     

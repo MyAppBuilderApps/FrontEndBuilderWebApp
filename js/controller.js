@@ -1,5 +1,28 @@
-var control = angular.module('starter.controllers', ['ngTagsInput']);
+var control = angular.module('starter.controllers',['ngTagsInput','checklist-model']);
+localStorage.clear();
+var v = 0;
+var barcolor = 'bar-positive';
+var defaultkey;
+var image;
 
+var app = angular.module('app', ['ngTagsInput'])
+.config(function(tagsInputConfigProvider) {
+        tagsInputConfigProvider
+        .setDefaults('tagsInput', {
+                     placeholder: 'New tag',
+                     addOnEnter: false
+                     })
+        .setDefaults('autoComplete', {
+                     maxResultsToShow: 20,
+                     debounceDelay: 1000
+                     })
+        .setActiveInterpolation('tagsInput', {
+                                placeholder: true,
+                                addOnEnter: true,
+                                removeTagSymbol: true
+                                });
+        });
+        
  var options = {
 
        content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
@@ -47,9 +70,9 @@ var marker1,marker5,marker6,marker;
 var mapAddress = '';
 
 function initialize1(saving2) {
-      
+      //alert('s1');
     var mapAddress1=saving2;
- 
+  // alert(mapAddress1);
   
     geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(-34.397, 150.644);
@@ -60,7 +83,7 @@ function initialize1(saving2) {
     map = new google.maps.Map(document.getElementById('specificmap-canvas'), mapOptions);
     geocoder.geocode( { 'address': mapAddress1}, function(results, status) {
                      if (status == google.maps.GeocoderStatus.OK) {
-                   
+                     //map.setCenter(results[0].geometry.location);
                      marker5 = new google.maps.Marker({
                                                       map: map,
                                                       position: results[0].geometry.location,
@@ -74,8 +97,7 @@ function initialize1(saving2) {
                                                    infowindow.open(map,marker5);
                                                    });
                      } else {
-           
-					alert('Geocode was not successful for the following reason: ' + status);
+                    alert('Geocode was not successful for the following reason: ' + status);
 					
                      }
                      });
@@ -84,7 +106,7 @@ function initialize1(saving2) {
 }
 
 function codeAddress1() {
-  
+  //  alert('s');
     var address = document.getElementById('address').value;
     geocoder.geocode( { 'address': address}, function(results, status) {
                      if (status == google.maps.GeocoderStatus.OK) {
@@ -96,7 +118,7 @@ function codeAddress1() {
                      
                      
                      } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
+                     alert('Geocode was not successful for the following reason: ' + status);
                      }
                      
                      
@@ -107,8 +129,8 @@ var sav='';
 var saving1='';
 var saving2=[];
 
-control.controller('showmapCtrl',function($scope,$state,$ionicLoading,$ionicPlatform,$ionicPopup){
-             
+control.controller('showmapCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicPlatform){
+                 //  alert('s3');
                    $scope.backprevmap=function(){
                    $state.go('chapterlist');
                    }
@@ -136,7 +158,7 @@ control.controller('showmapCtrl',function($scope,$state,$ionicLoading,$ionicPlat
                     
                           for(var i=0;i<saving1.length;i++){                   
                           saving=saving1[i].address;
-                        
+                           // alert(saving);
                           saving2.push(saving[i].address);
                        
                            initialize1(saving);
@@ -146,7 +168,7 @@ control.controller('showmapCtrl',function($scope,$state,$ionicLoading,$ionicPlat
                           },
                           error:function(error,status){
                           $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);
+                           var total = JSON.parse(error.responseText);
                            var alertPopup = $ionicPopup.alert({
 							   title: 'Map and Location',
 							   template: total.error
@@ -160,16 +182,14 @@ control.controller('showmapCtrl',function($scope,$state,$ionicLoading,$ionicPlat
                    
                    });               
 
-control.controller('showmap1Ctrl',function($scope,$state,$ionicLoading,$ionicPlatform,$ionicPopup){
-                 
+control.controller('showmap1Ctrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicPlatform){
+                   //  alert('s3');
                    $scope.backprevmap=function(){
                    $state.go('chapterlist1');
                    }
-                   
                     $scope.elementAppwallgoFun=function(){
-					  $state.go('elementAppWall1');
-				  } 
-				  
+	  $state.go('elementAppWall1');
+  } 
                   $ionicLoading.show({
 				   content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
 				   animation: 'fade-in',
@@ -186,11 +206,11 @@ control.controller('showmap1Ctrl',function($scope,$state,$ionicLoading,$ionicPla
                           success:function(response){
                           $ionicLoading.hide();
                           saving =response;
-                          
+                          // alert(JSON.stringify(saving.length));
                           for(var i=0;i<saving.length;i++){
                           saving=response[i].address;
                           saving2.push(saving[i].address);
-                      
+                          //   alert(saving2);
                           initialize1(saving);
                           }
                           
@@ -198,7 +218,7 @@ control.controller('showmap1Ctrl',function($scope,$state,$ionicLoading,$ionicPla
                           },
                           error:function(error,status){
                           $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);
+                           var total = JSON.parse(error.responseText);
                            var alertPopup = $ionicPopup.alert({
 							   title: 'Map and Location',
 							   template: total.error
@@ -212,8 +232,8 @@ control.controller('showmap1Ctrl',function($scope,$state,$ionicLoading,$ionicPla
                    
                    });
  
- control.controller('showmap2Ctrl',function($scope,$state,$ionicLoading,$ionicPlatform,$ionicPopup){
-            
+ control.controller('showmap2Ctrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicPlatform){
+                 //  alert('s3');
                    $scope.backprevmap=function(){
                    $state.go('chapterlist2');
                    }
@@ -241,7 +261,7 @@ control.controller('showmap1Ctrl',function($scope,$state,$ionicLoading,$ionicPla
                     
                           for(var i=0;i<saving1.length;i++){                   
                           saving=saving1[i].address;
-                         
+                           // alert(saving);
                           saving2.push(saving[i].address);
                        
                            initialize1(saving);
@@ -251,7 +271,7 @@ control.controller('showmap1Ctrl',function($scope,$state,$ionicLoading,$ionicPla
                           },
                           error:function(error,status){
                           $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);
+                           var total = JSON.parse(error.responseText);
                            var alertPopup = $ionicPopup.alert({
 							   title: 'Map and Location',
 							   template: total.error
@@ -264,115 +284,589 @@ control.controller('showmap1Ctrl',function($scope,$state,$ionicLoading,$ionicPla
                    $scope.float1=float1;
                    
                    });      
+   
+control.controller('editcontentCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$http,$ionicActionSheet,$ionicPlatform){
+                   $scope.key='';
+                  
+             //   $scope.bar_color=barcolor;
+                   
                                 
-control.controller('loginCtrl',function($scope,$state,$ionicLoading,$ionicPlatform,$ionicPopup,$location,$http){
-	
-
-  $scope.loginFtn = function(){
-
-if($('#userId').val() && $('#password').val()){
-	
-     $ionicLoading.show({
-			    content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
-			    animation: 'fade-in',
-			    showBackdrop: true,
-			    maxWidth: 200,
-			    showDelay: 0
-			  });
-    var userId = $('#userId').val();
-    var password = $('#password').val();
-    
-    $.ajax({
-          type: "POST",
-          url: "http://build.myappbuilder.com/api/login.json",
-          data:{'login':userId,'password':password},
-          success:function(response){ 
-			 
-			if(JSON.stringify(response).indexOf("incentive_programs") > -1){
-			
-					appList = response;
-				
-					localStorage.sender_id = appList.id;
-					if(appList.username){
-						localStorage.appwallLoginData = appList.username;
-					}else{
-						localStorage.appwallLoginData = appList.name;
-					}
-					
-					 $ionicLoading.hide();
-					$state.go('sample1');
-					
-			}
-			else{ 
-            appkeyResult = response;
-          
-            localStorage.sender_id = appkeyResult.id;
-            if(appkeyResult.username){
-                localStorage.appwallLoginData = appkeyResult.username;
-            }else{
-                localStorage.appwallLoginData = appkeyResult.name;
-            }
-
-            $.ajax({
-                  type: "GET",
-                  url: "http://build.myappbuilder.com/api/users.json",
-                  data:{'api_key':appkeyResult.api_key,'id':appkeyResult.id},
-                  cache: false,
-                  success:function(response){
-				
-                    $ionicLoading.hide();
-                    appList = response;
-                    localStorage["login"] = JSON.stringify(appkeyResult);
-                    $state.go('sample');
-          				},
-                  error:function(error,status){
-                    $ionicLoading.hide();
-                   var total = JSON.parse(error.responseText);
+                   $ionicLoading.show({
+                                      content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
+                                      animation: 'fade-in',
+                                      showBackdrop: true,
+                                      maxWidth: 200,
+                                      showDelay: 0
+                                      });
+                   $http({method: "GET", url:'key.txt', cache: false, params:{}})
+                   .success(function(data){
+                            defaultkey = data.trim();
+                            appList=[];
+                            $http({method: "GET", url:'http://build.myappbuilder.com/api/apps/general.json', cache: false, params:{'api_key':defaultkey}})
+                            .success(function(data, status){
+                                //   alert(data.title);
+                                     appId=defaultkey;
+                                     appTit=data.title;
+                                     appList.push(data);
+                                     
+                                     $http({method: "GET", url:'http://build.myappbuilder.com/api/book_custom_fields.json', cache: false, params:{'api_key':defaultkey}})
+                                     .success(function(reskey){
+                                              
+                                              for(var j=0;j<reskey.length;j++){
+                                              if(reskey[j].key=="keys"){
+                                              $http({method: "GET", url:'http://build.myappbuilder.com/api/apps/general.json', cache: false, params:{'api_key':reskey[j].value}})
+                                              .success(function(data, status){
+                                                       
+                                                       appList.push(data);
+                                                       
+                                                       })
+                                              .error(function(data, status) {
+                                                      var total = JSON.parse(data);
                            var alertPopup = $ionicPopup.alert({
 							   title: 'FrontEndBuilder',
 							   template: total.error
 							 });
 							 alertPopup.then(function(res) {
 							 });
-                  }
-            });
-          }  
-          },
-          error:function(error,status){
-            $ionicLoading.hide();
-            var error = JSON.parse(error.responseText);
-            if(error.error == "Unauthorized"){
-               var alertPopup = $ionicPopup.alert({
+                                                     $ionicLoading.hide();
+                                                     });
+                                              }
+                                              }
+                                              $ionicLoading.hide();
+                                              
+                                              $state.go('sample1');
+                                               
+                                              })
+                                     .error(function(data, status) {
+                                            $ionicLoading.hide();
+                                              var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                            
+                                            });
+                                     
+                                     })
+                            .error(function(data, status) {
+                                     var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                   $ionicLoading.hide();
+                                   });                            
+                            
+                            })
+                   .error(function(data, status) {
+                          $ionicLoading.hide();
+                            var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                          
+                          });                   
+                                     
+                 //  $state.go('login');
+
+                   });
+
+
+control.controller('login1Ctrl',function($scope,$state,$ionicPopup,$ionicLoading,$http,$ionicActionSheet){
+                   $scope.bar_color=barcolor;
+                   localStorage.clear();
+                   $('#userId').val('newuser');
+                   $('#password').val('passkey123');
+                   $scope.count = function(){
+                   //   navigator.notification.alert(val);
+                   $ionicLoading.show({
+                                      content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
+                                      animation: 'fade-in',
+                                      showBackdrop: true,
+                                      maxWidth: 200,
+                                      showDelay: 0
+                                      });
+                   $http({method: "GET", url:'key.txt', cache: false, params:{}})
+                   .success(function(data){
+                            defaultkey = data.trim();
+                            appList=[];
+                            $http({method: "GET", url:'http://build.myappbuilder.com/api/apps/general.json', cache: false, params:{'api_key':defaultkey}})
+                            .success(function(data, status){
+                                     
+                                     //alert(data.title);
+                                     appId=defaultkey;
+                                     appTit=data.title;
+                                     appList.push(data);
+                                   //  alert(JSON.stringify(appList));
+                                     $http({method: "GET", url:'http://build.myappbuilder.com/api/book_custom_fields.json', cache: false, params:{'api_key':defaultkey}})
+                                     .success(function(reskey){
+                                            //  alert(JSON.stringify(reskey));
+                                              for(var j=0;j<reskey.length;j++){
+                                              if(reskey[j].key=="keys"){
+                                              $http({method: "GET", url:'http://build.myappbuilder.com/api/apps/general.json', cache: false, params:{'api_key':reskey[j].value}})
+                                              .success(function(data, status){
+                                                       
+                                                       appList.push(data);
+                                                       
+                                                       })
+                                              .error(function(data, status) {
+                                                       var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                                     $ionicLoading.hide();
+                                                     });
+                                              }
+                                              }
+                                              $ionicLoading.hide();
+                                              
+                                              $state.go('sample');                                              
+                                              
+                                              })
+                                     .error(function(data, status) {
+                                            $ionicLoading.hide();
+                                             var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                            
+                                            });
+                                     
+                                     })
+                            .error(function(data, status) {
+                                     var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                   $ionicLoading.hide();
+                                   });
+                                                        
+                            })
+                   .error(function(data, status) {
+                          $ionicLoading.hide();
+                            var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                          
+                          });
+                   };                
+                   
+                   $scope.loginFtn = function(){
+                   $ionicLoading.show({
+                                      content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
+                                      animation: 'fade-in',
+                                      showBackdrop: true,
+                                      maxWidth: 200,
+                                      showDelay: 0
+                                      });
+                   var userId = $('#userId').val();
+                   var password = $('#password').val();
+                   
+                   
+                   $http({method: "POST", url:'http://build.myappbuilder.com/api/login.json', cache: false, params:{'login':userId,'password':password}})
+                   .success(function(response){
+                            
+                            appkeyResult = response;
+                            //                            appkeyResult = response;
+                            localStorage.sender_id = appkeyResult.id;
+                            if(appkeyResult.username){
+                            localStorage.appwallLoginData = appkeyResult.username;
+                            }else{
+                            localStorage.appwallLoginData = appkeyResult.name;
+                            }
+                            //                            appKey = response.api_key;
+                            
+                            $http({method: "GET", url:'http://build.myappbuilder.com/api/apps.json', cache: false, params:{'api_key':response.api_key}})
+                            .success(function(data, status){
+                                     var logkey;
+                                     for(var j=0;j<data.length;j++){
+                                     if(data[j].api_key==defaultkey){
+                                     logkey=data[j].api_key;
+                                     }
+                                     }
+                                     if(logkey==defaultkey){
+                                     $scope.count();
+                                     $ionicLoading.hide();
+                                     }
+                                     else{
+                                     $ionicLoading.hide();
+                                      var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: 'You are not authorised for this app!'
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                     }
+                                     })
+                            .error(function(data, status) {
+                                    var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                   $ionicLoading.hide();
+                                   });                         
+                            
+                            })
+                   .error(function(error, status) {
+                          $ionicLoading.hide();
+                          var error = JSON.parse(error.responseText);
+                          if(error.error == "Unauthorized"){
+                           var alertPopup = $ionicPopup.alert({
 							   title: 'FrontEndBuilder',
 							   template: 'Please Check Your UserId or Password!'
 							 });
 							 alertPopup.then(function(res) {
 							 });
-            }else {
-               var alertPopup = $ionicPopup.alert({
+                          }else {
+                         var alertPopup = $ionicPopup.alert({
 							   title: 'FrontEndBuilder',
 							   template: 'Login Error!'
 							 });
 							 alertPopup.then(function(res) {
 							 });
-            }
-          }
-    });
-  }
-else{
-	 var alertPopup = $ionicPopup.alert({
+                          }
+                          });
+                                    
+                   };
+                   
+                   $scope.cancelFtn =function(){
+                   $state.go('editcontent');
+                   };
+                                     
+                   });
+
+
+control.controller('sample1Ctrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){
+                   
+                   
+                   $scope.listViewBack = function(){
+                   
+                   localStorage["login"] = [];
+                   $state.go('login1');
+                   };
+                                   
+                   $ionicScrollDelegate.scrollTop();
+                   
+                   $scope.AppEditor =false;
+                   for(var i =0;i<appList.length;i++){
+                   if(appList[i].app_image == null){
+                   appList[i].app_image = "img/no_image.png";
+                   }
+                   }
+                   
+                   $scope.appKey = appList;
+                                     
+                   $scope.listViewClickFtn = function(appId,appTit){
+                   
+                   buttonArray = [];
+                   Appwall = [];
+                   appKey = appId;
+                   appTitle = appTit;
+                   $ionicLoading.show({
+                                      content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
+                                      animation: 'fade-in',
+                                      showBackdrop: true,
+                                      maxWidth: 200,
+                                      showDelay: 0
+                                      });
+                   console.log('**************1234567890*************');
+                   console.log('**************123456*************'+appId);
+                   
+                   
+                   $.ajax({
+                          type: "GET",
+                          url: "http://build.myappbuilder.com/api/buttons.json",
+                          data:{'api_key':appId},
+                          cache: false,
+                          success:function(response){
+                          
+                          console.log(JSON.stringify(response))
+                          buttonArray = response;
+                          
+                          $.ajax({
+                                 type: "GET",
+                                 url: "http://build.myappbuilder.com/api/apps/general.json",
+                                 data:{'api_key':appId},
+                                 cache: false,
+                                 success:function(response1){
+                                 console.log('**************123456*************'+response1.bar_color);
+                                 console.log(JSON.stringify(response1));
+                                 
+                                 barcolor = response1.bar_color;
+                                 buttoncolor= response1.button_color;
+                                 barbuttoncolor= response1.bar_button_color;
+                                 
+                                 $scope.bar_color=barcolor;
+                                 $scope.button_color=buttoncolor;
+                                 $scope.bar_button_color=barbuttoncolor;                                         
+                                 
+                                 $.ajax({url:'http://build.myappbuilder.com/api/app_wall_settings.json', type:"GET",data:{'api_key':appKey},
+                                        success:function(response){
+                                        bookAppwall = response;
+                                        $ionicLoading.hide();
+                                        $state.go('app1');
+                                        },
+                                        error:function(){
+                                        $ionicLoading.hide();
+                           var alertPopup = $ionicPopup.alert({
 							   title: 'FrontEndBuilder',
-							   template: 'Please Enter Your UserId or Password!'
+							   template: 'Failure'
 							 });
 							 alertPopup.then(function(res) {
 							 });
+                                        }
+                                        });
+                                 
+                                 },
+                                 error:function(error,status){
+                                 
+                              var total = JSON.parse(error.responseText);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                 }
+                                 });                                                    
+                          
+                          },
+                          error:function(error,status){
+                          $ionicLoading.hide();
+                      var total = JSON.parse(error.responseText);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                          }
+                          });
+                   }                   
+                   
+                   });
+                             
+control.controller('loginCtrl',function($scope,$state,$ionicLoading,$ionicPlatform,$ionicPopup,$location,$http){
 	
-}
-}
+ $('#userId').val('newuser');
+                  $('#password').val('passkey123');
+                   $scope.count = function(val){
+                  //   alert(val);
+                   $ionicLoading.show({
+                                      content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
+                                      animation: 'fade-in',
+                                      showBackdrop: true,
+                                      maxWidth: 200,
+                                      showDelay: 0
+                                      });
+                   if(v < val){
+                   $.ajax({
+                          type: "GET",
+                          url: "http://build.myappbuilder.com/api/book_custom_fields.json",
+                          data:{'api_key':data.apps[v].api_key},
+                          cache: false,
+                          success:function(response1){
+                         // alert(response1.length);
+                         // alert(JSON.stringify(response1));
+                         // alert(v);
+                          for(var j=0;j<response1.length;j++){
+                          
+                          if(response1[j].key=="AppType" && response1[j].value=="FrontEndBuilder"){
+                          
+                          appList.push(data.apps[v]);
+                          }
+                          
+                          }
+                          v++;
+                          $scope.count(data.apps.length);
+                        //  alert(JSON.stringify(appList));
+                          
+                          },
+                          error:function(error,status){
+                          
+                         var total = JSON.parse(error.responseText);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                          }
+                          });
+                   }
+                   else{
+                   $ionicLoading.hide();
+                   v = 0;
+                   localStorage["login"] = JSON.stringify(appkeyResult);
+                   if(listGrid == ''){
+                   $state.go('sample');
+                   }else if(listGrid == 'list'){
+                   $state.go('sample');
+                   }else{
+                   $state.go('sample');
+                   }
+                   }
+                   };
+                   
+                   if(localStorage["login"]){
+                   appkeyResult = JSON.parse(localStorage["login"]);
+                   //alert(appkeyResult.api_key+" : "+appkeyResult.id);
+                   $ionicLoading.show({
+                                      content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
+                                      animation: 'fade-in',
+                                      showBackdrop: true,
+                                      maxWidth: 200,
+                                      showDelay: 0
+                                      });
+                   $.ajax({
+                          type: "GET",
+                          url: "http://build.myappbuilder.com/api/users.json",
+                          data:{'api_key':appkeyResult.api_key,'id':appkeyResult.id},
+                          cache: false,
+                          success:function(response){
+                          data = response;
+                          $ionicLoading.hide();
+                          localStorage.sender_id = appkeyResult.id;
+                          if(appkeyResult.username){
+                          localStorage.appwallLoginData = appkeyResult.username;
+                          }else{
+                          localStorage.appwallLoginData = appkeyResult.name;
+                          }
+                          appList=[];
+
+                          $scope.count(response.apps.length);
+                          
+                          },
+                          error:function(error,status){
+                          $ionicLoading.hide();
+                          var error = JSON.parse(error.responseText);
+                          if(error.error == "Unauthorized"){
+                        var alertPopup = $ionicPopup.alert({
+					   title: 'FrontEndBuilder',
+					   template:'Please Login'
+					 });
+					 alertPopup.then(function(res) {
+					 });
+                          }else {
+                           var alertPopup = $ionicPopup.alert({
+					   title: 'FrontEndBuilder',
+					   template:'Login Error!'
+					 });
+					 alertPopup.then(function(res) {
+					 });
+                          }
+                          }
+                          });
+                   }
+                                                       
+                   
+                   $scope.loginFtn = function(){
+                   $ionicLoading.show({
+                                      content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
+                                      animation: 'fade-in',
+                                      showBackdrop: true,
+                                      maxWidth: 200,
+                                      showDelay: 0
+                                      });
+                   var userId = $('#userId').val();
+                   var password = $('#password').val();
+                   
+                   $.ajax({
+                          type: "POST",
+                          url: "http://build.myappbuilder.com/api/login.json",
+                          data:{'login':userId,'password':password},
+                          success:function(response){
+                          
+                          appkeyResult = response;
+                          localStorage.sender_id = appkeyResult.id;
+                          if(appkeyResult.username){
+                          localStorage.appwallLoginData = appkeyResult.username;
+                          }else{
+                          localStorage.appwallLoginData = appkeyResult.name;
+                          }
+                          
+                          $.ajax({
+                                 type: "GET",
+                                 url: "http://build.myappbuilder.com/api/users.json",
+                                 data:{'api_key':appkeyResult.api_key,'id':appkeyResult.id},
+                                 cache: false,
+                                 success:function(response){
+                                 data = response;
+                                 $ionicLoading.hide();
+                                 appList=[];
+                                 //                   for(var i=0;i<response.apps.length;i++){
+                                 //                   if(response.apps[i].description=="News"){
+                                 //                   appList.push(response.apps[i]);
+                                 //                   }
+                                 //
+                                 //                   }
+                                 localStorage["login"] = JSON.stringify(appkeyResult);
+                                 $scope.count(response.apps.length);
+                                 //                    $state.go('listView');
+                                 },
+                                 error:function(error,status){
+                                 $ionicLoading.hide();
+                                var total = JSON.parse(error.responseText);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                 }
+                                 });
+                          
+                          },
+                          error:function(error,status){
+                          $ionicLoading.hide();
+                          var error = JSON.parse(error.responseText);
+                          if(error.error == "Unauthorized"){
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: 'Please Check Your UserId or Password!'
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                          }else {
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: 'Login Error!'
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                          }
+                          }
+                          });
+                   };
+                   
+
 
   $scope.registerPageCallFtn =function(){
     $state.go('register');
-  }
+  };
  
 var authorizationResult = false;
     var authorizationResult1 = false;
@@ -423,7 +917,7 @@ var authorizationResult = false;
                                             localStorage.apikey = response[i].api_key;
                                             appName = 1;
                                         }else{
-                                          
+                                            //console.log("Create App");
                                         }
                                     }
 
@@ -524,7 +1018,7 @@ var authorizationResult = false;
                                                 localStorage.apikey = response[i].api_key;
                                                 appName = 1;
                                             }else{
-                                              
+                                                //console.log("Create App");
                                             }
                                         }
 
@@ -575,7 +1069,7 @@ var authorizationResult = false;
                                         }else{
                                                 $http({method: "GET", url: 'http://build.myappbuilder.com/api/subscribers.json', cache:false, params:{'api_key':apikey}})
                                                 .success(function(data, status) {
-                                                 
+                                                    //console.log(JSON.stringify(data));
                                                     childResults = data;
                                                     for (var i = 0; i < childResults.length; i++) {
                                                         childResults[i].fullname = (childResults[i].fullname).trim();
@@ -614,6 +1108,7 @@ var authorizationResult = false;
                 console.log(error);
             }
             
+            // do some stuff with result
         });
     }
 
@@ -658,7 +1153,7 @@ var authorizationResult = false;
                                             localStorage.apikey = response[i].api_key;
                                             appName = 1;
                                         }else{
-                                          
+                                            //console.log("Create App");
                                         }
                                     }
 
@@ -709,7 +1204,7 @@ var authorizationResult = false;
                                     }else{
                                             $http({method: "GET", url: 'http://build.myappbuilder.com/api/subscribers.json', cache:false, params:{'api_key':apikey}})
                                             .success(function(data, status) {
-                                         
+                                               // alert(JSON.stringify(data));
                                                 childResults = data;
                                                 for (var i = 0; i < childResults.length; i++) {
                                                     childResults[i].fullname = (childResults[i].fullname).trim();
@@ -759,7 +1254,7 @@ var authorizationResult = false;
                                                 localStorage.apikey = response[i].api_key;
                                                 appName = 1;
                                             }else{
-                                             
+                                                //console.log("Create App");
                                             }
                                         }
 
@@ -810,7 +1305,7 @@ var authorizationResult = false;
                                         }else{
                                                 $http({method: "GET", url: 'http://build.myappbuilder.com/api/subscribers.json', cache:false, params:{'api_key':apikey}})
                                                 .success(function(data, status) {
-                                                  
+                                                    //console.log(JSON.stringify(data));
                                                     childResults = data;
                                                     for (var i = 0; i < childResults.length; i++) {
                                                         childResults[i].fullname = (childResults[i].fullname).trim();
@@ -891,7 +1386,7 @@ var authorizationResult = false;
                                             localStorage.apikey = response[i].api_key;
                                             appName = 1;
                                         }else{
-                                          
+                                            //console.log("Create App");
                                         }
                                     }
 
@@ -992,7 +1487,7 @@ var authorizationResult = false;
                                                 localStorage.apikey = response[i].api_key;
                                                 appName = 1;
                                             }else{
-                                               
+                                                //console.log("Create App");
                                             }
                                         }
 
@@ -1043,7 +1538,7 @@ var authorizationResult = false;
                                         }else{
                                                 $http({method: "GET", url: 'http://build.myappbuilder.com/api/subscribers.json', cache:false, params:{'api_key':apikey}})
                                                 .success(function(data, status) {
-                                                  
+                                                    //console.log(JSON.stringify(data));
                                                     childResults = data;
                                                     for (var i = 0; i < childResults.length; i++) {
                                                         childResults[i].fullname = (childResults[i].fullname).trim();
@@ -1110,7 +1605,7 @@ control.controller('registerCtrl',function($scope,$state,$ionicLoading,$ionicPop
       data:{'name':Name,'username':regUserId,'email':regEmail,'password':regPassword,'password_confirmation':regConfirmPassword},
       cache:false,
       success:function(response){
-     
+       // alert("sucee: "+JSON.stringify(response));
           appkeyResult = response;
           localStorage.sender_id = appkeyResult.id;
 
@@ -1140,25 +1635,13 @@ control.controller('registerCtrl',function($scope,$state,$ionicLoading,$ionicPop
                   },
                   error:function(error,status){
                     $ionicLoading.hide();
-                    var total = JSON.parse(error.responseText);
-                           var alertPopup = $ionicPopup.alert({
-							   title: 'FrontEndBuilder',
-							   template: total.error
-							 });
-							 alertPopup.then(function(res) {
-							 });
+                    alert(error.responseText)
                   }
           });
       },
       error:function(error,status){
           $ionicLoading.hide();
-         var total = JSON.parse(error.responseText);
-                           var alertPopup = $ionicPopup.alert({
-							   title: 'FrontEndBuilder',
-							   template: total.error
-							 });
-							 alertPopup.then(function(res) {
-							 });
+         alert(error.responseText);
       }
     });
   }
@@ -1182,27 +1665,107 @@ var store='';
 var appbar='';
 var appbutton='';
 var appbuttonbar='';
-var floatarray='';
 
 control.controller('sampleCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){
           
                                                     
-     $scope.appKey = appList.apps;
-     
-  $ionicScrollDelegate.scrollTop();
+     $scope.bar_color=barcolor;
+                   $scope.count = function(){
+                   //                          appKey = response.api_key;
+                   $http({method: "GET", url:'key.txt', cache: false, params:{}})
+                   .success(function(data){
+                            defaultkey = data.trim();
+                            appList=[];
+                            $http({method: "GET", url:'http://build.myappbuilder.com/api/apps/general.json', cache: false, params:{'api_key':defaultkey}})
+                            .success(function(data, status){
+                                                                 //    alert(data.title);
+                                     appId=defaultkey;
+                                     appTit=data.title;
+                                     appList.push(data);
+                                     
+                                     $http({method: "GET", url:'http://build.myappbuilder.com/api/book_custom_fields.json', cache: false, params:{'api_key':defaultkey}})
+                                     .success(function(reskey){
+                                              
+                                              for(var j=0;j<reskey.length;j++){
+                                              if(reskey[j].key=="keys"){
+                                              $http({method: "GET", url:'http://build.myappbuilder.com/api/apps/general.json', cache: false, params:{'api_key':reskey[j].value}})
+                                              .success(function(data, status){
+                                                       
+                                                       appList.push(data);
+                                                       
+                                                       })
+                                              .error(function(data, status) {
+                                                     var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                                     $ionicLoading.hide();
+                                                     });
+                                              }
+                                              }
+                                              $ionicLoading.hide();
+                                              $scope.appKey = appList;
+                                              $state.reload();
+                                              
+                                              
+                                              
+                                              })
+                                     .error(function(data, status) {
+                                            $ionicLoading.hide();
+                                             var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                            
+                                            });
+                                     
+                                     })
+                            .error(function(data, status) {
+                                    var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                   $ionicLoading.hide();
+                                   });
+                            
+                            
+                            })
+                   .error(function(data, status) {
+                          $ionicLoading.hide();
+                           var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                          
+                          });
+                   
+                   };
+                   
+                   $ionicScrollDelegate.scrollTop();
+                   
+                   $scope.AppEditor =false;
+                   for(var i =0;i<appList.length;i++){
+                   if(appList[i].app_image == null){
+                   appList[i].app_image = "img/no_image.png";
+                   }
+                   }
 
- $scope.AppEditor =false;
-
-  for(var i =0;i<(appList.apps).length;i++){
-    if((appList.apps[i]).app_image == null){
-         (appList.apps[i]).app_image = "img/no_image.png";
-
-    }
-  }
-  
- $scope.listViewClickFtn = function(appId,appTit){
-	 
-  $scope.appKey = appList.apps;
+                   $scope.appKey = appList;
+                   console.log(appList);
+                   
+    $scope.listViewClickFtn = function(appId,appTit){	 
 
     appKey = appId;
     appTitle = appTit;
@@ -1220,24 +1783,23 @@ control.controller('sampleCtrl',function($scope,$state,$ionicLoading,$ionicPopup
                   cache: false,
                   success:function(response){
                     
-              
+                // alert(JSON.stringify(response))
                     buttonArray = response;
 
                     $.ajax({url:'http://build.myappbuilder.com/api/app_wall_settings.json', type:"GET",data:{'api_key':appKey},
                       success:function(response){
                           Appwall = response;
                           $ionicLoading.hide();
-                           $.ajax({
+                     $.ajax({
                         type: "GET",
                         url: "http://build.myappbuilder.com/api/book_custom_fields.json",
                         data:{'api_key':appKey},
                         cache: false,
                         success:function(response){
+						console.log(JSON.stringify(response));
 							$ionicLoading.hide();
-							console.log(JSON.stringify(response));
-							
-							
-                         for(var i=0;i<response.length;i++){ 
+						
+                          for(var i=0;i<response.length;i++){ 
 						
 						if(response[i].key == 'Floating Social Icons'){
 						console.log(JSON.stringify(response[i].key));
@@ -1263,17 +1825,11 @@ control.controller('sampleCtrl',function($scope,$state,$ionicLoading,$ionicPopup
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);
-                           var alertPopup = $ionicPopup.alert({
-							   title: 'FrontEndBuilder',
-							   template: total.error
-							 });
-							 alertPopup.then(function(res) {
-							 });
+                          alert(error.responseText);
                         }
               });
                      
-                
+                    // $state.reload();
                       },
                       error:function(){
                           $ionicLoading.hide();
@@ -1305,7 +1861,7 @@ control.controller('sampleCtrl',function($scope,$state,$ionicLoading,$ionicPopup
                   data:{'api_key':appId},
                   cache: false,
                   success:function(response){
-         
+                // alert(JSON.stringify(response));
                             $ionicLoading.hide();
                             appKey = appId;						
 							colour=response.bar_color;
@@ -1315,7 +1871,7 @@ control.controller('sampleCtrl',function($scope,$state,$ionicLoading,$ionicPopup
                           },
                           error:function(error,status){
                             $ionicLoading.hide();
-                             var total = JSON.parse(error.responseText);
+                            var total = JSON.parse(error.responseText);
                            var alertPopup = $ionicPopup.alert({
 							   title: 'FrontEndBuilder',
 							   template: total.error
@@ -1327,26 +1883,18 @@ control.controller('sampleCtrl',function($scope,$state,$ionicLoading,$ionicPopup
 
   }	
  
+ 
  $scope.newapps = function(){
-  $state.go('newapp');     
+    $state.go('newapp');
   }; 
   
    $scope.logout = function(){
-	  OAuth.clearCache('twitter');
-            OAuth.clearCache('facebook');
-            OAuth.clearCache('google');
-  $state.go('login');     
-  }
-  
-   $scope.editapps = function(){
-    if($scope.AppEditor == false){
-      $scope.AppEditor = true;
-    }else{
-      $scope.AppEditor =false;
-    }
-  }
-  
-   $scope.editApp = function(appId){
+	  localStorage["login"] = [];
+  $state.go('login1');
+  }; 
+                   
+                  $scope.editApp = function(appId){
+                  
 	$ionicLoading.show({
               content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
               animation: 'fade-in',
@@ -1361,10 +1909,9 @@ control.controller('sampleCtrl',function($scope,$state,$ionicLoading,$ionicPopup
                   data:{'api_key':appId},
                   cache: false,
                   success:function(response){
-             
+                // alert(JSON.stringify(response));
                             $ionicLoading.hide();
                             appKey = appId;
-                            var response = response;	
 							appTitle = response.title;
 							appDesc = response.description;
 							appimg = response.app_image;
@@ -1388,7 +1935,8 @@ control.controller('sampleCtrl',function($scope,$state,$ionicLoading,$ionicPopup
 							  twittersecret=response.twitter_secret;
 							  gpluskey=response.gplus_key;
 							  gplussecret=response.gplus_secret;
-								
+
+							
 								floatarray=response.book_custom_values;
 								
 									console.log(JSON.stringify(floatarray));
@@ -1420,7 +1968,7 @@ control.controller('sampleCtrl',function($scope,$state,$ionicLoading,$ionicPopup
                           },
                           error:function(error,status){
                             $ionicLoading.hide();
-                            var total = JSON.parse(error.responseText);
+                           var total = JSON.parse(error.responseText);
                            var alertPopup = $ionicPopup.alert({
 							   title: 'FrontEndBuilder',
 							   template: total.error
@@ -1430,65 +1978,102 @@ control.controller('sampleCtrl',function($scope,$state,$ionicLoading,$ionicPopup
                           }
                     });
   }
-  
-    $scope.deleteApp = function(appId,item){
-    var confirmPopup = $ionicPopup.confirm({
-     title: 'App Delete!',
-     template: 'Are you sure you want to delete this App?'
-    });
-    confirmPopup.then(function(res) {
-     if(res) {
-        $ionicLoading.show({
-              content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
-              animation: 'fade-in',
-              showBackdrop: true,
-              maxWidth: 200,
-              showDelay: 0
-            });
-   
-        $.ajax({
-                  type: "DELETE",
-                  url: "http://build.myappbuilder.com/api/apps.json",
-                  data:{'api_key':appkeyResult.api_key,'book_api_key':appId},
-                  cache: false,
-                  success:function(response){
-                     
-                  
-                     $.ajax({
-                          type: "GET",
-                          url: "http://build.myappbuilder.com/api/users.json",
-                          data:{'api_key':appkeyResult.api_key,'id':appkeyResult.id},
-                          cache: false,
-                          success:function(response){
-						
-                            $ionicLoading.hide();
-                            appList = response;
-                            $scope.appKey.splice($scope.appKey.indexOf(item), 1);
-                            $state.reload();
-                          },
-                          error:function(error,status){
-                            $ionicLoading.hide();
-                            var total = JSON.parse(error.responseText);
+                   
+                $scope.editapps = function(){
+    if($scope.AppEditor == false){
+      $scope.AppEditor = true;
+    }else{
+      $scope.AppEditor =false;
+    }
+  }
+                   
+                   $scope.deleteApp = function(appId,item){
+                   if(appId==defaultkey){
+                   alert('You cannot delete this root App!',function(){},item,'OK');
+                   }
+                   else{
+                   var confirmPopup = $ionicPopup.confirm({
+                                                          title: item,
+                                                          template: 'Are you sure you want to delete this Listing?'
+                                                          });
+                   confirmPopup.then(function(res) {
+                                     if(res) {
+//                                     alert(appId);
+                                     $ionicLoading.show({
+                                                        content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
+                                                        animation: 'fade-in',
+                                                        showBackdrop: true,
+                                                        maxWidth: 200,
+                                                        showDelay: 0
+                                                        });
+                                     
+                                     
+                                     $.ajax({
+                                            type: "DELETE",
+                                            url: "http://build.myappbuilder.com/api/apps.json",
+                                            data:{'api_key':appkeyResult.api_key,'book_api_key':appId},
+                                            cache: false,
+                                            success:function(response){
+                                            
+                                            $http({method: "GET", url:'http://build.myappbuilder.com/api/book_custom_fields.json', cache: false, params:{'api_key':defaultkey}})
+                                            .success(function(reskey){
+                                                     $ionicLoading.hide();
+                                                     for(var j=0;j<reskey.length;j++){
+                                                     if(reskey[j].value==appId){
+//                                                     alert(reskey[j].id);
+                                                     
+                                                     $http({method: "DELETE", url:'http://build.myappbuilder.com/api/book_custom_fields.json', cache: false, params:{'api_key':defaultkey,'id':reskey[j].id}})
+                                                     .success(function(data){
+                                                             $scope.count();
+                                                              
+                                                              
+                                                              })
+                                                     .error(function(data, status) {
+                                                            $ionicLoading.hide();
+                                                             var total = JSON.parse(data);
                            var alertPopup = $ionicPopup.alert({
 							   title: 'FrontEndBuilder',
 							   template: total.error
 							 });
 							 alertPopup.then(function(res) {
 							 });
-                          }
-                    });
-                  },
-                  error:function(error,status){
-                    $ionicLoading.hide();
-               
-                  }
-        });
-
-      } else {
-         console.log('You are not sure');
-       }
-     });
-  }
+                                                            
+                                                            });
+                                                     
+                                                     }
+                                                     }
+                                                     
+                                                     
+                                                     })
+                                            .error(function(data, status) {
+                                                   $ionicLoading.hide();
+                                                   var total = JSON.parse(data);
+                           var alertPopup = $ionicPopup.alert({
+							   title: 'FrontEndBuilder',
+							   template: total.error
+							 });
+							 alertPopup.then(function(res) {
+							 });
+                                                            
+                                                   
+                                                   });
+                                            
+                                            
+                                            },
+                                            error:function(error,status){
+                                            $ionicLoading.hide();
+                                         //  alert("status")
+                                            }
+                                            });
+                                     
+                                     } else {
+                                     console.log('You are not sure');
+                                     }
+                                     });
+                   }
+                   };
+                   
+                   
 });
   
 var colour = '';
@@ -1508,6 +2093,7 @@ var imageappstore='';
 
             reader.onload = function (e) {
 					$('#splash').attr('src', e.target.result); 
+             // $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -1532,6 +2118,139 @@ $scope.bar_color = 'bar-positive';
 $scope.button_color = 'button-positive';
 $scope.bar_button_color ='button-positive'; 
 
+     $scope.count = function(){
+
+                   //    navigator.notification.alert(val);
+
+                   $ionicLoading.show({
+
+                                      content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
+
+                                      animation: 'fade-in',
+
+                                      showBackdrop: true,
+
+                                      maxWidth: 200,
+
+                                      showDelay: 0
+
+                                      });
+
+                   $http({method: "GET", url:'key.txt', cache: false, params:{}})
+
+                   .success(function(data){
+
+                            defaultkey = data.trim();
+
+                            appList=[];
+
+                            $http({method: "GET", url:'http://build.myappbuilder.com/api/apps/general.json', cache: false, params:{'api_key':defaultkey}})
+
+                            .success(function(data, status){
+
+                                     appId=defaultkey;
+
+                                     appTit=data.title;
+
+                                     appList.push(data);
+
+
+                                     $http({method: "GET", url:'http://build.myappbuilder.com/api/book_custom_fields.json', cache: false, params:{'api_key':defaultkey}})
+
+                                     .success(function(reskey){
+
+
+                                              for(var j=0;j<reskey.length;j++){
+
+                                              if(reskey[j].key=="keys"){
+
+                                              $http({method: "GET", url:'http://build.myappbuilder.com/api/apps/general.json', cache: false, params:{'api_key':reskey[j].value}})
+
+                                              .success(function(data, status){
+
+                                                       appList.push(data);
+
+                                                       })
+
+                                              .error(function(data, status) {
+
+                                                     var total = JSON.parse(data);
+           
+     var alertPopup = $ionicPopup.alert({
+       title: 'New App',
+       template: total.error
+     });
+     alertPopup.then(function(res) {
+     });
+
+                                                     $ionicLoading.hide();
+
+                                                     });
+
+                                              }
+
+                                              }
+
+                                              $ionicLoading.hide();
+
+                                              $state.go('listView');
+
+                                              })
+
+                                     .error(function(data, status) {
+
+                                            $ionicLoading.hide();
+
+                                           var total = JSON.parse(data);
+           
+     var alertPopup = $ionicPopup.alert({
+       title: 'New App',
+       template: total.error
+     });
+     alertPopup.then(function(res) {
+     });
+
+                                        
+                                            });
+  
+                                     })
+
+                            .error(function(data, status) {
+
+                                   var total = JSON.parse(data);
+           
+     var alertPopup = $ionicPopup.alert({
+       title: 'New App',
+       template: total.error
+     });
+     alertPopup.then(function(res) {
+     });
+
+
+                                   $ionicLoading.hide();
+
+                                   });
+
+                            })
+
+                   .error(function(data, status) {
+
+                          $ionicLoading.hide();
+
+ var total = JSON.parse(data);
+           
+     var alertPopup = $ionicPopup.alert({
+       title: 'New App',
+       template: total.error
+     });
+     alertPopup.then(function(res) {
+     });
+
+
+                          });
+
+                   };
+                   
  $scope.tinymceOptions = {
         
 
@@ -1551,6 +2270,7 @@ $scope.bar_button_color ='button-positive';
             $('#height').attr("type","number");
             $('#imageSelect').click();
             imageField_name = field_name;
+//alert($('input[name="width"]').val());
             $('#width').blur(function(){
               
               if($('#width').val() == ''){
@@ -1559,7 +2279,12 @@ $scope.bar_button_color ='button-positive';
               }else if($('#width').val() <= 320){
               }else{
 
-            
+                /*navigator.notification.alert(
+                    "Image width should be less than 640MB",  // message
+                    alertDismissed,         // callback
+                    'iBooks',            // title
+                    'Done'                  // buttonName
+                );*/
 
                 $('#width').val("300");
                 $('#height').val('');
@@ -1629,12 +2354,12 @@ $scope.bar_button_color ='button-positive';
                   };
                   img.onerror = function() {
                       $ionicLoading.hide(); 
-                  
+                      //alert( "Not a valid image file: " + this.files[0].type);
                       navigator.notification.alert(
-                          'Not a valid image file: ' + this.files[0].type,  
-                          alertDismissed,      
-                          'iBooks',            
-                          'Done'                  
+                          'Not a valid image file: ' + this.files[0].type,  // message
+                          alertDismissed,         // callback
+                          'iBooks',            // title
+                          'Done'                  // buttonName
                       );
 
                       
@@ -1655,6 +2380,7 @@ $scope.book = {}
 
             reader.onload = function (e) {
 				  $('#app').attr('src', e.target.result);
+            //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -1677,6 +2403,7 @@ $scope.book = {}
 
             reader.onload = function (e) {
 			    $('#store').attr('src', e.target.result);
+            //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -1722,13 +2449,13 @@ $scope.book = {}
 
                                           cancel: function() {
 
-                                       
+                                         // alert('CANCELLED');
 
                                           },
 
                                           buttonClicked: function(index) {
 
-                                      
+                                        //  alert('BUTTON CLICKED', index);
 
                                           if(index==0){
 
@@ -1831,7 +2558,7 @@ $scope.book = {}
                                           else if(index==7){
 
                                           barcolor = 'bar-royal';
-$ionicPopup
+
                                           $scope.book.bar_color = 'royal';
 
                                           $scope.bar_color=barcolor;
@@ -1870,7 +2597,7 @@ $ionicPopup
 
                                           destructiveButtonClicked: function() {
 
-                                          alert('DESTRUCT');
+                                        //  alert('DESTRUCT');
 
                                           return true;
 
@@ -1915,7 +2642,7 @@ $ionicPopup
 
                                           cancel: function() {
 
-                                        
+                                         // alert('CANCELLED');
 
                                           },
 
@@ -2059,7 +2786,7 @@ $ionicPopup
 
                                           destructiveButtonClicked: function() {
 
-                                          alert('DESTRUCT');
+                                       //   alert('DESTRUCT');
 
                                           return true;
 
@@ -2104,12 +2831,13 @@ $ionicPopup
 
                                           cancel: function() {
 
-                                   
+                                        //  alert('CANCELLED');
 
                                           },
 
                                           buttonClicked: function(index1) {
 
+                                        //  alert('BUTTON CLICKED', index1);
 
                                           if(index1==0){
 												
@@ -2249,7 +2977,7 @@ $ionicPopup
 
                                           destructiveButtonClicked: function() {
 
-                                          alert('DESTRUCT');
+                                      //    alert('DESTRUCT');
 
                                           return true;
 
@@ -2278,10 +3006,71 @@ $scope.updatesettings = function(){
           url: "http://build.myappbuilder.com/api/apps.json",
           data:{'api_key':appkeyResult.api_key,'title':$scope.appcreate.gridAppTitle,'description':$scope.appcreate.mypost},
           success:function(response){
-	
+	//  alert(response);
 	  var response = response;	
-            appKey = response.api_key;
+              appKey = response.api_key;
+
             appTitle = response.title;
+
+            var booktype = new FormData();
+
+            booktype.append('api_key',appKey);
+
+            booktype.append('title',"AppType");
+
+            booktype.append('value','FrontEndBuilder');
+
+            
+
+            $http.post('http://build.myappbuilder.com/api/book_custom_fields.json', booktype, {
+
+                       transformRequest: angular.identity,
+
+                       headers: {'Content-Type': undefined}
+
+                       }).
+
+            success(function(data, status, headers, config) {
+
+                    
+
+                    }).
+
+            error(function(data, status, headers, config) {
+
+                  
+
+                  });
+
+            
+
+            var booktype1 = new FormData();
+
+            booktype1.append('api_key',defaultkey);
+
+            booktype1.append('title',"keys");
+
+            booktype1.append('value',appKey);
+
+            $http.post('http://build.myappbuilder.com/api/book_custom_fields.json', booktype1, {
+
+                       transformRequest: angular.identity,
+
+                       headers: {'Content-Type': undefined}
+
+                       }).
+
+            success(function(data, status, headers, config) {
+
+                    
+
+                    }).
+
+            error(function(data, status, headers, config) {
+
+                  
+
+                  });
 				
 	 var formData = new FormData();  
 	   
@@ -2320,7 +3109,7 @@ $scope.updatesettings = function(){
             formData.append('title',$scope.appcreate.gridAppTitle);
             formData.append('description',$scope.appcreate.mypost);		
 
-       
+         // appdomain=$scope.book.domain;
           
          $.ajax({
                   type: "PUT",
@@ -2330,43 +3119,18 @@ $scope.updatesettings = function(){
                   contentType: false,
                   processData: false,
                   success:function(response){
-					
+						//alert(response);
                 var response1 = response;		
                 	colour=response1.bar_color;
 							buttoncolour=response1.bar_button_color; 			
 							button= response1.button_color; 
 					
-           appList='';       
-                   $.ajax({
-                  type: "GET",
-                  url: "http://build.myappbuilder.com/api/users.json",
-                  data:{'api_key':appkeyResult.api_key,'id':appkeyResult.id},
-                  cache: false,
-                  success:function(response){
-				
-                    $ionicLoading.hide();
-                    appList = response;
-                    localStorage["login"] = JSON.stringify(appkeyResult);
-                   
-          				},
-                  error:function(error,status){
-                    $ionicLoading.hide();
-                    var total = JSON.parse(error.responseText);
-           
-     var alertPopup = $ionicPopup.alert({
-       title: 'New App',
-       template: total.error
-     });
-     alertPopup.then(function(res) {
-     });
-                  }
-            });
-            $ionicLoading.hide();
+           $scope.count();
                  $state.go('newapp1');
                  
                 },error:function(error){
                   $ionicLoading.hide();
-             var total = JSON.parse(error.responseText);
+                   var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'New App',
@@ -2374,13 +3138,13 @@ $scope.updatesettings = function(){
      });
      alertPopup.then(function(res) {
      });
-   
+                }
+            });
 		},
-	});
 		
-         }, error:function(error){
+          error:function(error){
             $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);
+             var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'New App',
@@ -2392,8 +3156,7 @@ $scope.updatesettings = function(){
       });
     
       }else{
-           
-     var alertPopup = $ionicPopup.alert({
+      var alertPopup = $ionicPopup.alert({
        title: 'New App',
        template: 'Enter App Title'
      });
@@ -2405,7 +3168,7 @@ $scope.updatesettings = function(){
 
 });
 
-control.controller('naviconCtrl',function($scope,$state,$ionicPopup, $ionicLoading,$ionicScrollDelegate){ 
+control.controller('naviconCtrl',function($scope,$state, $ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
 
   $ionicScrollDelegate.scrollTop();
 
@@ -2433,7 +3196,6 @@ else
 {
 $scope.button_color='button-'+button;
 }
-
       
    $scope.homenavbutton = function(){
 	$state.go('newapp');
@@ -2454,7 +3216,7 @@ $scope.button_color='button-'+button;
                   cache: false,
                   success:function(response){
                     
-            
+                 //   alert(JSON.stringify(response))
                     buttonArray = response;
 
                     $.ajax({url:'http://build.myappbuilder.com/api/app_wall_settings.json', type:"GET",data:{'api_key':appKey},
@@ -2479,7 +3241,7 @@ $scope.button_color='button-'+button;
                   },
                   error:function(error,status){
                     $ionicLoading.hide();
-                   var total = JSON.parse(error.responseText);
+                    var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: appTitle,
@@ -2500,6 +3262,7 @@ function readURL3(input) {
             reader.onload = function (e) {
 	    		$('#buttonimg').attr('src', e.target.result); 
 	    		 $('#buttonimg').css({'width':'50px','height':'50px'});
+             // $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -2582,14 +3345,14 @@ $scope.create = function(){
                 success:function(response){
 					var response= response;
                     $ionicLoading.hide();
-               
+                 //  alert(JSON.stringify(response)); 
                     buttonId = response.id;
                     buttonTitle = response.title;
                    $state.go('elements');
                 },
                 error:function(error,status){
                     $ionicLoading.hide();
-                  
+                    //alert("Successfully")
                    var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
@@ -2631,17 +3394,17 @@ $scope.create = function(){
                 contentType: false,
                 processData: false,
                 success:function(response){
-				
+				//	var response4= JSON.parse(response);
                     $ionicLoading.hide();
-               
+                //  alert(JSON.stringify(response));
                     buttonId = response.id;
                     buttonTitle = response.title;
                     $state.go('elements');
                 },
                 error:function(error,status){
                     $ionicLoading.hide();
-                
-                    var total = JSON.parse(error.responseText);
+                    //alert("Successfully")
+                     var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Button',
@@ -2683,8 +3446,11 @@ control.controller('appCtrl',function($scope,$state,$ionicModal,$ionicLoading,$i
   
  var chapterArray = [];
   for (var i = 0; i < buttonArray.length; i++) {
+     // if((buttonArray[i].first_paragraph_type == "default")||(buttonArray[i].first_paragraph_type == null)){
         chapterArray.push(buttonArray[i]);
-    
+     // }else{
+      //  alert("Hello : "+buttonArray[i].title)
+    //  }
     
   }
   
@@ -2724,7 +3490,7 @@ $scope.button_color='button-'+button;
       $scope.AppEditor =false;
     }
   }
-
+ //$scope.appKey = appList.apps;
  $scope.chapterClick = function(id,title){
 
     buttonId = id;
@@ -2776,7 +3542,7 @@ $scope.moveItem = function(item, fromIndex, toIndex) {
         $ionicLoading.hide();
     })
     .error(function(data,status,headers,config){
-        var total = JSON.parse(data);
+         var total = JSON.parse(data);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Button',
@@ -2786,7 +3552,7 @@ $scope.moveItem = function(item, fromIndex, toIndex) {
      });
          $ionicLoading.hide();
     })
-        
+          //console.log(item, fromIndex, toIndex)
   };
   
    $scope.deleteButton = function(id){
@@ -2823,8 +3589,12 @@ $scope.moveItem = function(item, fromIndex, toIndex) {
                               buttonArray= response;
                               chapterArray = [];
                               for (var i = 0; i < buttonArray.length; i++) {
+                                //  if((buttonArray[i].first_paragraph_type == "default")||(buttonArray[i].first_paragraph_type == null)){
                                     chapterArray.push(buttonArray[i]);
-                                 
+                                  //  alert("Hi : "+buttonArray[i].title)
+                                //  }else{
+                                   // alert("Hello : "+buttonArray[i].title)
+                               //   }
                                 
                               }
                               $scope.items = chapterArray;
@@ -2834,7 +3604,7 @@ $scope.moveItem = function(item, fromIndex, toIndex) {
                             },
                             error:function(error,status){
                               $ionicLoading.hide();
-                             var total = JSON.parse(error.responseText);
+                              var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Button',
@@ -2847,7 +3617,7 @@ $scope.moveItem = function(item, fromIndex, toIndex) {
                       },
                       error:function(error,status){
                            $ionicLoading.hide();
-                           var total = JSON.parse(error.responseText);
+                         var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Button',
@@ -2866,7 +3636,7 @@ $scope.moveItem = function(item, fromIndex, toIndex) {
 
  });
 
-control.controller('elementsCtrl',function($scope,$state,$ionicLoading,$ionicPopup){ 
+control.controller('elementsCtrl',function($scope,$state,$ionicPopup,$ionicLoading){ 
 
 $scope.appTitle = appTitle;
 if(colour == 'undefined'){	
@@ -2892,8 +3662,6 @@ else
 {
 $scope.button_color='button-'+button;
 }
-
-
  $scope.createText = function(){
 	$state.go('pic');
   } 
@@ -2931,7 +3699,7 @@ $scope.button_color='button-'+button;
           data:{'api_key':appKey,'button_id':buttonId},
           success:function(response){
 			 
-	
+		//	var response5=JSON.parse(response);
 			  $ionicLoading.hide();
 			taskelement=response.id;
            $state.go('taskedit');
@@ -2939,7 +3707,7 @@ $scope.button_color='button-'+button;
             },
           error:function(error){
             $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);
+           var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Task List',
@@ -2994,7 +3762,6 @@ else
 $scope.button_color='button-'+button;
 }
 
-
  $scope.AppEditor = false;
 
   
@@ -3013,18 +3780,32 @@ $scope.createtext = function(){
       var formData1 = new FormData();
            formData1.append('api_key',appKey);
            formData1.append('id',elementId);       
+        //   formData1.append('image',$("#newtext1").get(0).files[0]);
 
          $.ajax({
           type: "POST",
           url: "http://build.myappbuilder.com/api/elements/create_default.json",
           data:{'api_key':appKey,'button_id':buttonId,'title':$scope.para.title,'text':$scope.textCreate.textpic},
           success:function(response){
+   // var response = JSON.parse(response);
 			 elementId = response.id;   
 			 elementTitle = response.title;
 			 elementDesc = response.text;
 			  $ionicLoading.hide();  
                $state.go('picedit');  
                
+			// elementAdditional = response.additional_field;			  
+			 
+		/*	 cordova.exec(function(response){
+            	   var resultpic = response;
+                   var jsonObj = JSON.parse(resultpic);	        
+                   elementimg=jsonObj.url;
+                	 $ionicLoading.hide();  
+                   $state.go('picedit');
+            	 },
+            	 function(e){alert(e);}, "Echo", "echo", ["57", "57", "image", document.getElementById("newtext1").value, "http://build.myappbuilder.com/api/elements/images.json?", "post", {"api_key":appKey,"id":elementId}])          
+            
+        */
           },
           error:function(error){
             $ionicLoading.hide();
@@ -3039,8 +3820,7 @@ $scope.createtext = function(){
           }
       });
     }else{
-           
-     var alertPopup = $ionicPopup.alert({
+       var alertPopup = $ionicPopup.alert({
        title: 'Picture and Text',
        template: 'Enter The Title'
      });
@@ -3081,6 +3861,7 @@ $scope.createtext = function(){
             $('#height').attr("type","number");
             $('#imageSelect1').click();
             imageField_name = field_name;
+          // alert($('input[name="width"]').val());
             $('#width').blur(function(){
               
               if($('#width').val() == ''){
@@ -3089,6 +3870,12 @@ $scope.createtext = function(){
               }else if($('#width').val() <= 320){
               }else{
 
+                /*navigator.notification.alert(
+                    "Image width should be less than 640MB",  // message
+                    alertDismissed,         // callback
+                    'iBooks',            // title
+                    'Done'                  // buttonName
+                );*/
 
                 $('#width').val("300");
                 $('#height').val('');
@@ -3158,11 +3945,12 @@ $scope.createtext = function(){
                   };
                   img.onerror = function() {
                       $ionicLoading.hide(); 
+                      //alert( "Not a valid image file: " + this.files[0].type);
                       navigator.notification.alert(
-                          'Not a valid image file: ' + this.files[0].type, 
-                          alertDismissed,        
-                          'iBooks',            
-                          'Done'                 
+                          'Not a valid image file: ' + this.files[0].type,  // message
+                          alertDismissed,         // callback
+                          'iBooks',            // title
+                          'Done'                  // buttonName
                       );
 
                       
@@ -3180,6 +3968,7 @@ var contentTitle = '';
 var contentText = '';
 var contentadditional = '';
 var contentimage = '';
+var previewpic='';
 
 control.controller('chapterlistCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
   
@@ -3197,6 +3986,7 @@ control.controller('chapterlistCtrl',function($scope,$state,$ionicLoading,$ionic
  for (var i = 0; i < buttonArray.length; i++) {
       if(buttonId == buttonArray[i].id){
         elementArray = buttonArray[i].elements;
+     // alert(JSON.stringify(buttonArray[i].elements));
       }
   }
   
@@ -3230,11 +4020,11 @@ control.controller('chapterlistCtrl',function($scope,$state,$ionicLoading,$ionic
                         success:function(response){
                           buttonArray = response;
                           $ionicLoading.hide();
-                        
+                         // $state.go('previewChapter');
                           for (var i = 0; i < buttonArray.length; i++) {
 							  if(buttonId == buttonArray[i].id){
 								elementArray = buttonArray[i].elements;
-							
+							 //  alert(JSON.stringify(buttonArray[i].elements));
 							  }
 						  }
 						  $scope.elementArray = elementArray;
@@ -3242,7 +4032,7 @@ control.controller('chapterlistCtrl',function($scope,$state,$ionicLoading,$ionic
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);
+                           var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Chapter',
@@ -3255,7 +4045,7 @@ control.controller('chapterlistCtrl',function($scope,$state,$ionicLoading,$ionic
             },
             error:function(error,status){
                $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);
+             var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Chapter',
@@ -3312,7 +4102,7 @@ $scope.button_color='button-'+button;
 
 $scope.float1=float1;
 
- $scope.subTitClickFtn = function(id,title,type,email,text,url,rssurl,audioimg,audiourl,videoimg,videourl,tags,frame){
+ $scope.subTitClickFtn = function(id,title,type,email,text,url,rssurl,audioimg,audiourl,videoimg,videourl,tags){
 
     elementId = id;
     elementtype=type;
@@ -3325,7 +4115,6 @@ $scope.float1=float1;
 	contentaudio = audiourl;
 	contentvideo = videourl;
 	contentvideothumb = videoimg;
-	contentvideoframe=frame;
 	tagging=tags;
 
     for (var i = 0; i < elementArray.length; i++) {
@@ -3345,7 +4134,7 @@ $scope.float1=float1;
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
-							
+							//var response= JSON.parse(response);
                           $ionicLoading.hide();
 							previewpic =response;
 						 $state.go('previewpic');   
@@ -3363,7 +4152,6 @@ $scope.float1=float1;
                         }
               }); 
               
-		
       }
       
      if(elementtype == "tasks_list"){
@@ -3373,7 +4161,7 @@ $scope.float1=float1;
       if(elementtype == "web_page"){
             var ref = window.open(elementurl, '_blank', 'location=yes');
             ref.addEventListener('loaderror', function(event) { alert('error: ' + event.message); });
-		
+		//$state.go('previewweb');
       }
       
       if(elementtype == "contact_form"){
@@ -3406,7 +4194,7 @@ var newarray = [];
 var customid = '';
 var customtitle = '';
 
-control.controller('newapp1Ctrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
+control.controller('newapp1Ctrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
 
  $ionicScrollDelegate.scrollTop();
  
@@ -3436,7 +4224,6 @@ else
 $scope.button_color='button-'+button;
 }
 
-
 $scope.appcre = {}
   
   $scope.AppEditor = false;
@@ -3447,11 +4234,11 @@ $scope.appcre = {}
                   data:{'api_key':appKey},
                   cache: false,
                   success:function(response){
-					
+					 // alert(JSON.stringify(response));
                             $ionicLoading.hide();
                            appdom1=response.domain;
 							appsubdomain1=response.subdomain;							
-					
+						//	alert(appdom1);
 						if((appsubdomain1) && (appdom1)){
 							$scope.appcre.floaturl = 'http://'+appsubdomain1+'.'+appdom1;
 			
@@ -3463,7 +4250,7 @@ $scope.appcre = {}
                           },
                           error:function(error,status){
                             $ionicLoading.hide();
-                             var total = JSON.parse(error.responseText);
+                            var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: appTitle,
@@ -3477,9 +4264,8 @@ $scope.appcre = {}
    $scope.appcre.customvalue = 'false';
 
 $scope.createnewapp1 = function(){
-	 
-	 if($scope.appcre.floaturl){
-		 
+	
+		if($scope.appcre.floaturl){
       $ionicLoading.show({
               content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
               animation: 'fade-in',
@@ -3493,12 +4279,12 @@ $scope.createnewapp1 = function(){
           url: "http://build.myappbuilder.com/api/book_custom_fields.json",
 			data:{'api_key':appKey,'title':'Floating Social Icons','value':$scope.appcre.customvalue},
             success:function(response){
-				 $ionicLoading.hide();  
-			   $state.go('social');	       
+				  $ionicLoading.hide();  
+			 $state.go('social');	         
             },
           error:function(error){
             $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);
+             var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: appTitle,
@@ -3508,13 +4294,12 @@ $scope.createnewapp1 = function(){
      });
           }
       });
-
     $.ajax({
           type: "POST",
           url: "http://build.myappbuilder.com/api/book_custom_fields.json",
           data:{'api_key':appKey,'title':'Url','value':$scope.appcre.floaturl},
           success:function(response){
-		
+			 //customid = response.id;
 
             $.ajax({
                         type: "GET",
@@ -3522,12 +4307,13 @@ $scope.createnewapp1 = function(){
                         data:{'api_key':appKey},
                         cache: false,
                         success:function(response){
-						
+							// alert(JSON.stringify(response)); 
                           $ionicLoading.hide();  
 						   $state.go('social');	
                         },
                         error:function(error,status){
-                          var total = JSON.parse(error.responseText);
+                           $ionicLoading.hide();
+							  var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: appTitle,
@@ -3540,7 +4326,7 @@ $scope.createnewapp1 = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-           var total = JSON.parse(error.responseText);
+          var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: appTitle,
@@ -3550,10 +4336,8 @@ $scope.createnewapp1 = function(){
      });
           }
       });   
-  }
-
 }
-
+}
 
 $scope.nextpage = function(){	
 	$state.go('social');	
@@ -3581,7 +4365,7 @@ var twittersecret='';
 var gpluskey='';
 var gplussecret='';
                   
-control.controller('socialCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
+control.controller('socialCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
 
  $ionicScrollDelegate.scrollTop();
  
@@ -3609,7 +4393,6 @@ else
 {
 $scope.button_color='button-'+button;
 }
-
 
  $scope.navsocial = function(){
    $state.go('navicon');
@@ -3658,7 +4441,8 @@ $scope.updateSocialSettings = function(){
                   contentType: false,
                   processData: false,
                   success:function(response){
-			
+			  //   alert(JSON.stringify(response));
+			   //   alert('successfully created');
                   $ionicLoading.hide();         
                  $state.go('navicon');
                  
@@ -3720,7 +4504,6 @@ else
 $scope.button_color='button-'+button;
 }
 
-
  $scope.AppEditor = false;
 
   $scope.logedittext = function(){
@@ -3771,13 +4554,14 @@ $scope.updatetext = function(){
                   contentType: false,
                   processData: false,
                   success:function(response){
-
+			    // alert(JSON.stringify(response));
+			  //    alert('successfully Updated');
                   $ionicLoading.hide();
                 
                  
                 },error:function(error){
                   $ionicLoading.hide();
-                var total = JSON.parse(error.responseText);
+                 var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Picture and Text',
@@ -3803,6 +4587,7 @@ $scope.updatetext = function(){
 					 $('#editpictext').attr({'src':e.target.result});
 				$('#editpictext').css({'width':'50px','height':'50px'});
 			   $('#text').attr('src', e.target.result); 
+            //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -3853,13 +4638,14 @@ $scope.upload = function(){
 								  $ionicLoading.hide();
 
 									 $scope.editpicpage = response;
+								  //   alert(JSON.stringify($scope.editpicpage));
 								   $state.reload();   
 								  
 								  
 								},
 								error:function(error,status){
 								   $ionicLoading.hide();
-								  var total = JSON.parse(error.responseText);
+								   var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Picture and Text',
@@ -3869,7 +4655,7 @@ $scope.upload = function(){
      });
 								}
 					     });              
-         
+                //    $state.go('navicon');
                  
                 },error:function(error){
                   $ionicLoading.hide();
@@ -3914,7 +4700,7 @@ $scope.removepicCustom = function(id){
                           $ionicLoading.hide();
 
 						     $scope.editpicpage = response;
-						
+						  //   alert(JSON.stringify($scope.editpicpage));
 						   $state.reload();   
 						  
                           
@@ -3934,7 +4720,7 @@ $scope.removepicCustom = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);
+              var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Picture and Text',
@@ -3959,14 +4745,14 @@ $scope.ok = function(){
 
   var datatag=$scope.contentCreate.elementTag;
  if(datatag == ''){
-			  console.log(datatag);
+			  console.log(JSON.stringify(datatag));
 			 amenities='';
 		 }
 		 else{
-			  console.log(datatag);
+			  console.log(JSON.stringify(datatag));
 for(var i=0;i<datatag.length;i++){
 
-               
+                   //                   amenities.push(response[i].name);
 
                    if(i==0){
 
@@ -3989,31 +4775,7 @@ for(var i=0;i<datatag.length;i++){
                         data:{'api_key':appKey,'id':elementId,'tags':amenities},
                         cache: false,
                         success:function(response){    
-					
-							tagid=response.id;      
-                          $ionicLoading.hide();                         
-                        },
-                        error:function(error,status){
-                           $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);
-           
-							 var alertPopup = $ionicPopup.alert({
-							   title: 'Picture and Text',
-							   template: total.error
-							 });
-							 alertPopup.then(function(res) {
-							 });
-												}
-									  });     
-              
-                       
-        $.ajax({
-                        type: "DELETE",
-                        url: "http://build.myappbuilder.com/api/elements/tags.json",
-                        data:{'api_key':appKey,'id':tagid},
-                        cache: false,
-                        success:function(response){    
-						
+						//	 alert('successfully Posted');         
                           $ionicLoading.hide();                         
                         },
                         error:function(error,status){
@@ -4027,7 +4789,8 @@ for(var i=0;i<datatag.length;i++){
      alertPopup.then(function(res) {
      });
                         }
-              });  
+              });              
+       
  }
  
   $scope.AppEditor = false;
@@ -4062,14 +4825,14 @@ $scope.createpicedit = function(){
 							var response = response;
                           $ionicLoading.hide();
 						    $scope.edittxtpage = response;
-						 
+						   //  alert(JSON.stringify($scope.edittxtpage));
 						   $state.reload();   
 						  
                           
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);
+                           var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Picture and Text',
@@ -4084,7 +4847,7 @@ $scope.createpicedit = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-           var total = JSON.parse(error.responseText);
+            var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Picture and Text',
@@ -4096,8 +4859,7 @@ $scope.createpicedit = function(){
       });
     }
       }else{
-           
-     var alertPopup = $ionicPopup.alert({
+       var alertPopup = $ionicPopup.alert({
        title: 'Picture and Text',
        template: 'Enter Title And Value'
      });
@@ -4132,18 +4894,18 @@ $scope.removetxtCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response1 = JSON.parse(response);
                           $ionicLoading.hide();
 
 						    $scope.edittxtpage = response;
-						
+						 //    alert(JSON.stringify($scope.edittxtpage));
 						   $state.reload();   
 						  
                           
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);
+                           var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Picture and Text',
@@ -4156,7 +4918,7 @@ $scope.removetxtCustomValue = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);
+             var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Picture and Text',
@@ -4178,12 +4940,51 @@ $scope.navedittext = function(){
    $state.go('pic');
  } 
  
+/* $ionicModal.fromTemplateUrl('meta.html', {
+        scope: $scope,
+        animation: 'slide-fade-in'
+      }).then(function(modal) {
+        $scope.modal = modal;
+      });
+        
+ $scope.openModal = function() {
+	 
+	$scope.modal.show();
+	
+	 $scope.updateSEO = function() {
+alert('s');
+	  var formData = new FormData();
+          formData.append('api_key',appKey);
+          formData.append('id',elementId);       
+          formData.append('permalink',$scope.meta.permalink);   
+          formData.append('meta_keywords',$scope.meta.metakeywords);   
+          formData.append('meta_description',$scope.meta.metadescription);   
+          formData.append('seo_title',$scope.meta.seotitle); 
+         
+          
+           $.ajax({
+          type: "PUT",
+          url: "http://build.myappbuilder.com/api/elements/meta-tags.json",
+          data:formData,
+          success:function(response){
+			    alert(JSON.stringify(response)); 	             	
+          },
+          error:function(error){
+            $ionicLoading.hide();
+            var error = JSON.parse(error.responseText);
+
+            navigator.notification.alert(error.responseText);
+          }
+      }); 
+   }                 
+	
+ };*/
  
 });
 
 var formelementid='';
 
-control.controller('formCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
+control.controller('formCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
 
 $ionicScrollDelegate.scrollTop();
 
@@ -4212,8 +5013,6 @@ else
 {
 $scope.button_color='button-'+button;
 }
-
-
 $scope.navform = function(){
    $state.go('navicon');
  } 
@@ -4243,7 +5042,8 @@ if($scope.form.email){
           url: "http://build.myappbuilder.com/api/elements/create_contact_form.json",
           data:{'api_key':appKey,'button_id':buttonId,'email':$scope.form.email},
           success:function(response){
-		
+			//  var response=JSON.parse(response);
+			 //   alert(JSON.stringify(response)); 	  
 			formEmail = response.email;
 			formelementid = response.id;
 			 $ionicLoading.hide();	
@@ -4252,7 +5052,7 @@ if($scope.form.email){
           },
           error:function(error){
             $ionicLoading.hide();
-             var total = JSON.parse(error.responseText);
+            var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Contact Form',
@@ -4263,7 +5063,6 @@ if($scope.form.email){
           }
       });
     }else{
-           
      var alertPopup = $ionicPopup.alert({
          title: 'Contact Form',
        template: 'Enter The Email'
@@ -4279,7 +5078,7 @@ if($scope.form.email){
 var customeditformid = '';
 var newaddressid='';
 
-control.controller('formeditCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
+control.controller('formeditCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
 
 $ionicScrollDelegate.scrollTop();
 
@@ -4312,7 +5111,6 @@ else
 $scope.button_color='button-'+button;
 }
 
-
 $scope.formedit.editemail = formEmail;
 
 $scope.updateform = function(){
@@ -4340,13 +5138,14 @@ $scope.updateform = function(){
                   contentType: false,
                   processData: false,
                   success:function(response){
-			
+			  //   alert(JSON.stringify(response));
+			   //   alert('successfully Updated');
                   $ionicLoading.hide();
                 
                  
                 },error:function(error){
                   $ionicLoading.hide();
-                 var total = JSON.parse(error.responseText);
+                  var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Contact Form',
@@ -4381,9 +5180,9 @@ $scope.createformcustom = function(){
           url: "http://build.myappbuilder.com/api/custom_values.json",
           data:{'api_key':appKey,'element_id':formelementid,'title':$scope.editform.customformTitle,'value':$scope.editform.customformvalue},
           success:function(response){
-		
+			 // var response1=JSON.parse(response);
 			 customeditformid = response.id;
-    
+        //  alert(JSON.stringify(customeditformid));
 
             $.ajax({
                         type: "GET",
@@ -4392,7 +5191,7 @@ $scope.createformcustom = function(){
                         cache: false,
                         success:function(response){
 							
-						
+							//var response2=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.editformpage = response;
 
@@ -4402,7 +5201,7 @@ $scope.createformcustom = function(){
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);
+                        var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Contact Form',
@@ -4417,7 +5216,7 @@ $scope.createformcustom = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);
+           var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Contact Form',
@@ -4429,8 +5228,7 @@ $scope.createformcustom = function(){
       });
     }
       }else{
-           
-     var alertPopup = $ionicPopup.alert({
+       var alertPopup = $ionicPopup.alert({
        title: 'Contact Form',
        template: 'Enter Title And Value'
      });
@@ -4465,16 +5263,16 @@ $scope.removeformCustomValue = function(id){
                         cache: false,
                         success:function(response){
                           $ionicLoading.hide();
-						
+							//var response1=JSON.parse(response);
 						    $scope.editformpage = response;
-						
+						   //  alert(JSON.stringify($scope.editformpage));
 						   $state.reload();   
 						  
                           
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);
+                           var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Contact Form',
@@ -4487,7 +5285,7 @@ $scope.removeformCustomValue = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-             var total = JSON.parse(error.responseText);
+              var total = JSON.parse(error.responseText);
            
      var alertPopup = $ionicPopup.alert({
        title: 'Contact Form',
@@ -4518,50 +5316,7 @@ var videodesc='';
 var videoelement='';
 var imagevideo='';
 
-
- var videoId = 'videoframe';
-var scaleFactor = 1.25;
-var snapshots = [];
-
-function capture(video, scaleFactor) {
-    if(scaleFactor == null){
-        scaleFactor = 1;
-    }
-    var w = video.videoWidth * scaleFactor;
-    var h = video.videoHeight * scaleFactor;
-    var canvas = document.createElement('canvas');
-   
-        canvas.width  = w;
-        canvas.height = h;
-    var ctx = canvas.getContext('2d');
-        ctx.drawImage(video, 0, 0, w, h);
-    return canvas;
-} 
-
-function shoot(){
-    var video  = document.getElementById(videoId);
-    var output = document.getElementById('output');
-    var canvas = capture(video, scaleFactor);
-        canvas.onclick = function(){
-            window.open(this.toDataURL());
-        };
-    snapshots.unshift(canvas);
-    output.innerHTML = '';
-    for(var i=0; i<1; i++){
- dataURL = snapshots[i].toDataURL("image/png");
- 
-   
-       output.appendChild(snapshots[i]);
-
-    }
-    
-}
-
-var dataURL='';
-var videoframebase='';
-var videoframe='';
-
-control.controller('videoCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate,$ionicActionSheet,$stateParams,$http,$location,$ionicPopup,$rootScope,$ionicModal){ 
+control.controller('videoCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate,$ionicActionSheet,$stateParams,$http,$location,$ionicPopup,$rootScope){ 
 
 $ionicScrollDelegate.scrollTop();
 
@@ -4573,33 +5328,18 @@ function readURL5(input) {
                 $('#videoimg').attr({'src':"img/btn_video.png"});
              $('#videoimg').css({'width':'50px','height':'50px'}); 			 
            $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
+            //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
         }
   } 
-    
-   $scope.AppEditor = true;
-  
-    $scope.logbuttonlist = function(){
-    if($scope.AppEditor == false){
-      $scope.AppEditor = true;
-    }else{
-      $scope.AppEditor =false;
-    }
-  }
-                                              
+      
   $("#video").change(function(){ 
-
-	$state.reload();
-	var objectURL = window.URL.createObjectURL(this.files[0]);
-		
-	$('#videoframe').attr({'src':objectURL});
       readURL5(this);
-
   });
  
-
+ 
   function readURL14(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -4608,6 +5348,7 @@ function readURL5(input) {
 					 $('#videothumbimg').attr({'src':e.target.result});
 				$('#videothumbimg').css({'width':'50px','height':'50px'});
 			   $('#videothumbimg').attr('src', e.target.result); 
+            //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -4645,15 +5386,11 @@ $scope.button_color = 'button-positive';
 else
 {
 $scope.button_color='button-'+button;
-}
-
- 
+}  
       
 $scope.createvideo = function(){
-		
-	 videoframebase = dataURL.replace("data:image/png;base64,","");
 	
-if((((($("#video").get(0).files[0].size) / 1024 / 1024) <= 10)) && (videoframebase)){
+if((($("#video").get(0).files[0].size) / 1024 / 1024) <= 10){
     
        $ionicLoading.show({
               content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
@@ -4669,8 +5406,6 @@ if((((($("#video").get(0).files[0].size) / 1024 / 1024) <= 10)) && (videoframeba
       formData.append('title', $scope.videocreate.title);
       formData.append('description',$scope.videocreate.desc);
       formData.append('video',$("#video").get(0).files[0]);
-      formData.append('video_frame_base64',videoframebase);
-      formData.append('video_frame_title','image.png');
       
   if($('#videothumb').get(0).files[0]){
             formData.append('video_thumbnail',$('#videothumb').get(0).files[0]);   
@@ -4684,37 +5419,34 @@ if((((($("#video").get(0).files[0].size) / 1024 / 1024) <= 10)) && (videoframeba
                       })
                       
                       .success(function(data,status, headers, config){
-					
+							//alert(data);
 						   videoimg=data.video.url;
 						   videotitle=data.title;
 						   videodesc=data.text;
 						   videoelement = data.id;
 						   videothumb = data.video.thumbnail;
-						   videoframe=data.video.video_frame;
-					
 						  $ionicLoading.hide();
 						  $state.go('videoedit');
 					  })
 					  .error(function(data,status, headers, config){
-					     var total = JSON.parse(data);        
-           
-					 var alertPopup = $ionicPopup.alert({
-					   title: 'Video',
-					   template:total.error
-					 });
-					 alertPopup.then(function(res) {
-					 });
                         $ionicLoading.hide();
-                     
+                        var total = JSON.parse(data);
+           
+						 var alertPopup = $ionicPopup.alert({
+						   title: 'Video',
+						   template: total.error
+						 });
+						 alertPopup.then(function(res) {
+						 });
                       });
 }  
  else{
           var alertPopup = $ionicPopup.alert({
              title: 'MAB',
-             template: 'Please choose Video File below 10MB or Video Frame'
+             template: 'Please choose Video File below 10MB!'
            });
            alertPopup.then(function(res) {
-            
+             //console.log('Thank you for not eating my delicious ice cream cone');
            });
     }
    
@@ -4737,7 +5469,7 @@ var custommapid='';
 var addressid='';
 var addressname='';
 
-control.controller('mapCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
+control.controller('mapCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
 
 $ionicScrollDelegate.scrollTop();
 
@@ -4769,7 +5501,6 @@ else
 $scope.button_color='button-'+button;
 }
 
-
 $scope.createmap = function(){
 	
 if($scope.createmapaddr.maptitle){
@@ -4788,7 +5519,7 @@ if($scope.createmapaddr.maptitle){
           data:{'api_key':appKey,'button_id':buttonId,'text':$scope.createmapaddr.maptitle},
           success:function(response){
 			  var response = response;
-			
+			  //  alert(JSON.stringify(response)); 	
 			    mapid=response.id;  
 			    
              $.ajax({
@@ -4797,15 +5528,16 @@ if($scope.createmapaddr.maptitle){
                         data:{'api_key':appKey,'id':mapid,'address':$scope.createmapaddr.maptitle},
                         cache: false,
                         success:function(response){
-						
+							//  var response1 = JSON.parse(response);
+							//alert(JSON.stringify(response)); 	
                           $ionicLoading.hide();
 						addressid=response.id;
-						addressname=response.address;
+						addressname=response1.address;
                          $state.go('mapedit');	 
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                            var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -4813,13 +5545,13 @@ if($scope.createmapaddr.maptitle){
 					 });
 					 alertPopup.then(function(res) {
 					 });
-										}
+                        }
               });            
             
           },
           error:function(error){
             $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);        
+           var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -4830,8 +5562,7 @@ if($scope.createmapaddr.maptitle){
           }
       });
     }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+      var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
 					   template:'Enter The Address'
 					 });
@@ -4854,7 +5585,7 @@ $scope.homemap = function(){
  
 });
 
-control.controller('mapeditCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
+control.controller('mapeditCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
 
 $ionicScrollDelegate.scrollTop();
 
@@ -4888,6 +5619,7 @@ $scope.button_color='button-'+button;
 }
 
 
+
 $scope.mapeditcustom = function(){
 
 	$('#mapcustitle').val('');
@@ -4905,7 +5637,7 @@ $scope.mapeditcustom = function(){
               showDelay: 0
       });
 
-      $.ajax({
+       $.ajax({
           type: "POST",
           url: "http://build.myappbuilder.com/api/custom_values.json",
           data:{'api_key':appKey,'element_id':mapid,'title':$scope.editmap.custommaptitle,'value':$scope.editmap.custommapvalue},
@@ -4918,11 +5650,11 @@ $scope.mapeditcustom = function(){
                         data:{'api_key':appKey,'element_id':mapid},
                         cache: false,
                         success:function(response){
-							
+							  //var response = JSON.parse(response);
                           $ionicLoading.hide();
                         
 						    $scope.editmappage = response;
-               
+                  //   alert(JSON.stringify( $scope.editmappage));
 						   $state.reload();   					  
                           
                         },
@@ -4953,8 +5685,7 @@ $scope.mapeditcustom = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+       var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
 					   template:'Enter Title And Value'
 					 });
@@ -4988,11 +5719,11 @@ $scope.removemapCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':mapid},
                         cache: false,
                         success:function(response){
-						
+							 // var response2 = JSON.parse(response);
                           $ionicLoading.hide();
 
 						    $scope.editmappage = response;
-					
+						 //    alert(JSON.stringify($scope.editmappage));
 						   $state.reload();   
 						  
                           
@@ -5059,11 +5790,11 @@ $scope.addAddress = function(){
                         data:{'api_key':appKey,'id':mapid},
                         cache: false,
                         success:function(response){
-							
+							 // var response3 = JSON.parse(response);
                           $ionicLoading.hide();
                         
 						    $scope.addresses = response;
-               
+                  //   alert(JSON.stringify( $scope.addresses));  
                    $scope.createeditmap.title='';   
 						   $state.reload();                            
                         },
@@ -5073,12 +5804,11 @@ $scope.addAddress = function(){
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
-					   template: total.error
+					   template:total.error
 					 });
 					 alertPopup.then(function(res) {
 					 });
-          }
-                       
+                        }
               });              
             },
           error:function(error){
@@ -5087,30 +5817,27 @@ $scope.addAddress = function(){
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
-					   template: total.error
+					   template:total.error
 					 });
 					 alertPopup.then(function(res) {
 					 });
           }
-          
       });
     }
       else{
-           
-					 var alertPopup = $ionicPopup.alert({
+      var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
 					   template: 'Enter The Address'
 					 });
 					 alertPopup.then(function(res) {
 					 });
-          }
     }
    
-  
+  }
 
 $scope.updateAddress = function(id,updateaddress){
 	
-	
+	//  alert(JSON.stringify(id));
 	  
       $ionicLoading.show({
               content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
@@ -5134,7 +5861,8 @@ $scope.updateAddress = function(id,updateaddress){
                   contentType: false,
                   processData: false,
                   success:function(response){
-
+			 //    alert(JSON.stringify(response));
+			 //     alert('successfully Updated');
                   $ionicLoading.hide();
                 
                  
@@ -5161,31 +5889,31 @@ $scope.updateAddress = function(id,updateaddress){
               showDelay: 0
       });
   
-  
+   
           $.ajax({
             type: "DELETE",
             url: "http://build.myappbuilder.com/api/elements/addresses/"+id+".json",
             data: {'api_key':appKey,'id':mapid},
             cache: false,
             success:function(response){
-		
+			//	alert(JSON.stringify(response));
               $.ajax({
                         type: "GET",
                         url: "http://build.myappbuilder.com/api/elements/addresses.json",
                         data:{'api_key':appKey,'id':mapid},
                         cache: false,
                         success:function(response){
-						
+							 // var response4 = JSON.parse(response);
                           $ionicLoading.hide();
 						$scope.addresses = response;
-            
+                 //    alert(JSON.stringify( $scope.addresses));   
 						   $state.reload();   
 						  
                           
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                           var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -5198,7 +5926,7 @@ $scope.updateAddress = function(id,updateaddress){
             },
             error:function(error,status){
                $ionicLoading.hide();
-              var total = JSON.parse(error.responseText);        
+               var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -5208,7 +5936,7 @@ $scope.updateAddress = function(id,updateaddress){
 					 });
             }
           });
- 
+
 }   
 	
 });
@@ -5248,7 +5976,20 @@ $scope.homeaudio = function(){
   }
 
   $("#audio").change(function(){
-
+	/* audio = document.getElementById("audio").value;
+	  var res = audio.split(".");
+	  var srt2=res[1];
+	 alert(srt2);
+	  if((srt2 == 'mp3') || (srt2 == 'wav') || (srt2 == 'aiff') || (srt2 == 'm4a') || (srt2 == 'ogg') || (srt2 == '3gp') || (srt2 == 'ape') || (srt2 == 'wv') || (srt2 == 'raw')){
+		  checking=false;
+		readURL10(this);
+  }
+  else
+  {
+	  alert('Please select an audio');	
+   $('#audiourlimg').attr({'src':"img/no_audio.png"});
+	  checking=true;
+   }*/
     readURL10(this);  
   });
   
@@ -5259,6 +6000,7 @@ $scope.homeaudio = function(){
             reader.onload = function (e) {
 			 $('#audioimg').attr('src', e.target.result);	
 			 	$('#audioimg').css({'width':'50px','height':'50px'}); 	
+          //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -5266,7 +6008,19 @@ $scope.homeaudio = function(){
   }
 
   $("#audiothumb").change(function(){
-
+	 /*  localStorage.audiothumb = document.getElementById("audiothumb").value;
+	  var res = localStorage.audiothumb.split(".");
+	  var srt2=res[1];
+	  if((srt2 == 'jpg') || (srt2 == 'png') || (srt2 == 'jpeg')){
+		  checking=false;
+		
+  }
+  else
+  {
+	  alert('Please select an thumbnail image');
+	  checking=true;
+	 $('#audioimg').attr({'src':"img/no_image.png"});
+   }*/
      readURL11(this); 
   });
 
@@ -5295,7 +6049,6 @@ else
 {
 $scope.button_color='button-'+button;
 }
-
  
  	
 $scope.audiocreate={}
@@ -5319,7 +6072,7 @@ if((($("#audio").get(0).files[0].size) / 1024 / 1024) <= 10){
       formData.append('title', $scope.audiocreate.title);
       formData.append('description',$scope.audiocreate.desc);
       formData.append('audio', $("#audio").get(0).files[0]);    
-     
+      
       if($('#audiothumb').get(0).files[0]){
             formData.append('audio_thumbnail',$('#audiothumb').get(0).files[0]);   
        }else{
@@ -5343,7 +6096,7 @@ if((($("#audio").get(0).files[0].size) / 1024 / 1024) <= 10){
 					  })
 					  .error(function(data,status, headers, config){
                         $ionicLoading.hide();
-                        var total = JSON.parse(data);        
+                       var total = JSON.parse(data);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Audio',
@@ -5358,6 +6111,7 @@ if((($("#audio").get(0).files[0].size) / 1024 / 1024) <= 10){
              template: 'Please choose Audio File below 10MB!'
            });
            alertPopup.then(function(res) {
+             //console.log('Thank you for not eating my delicious ice cream cone');
            });
     }
 
@@ -5386,7 +6140,21 @@ function readURL12(input) {
   }
 
   $("#editaudio").change(function(){
-
+	 /*  editaudio = document.getElementById("editaudio").value;
+	  var res = editaudio.split(".");
+	  var srt2=res[1];
+	  alert(srt2);
+	  if((srt2 == 'mp3') || (srt2 == 'wav') || (srt2 == 'aiff') || (srt2 == 'm4a') || (srt2 == 'ogg') || (srt2 == '3gp')){
+		  checking=false;
+		check=true;
+      readURL12(this);
+  }
+  else
+  {
+	  alert('Please select an audio');	
+   $('#audioediturlimg').attr({'src':"img/no_audio.png"});
+	  checking=true;
+   }*/
    check=true;
     readURL12(this);   
   });
@@ -5399,6 +6167,7 @@ function readURL12(input) {
             reader.onload = function (e) {
 			 $('#audioeditimg').attr('src', e.target.result);	
 			 
+           // $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -5407,6 +6176,20 @@ function readURL12(input) {
 
   $("#editaudiothumb").change(function(){
 	  	  
+/*editaudiothumb = document.getElementById("editaudiothumb").value;
+	  var res = editaudiothumb.split(".");
+	  var srt2=res[1];
+	  if((srt2 == 'jpg') || (srt2 == 'png') || (srt2 == 'jpeg')){
+		  checking=false;
+		  check=true;
+		 readURL13(this);
+  }
+  else
+  {
+	  alert('Please select an image');
+	  checking=true;
+	 $('#audioeditimg').attr({'src':"img/no_image.png"});
+   }*/
      check=true;
     readURL13(this);   
   });
@@ -5446,7 +6229,7 @@ else
 {
 $scope.button_color='button-'+button;
 }
-
+ 
  	
 $scope.createeditaudio={}
 
@@ -5505,6 +6288,7 @@ $scope.updateaudio = function(){
 						 template: 'Please choose Audio File below 10MB!'
 					   });
 					   alertPopup.then(function(res) {
+						 //console.log('Thank you for not eating my delicious ice cream cone');
 					   });
 				}
 				
@@ -5528,13 +6312,14 @@ $scope.updateaudio = function(){
                       })
                       
                       .success(function(data,status, headers, config){
-			
+					// alert(JSON.stringify(data));
+				//	  alert('Successfully updated');
 						  $ionicLoading.hide();
 
 					  })
 					  .error(function(data,status, headers, config){
                         $ionicLoading.hide();
-                         var total = JSON.parse(data);        
+                       var total = JSON.parse(data);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Audio',
@@ -5576,10 +6361,10 @@ $scope.createaudioedit = function(){
                         data:{'api_key':appKey,'element_id':audioelement},
                         cache: false,
                         success:function(response){
-						
+						//	var response=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.editaudiopage = response;
-						
+						//    alert(JSON.stringify($scope.editaudiopage));
 						   $state.reload();   
                       
                         },
@@ -5612,8 +6397,7 @@ $scope.createaudioedit = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+      var alertPopup = $ionicPopup.alert({
 					   title: 'Audio',
 					   template: 'Enter Title And Value'
 					 });
@@ -5648,11 +6432,11 @@ $scope.removeaudioCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':audioelement},
                         cache: false,
                         success:function(response){
-						
+							//var response1=JSON.parse(response);
                           $ionicLoading.hide();
 						  
 						    $scope.editaudiopage = response;
-					
+						//    alert(JSON.stringify($scope.editaudiopage));
 						   $state.reload();    						  
                           
                         },
@@ -5733,7 +6517,6 @@ else
 $scope.button_color='button-'+button;
 }
 
-
 $scope.createwebpage = function(){
 
 if($scope.createweb.livewebname){
@@ -5753,7 +6536,8 @@ if($scope.createweb.liveweburl){
           url: "http://build.myappbuilder.com/api/elements/create_web_page.json",
           data:{'api_key':appKey,'button_id':buttonId,'title':$scope.createweb.livewebname,'url':$scope.createweb.liveweburl,'description':$scope.createweb.livewebdesc},
           success:function(response){
-	
+			//  var response = JSON.parse(response);
+			//    alert(JSON.stringify(response)); 	
 			 $ionicLoading.hide();
 			    webelement=response.id;
 			    webname=response.title;
@@ -5763,7 +6547,7 @@ if($scope.createweb.liveweburl){
           },
           error:function(error){
             $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);        
+             var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Web',
@@ -5775,8 +6559,7 @@ if($scope.createweb.liveweburl){
       });
   }
     }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+      	 var alertPopup = $ionicPopup.alert({
 					   title: 'Web',
 					   template: 'Enter The Name and Valid Url'
 					 });
@@ -5833,7 +6616,6 @@ else
 $scope.button_color='button-'+button;
 }
 
-
 $scope.createwebedit.editwebname = webname;
 $scope.createwebedit.editweburl= weburl;
 $scope.createwebedit.editwebdesc=webdesc
@@ -5853,6 +6635,7 @@ $scope.updateweb = function(){
            formData.append('api_key',appKey);
            formData.append('id',webelement);  
             formData.append('title',$scope.createwebedit.editwebname);  
+          //  alert(JSON.stringify($scope.createwebedit.editwebname));
              formData.append('text',$scope.createwebedit.editwebdesc);    
             formData.append('live_url',$scope.createwebedit.editweburl); 
                   
@@ -5866,12 +6649,13 @@ $scope.updateweb = function(){
                   contentType: false,
                   processData: false,
                   success:function(response){
-			
+			//  alert(JSON.stringify(response));
+			    //  alert('successfully Updated');
                   $ionicLoading.hide();
                 
                 },error:function(error){
                   $ionicLoading.hide();
-                   var total = JSON.parse(error.responseText);        
+                 var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Web',
@@ -5884,9 +6668,7 @@ $scope.updateweb = function(){
 		}
 		
 		else
-		{	
-           
-					 var alertPopup = $ionicPopup.alert({
+		{	 var alertPopup = $ionicPopup.alert({
 					   title: 'Web',
 					   template: 'Update the live url'
 					 });
@@ -5922,9 +6704,9 @@ $scope.createcusweb = function(){
                         cache: false,
                         success:function(response){
                           $ionicLoading.hide();
-                      
+                        //  var response = JSON.parse(response);
 						    $scope.editwebpage = response;
-          
+                 //    alert(JSON.stringify( $scope.editwebpage));
 						   $state.reload();   
 						  
                           
@@ -5946,7 +6728,7 @@ $scope.createcusweb = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-             var total = JSON.parse(error.responseText);        
+         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Web',
@@ -5958,8 +6740,7 @@ $scope.createcusweb = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+    var alertPopup = $ionicPopup.alert({
 					   title: 'Web',
 					   template: 'Enter Title And Value'
 					 });
@@ -6008,17 +6789,17 @@ $scope.removewebCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':webelement},
                         cache: false,
                         success:function(response){
-						
+							 // var response1 = JSON.parse(response);
                           $ionicLoading.hide();
 
 						    $scope.editwebpage = response;
-                
+                   //  alert(JSON.stringify( $scope.editwebpage));
 						   $state.reload();   			  
                           
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Web',
@@ -6031,7 +6812,7 @@ $scope.removewebCustomValue = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-              var total = JSON.parse(error.responseText);        
+             var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Web',
@@ -6052,7 +6833,7 @@ var rssurl='';
 var customrssid='';
 
 
-control.controller('rssCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
+control.controller('rssCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
 
 $ionicScrollDelegate.scrollTop();
 
@@ -6094,7 +6875,6 @@ else
 $scope.button_color='button-'+button;
 }
 
-
 $scope.createrssform = function(){
 
 if($scope.createrss.rssname){
@@ -6114,7 +6894,8 @@ if($scope.createrss.rssname){
           url: "http://build.myappbuilder.com/api/elements/create_rss.json",
           data:{'api_key':appKey,'button_id':buttonId,'title':$scope.createrss.rssname,'url':$scope.createrss.rssurl,'description':$scope.createrss.rssdesc},
           success:function(response){
-		
+			//  var response5=JSON.parse(response);
+			//   alert(JSON.stringify(response)); 	
 			    rsselement=response.id;
 			    rssname=response.title;
 			    rssdesc=response.text;
@@ -6124,7 +6905,7 @@ if($scope.createrss.rssname){
           },
           error:function(error){
             $ionicLoading.hide();
-           var total = JSON.parse(error.responseText);        
+            var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
@@ -6136,8 +6917,7 @@ if($scope.createrss.rssname){
       });
   }
     }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+       var alertPopup = $ionicPopup.alert({
 					   title: 'Web',
 					   template: 'Enter The Name and Valid Url'
 					 });
@@ -6149,7 +6929,7 @@ if($scope.createrss.rssname){
 
 });
 
-control.controller('rsseditCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
+control.controller('rsseditCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
 	
 	$ionicScrollDelegate.scrollTop();
 	
@@ -6193,7 +6973,6 @@ else
 $scope.button_color='button-'+button;
 }
 
-
 $scope.createrssedit.editrssname = rssname;
 $scope.createrssedit.editrssurl= rssurl;
 $scope.createrssedit.editrssdesc=rssdesc
@@ -6225,13 +7004,14 @@ $scope.updaterss = function(){
                   contentType: false,
                   processData: false,
                   success:function(response){
-
+			 //  alert(JSON.stringify(response));
+			    //  alert('successfully Updated');
                   $ionicLoading.hide();
                 
                  
                 },error:function(error){
                   $ionicLoading.hide();
-                var total = JSON.parse(error.responseText);        
+                 var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
@@ -6278,16 +7058,16 @@ $scope.createcusrss = function(){
                         data:{'api_key':appKey,'element_id':rsselement},
                         cache: false,
                         success:function(response){
-						
+							 // var response1=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.editrsspage = response;
-           
+                 //    alert(JSON.stringify( $scope.editrsspage));
 						   $state.reload();   
  
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
@@ -6315,8 +7095,7 @@ $scope.createcusrss = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+       var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
 					   template: 'Enter Title And Value'
 					 });
@@ -6365,10 +7144,10 @@ $scope.removerssCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':rsselement},
                         cache: false,
                         success:function(response){
-							 
+							 // var response2=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.editrsspage = response;
-                 
+                   //  alert(JSON.stringify( $scope.editrsspage));
 						   $state.reload();   		  
                           
                         },
@@ -6406,7 +7185,7 @@ var taskelement='';
 var tasklistid='';
 
 
-control.controller('taskeditCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
+control.controller('taskeditCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
 
 $ionicScrollDelegate.scrollTop();
 
@@ -6450,7 +7229,6 @@ else
 $scope.button_color='button-'+button;
 }
 
-
 $scope.addeditTask = function(task,desc){
 
 	if($scope.createedittask.taskTitle)
@@ -6471,7 +7249,7 @@ $scope.addeditTask = function(task,desc){
                         cache: false,
                         success:function(response){
                           $ionicLoading.hide();
-                    	
+                       //   alert(JSON.stringify(response));		
                           tasklistid=response.id;			  
               $.ajax({
                         type: "GET",
@@ -6479,11 +7257,11 @@ $scope.addeditTask = function(task,desc){
                         data:{'api_key':appKey,'id':taskelement},
                         cache: false,
                         success:function(response){
-					
+						//	var response = JSON.parse(response);
                           $ionicLoading.hide();
                         
 						    $scope.tasks = response;
-              
+               //      alert(JSON.stringify( $scope.tasks));
                            $scope.createedittask.taskTitle='';  
                            $scope.createedittask.taskDescription='';    
 						   $state.reload();   
@@ -6517,8 +7295,7 @@ $scope.addeditTask = function(task,desc){
 	
 		  }else
 		  {
-           
-					 var alertPopup = $ionicPopup.alert({
+			 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
 					   template: 'Enter The Title'
 					 });
@@ -6544,7 +7321,7 @@ $scope.deleteTask = function(id){
             data: {"api_key":appKey,'id':taskelement},
             cache: false,
             success:function(response){
-		
+			//	alert(JSON.stringify(response));
                $ionicLoading.hide();
                $.ajax({
                         type: "GET",
@@ -6553,9 +7330,9 @@ $scope.deleteTask = function(id){
                         cache: false,
                         success:function(response){
                           $ionicLoading.hide();
-                    
+                      //  var response1 = JSON.parse(response);
 						    $scope.tasks = response;
-                  
+                   //  alert(JSON.stringify( $scope.tasks));
 						   $state.reload();   
 						  
                           
@@ -6575,7 +7352,7 @@ $scope.deleteTask = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-             var total = JSON.parse(error.responseText);        
+              var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -6614,13 +7391,14 @@ $scope.updateTask = function(updateid,title,desc){
                   contentType: false,
                   processData: false,
                   success:function(response){
-
+			// alert(JSON.stringify(response));
+			 //     alert('successfully Updated');
                   $ionicLoading.hide();
                 
             },
             error:function(error,status){
                $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);        
+             var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -6659,9 +7437,11 @@ $scope.createtaskcustom = function(){
                         data:{'api_key':appKey,'element_id':taskelement},
                         cache: false,
                         success:function(response){
+						//	var response2 = JSON.parse(response);
                           $ionicLoading.hide();
                         
 						    $scope.taskpage = response;
+                //     alert(JSON.stringify( $scope.taskpage));
 						   $state.reload();   
 						  
                           
@@ -6683,7 +7463,7 @@ $scope.createtaskcustom = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-           var total = JSON.parse(error.responseText);        
+             var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -6695,8 +7475,7 @@ $scope.createtaskcustom = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+      var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
 					   template:'Enter Title And Value'
 					 });
@@ -6730,15 +7509,17 @@ $scope.removetaskCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':taskelement},
                         cache: false,
                         success:function(response){
+						//	var response3 = JSON.parse(response);
                           $ionicLoading.hide();
 	   
 						     $scope.taskpage = response;
+                  //   alert(JSON.stringify( $scope.taskpage));
 						   $state.reload();   	  
                           
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                           var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -6751,7 +7532,7 @@ $scope.removetaskCustomValue = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-             var total = JSON.parse(error.responseText);        
+            var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -6775,7 +7556,6 @@ control.controller('editAppCtrl',function($scope,$state,$ionicScrollDelegate,$io
 $ionicScrollDelegate.scrollTop();
 
 $scope.homeappedit = function(){
-	
 	$state.go('sample');
 } 
  
@@ -6807,12 +7587,104 @@ $scope.homeappedit = function(){
         
 	};
 
+   $scope.count = function(){
+                   //    navigator.notification.alert(val);
+                   $ionicLoading.show({
+                                      content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
+                                      animation: 'fade-in',
+                                      showBackdrop: true,
+                                      maxWidth: 200,
+                                      showDelay: 0
+                                      });
+                   $http({method: "GET", url:'key.txt', cache: false, params:{}})
+                   .success(function(data){
+                            defaultkey = data.trim();
+                            appList=[];
+                            $http({method: "GET", url:'http://build.myappbuilder.com/api/apps/general.json', cache: false, params:{'api_key':defaultkey}})
+                            .success(function(data, status){
+                                     //                                  alert(data.title);
+                                     appId=defaultkey;
+                                     appTit=data.title;
+                                     appList.push(data);
+                                     
+                                     $http({method: "GET", url:'http://build.myappbuilder.com/api/book_custom_fields.json', cache: false, params:{'api_key':defaultkey}})
+                                     .success(function(reskey){
+                                              
+                                              for(var j=0;j<reskey.length;j++){
+                                              if(reskey[j].key=="keys"){
+                                              $http({method: "GET", url:'http://build.myappbuilder.com/api/apps/general.json', cache: false, params:{'api_key':reskey[j].value}})
+                                              .success(function(data, status){
+                                                       
+                                                       appList.push(data);
+                                                       
+                                                       })
+                                              .error(function(data, status) {
+                                                      var total = JSON.parse(data);        
+           
+					 var alertPopup = $ionicPopup.alert({
+					   title: 'FrontEndBuilder',
+					   template:total.error
+					 });
+					 alertPopup.then(function(res) {
+					 });
+                                                     $ionicLoading.hide();
+                                                     });
+                                              }
+                                              }
+                                              $ionicLoading.hide();
+                                              
+                                             // $state.go('listView');
+
+                                              })
+                                     .error(function(data, status) {
+                                            $ionicLoading.hide();
+                                           var total = JSON.parse(data);        
+           
+					 var alertPopup = $ionicPopup.alert({
+					   title: 'FrontEndBuilder',
+					   template:total.error
+					 });
+					 alertPopup.then(function(res) {
+					 });
+                                            
+                                            });
+                                     
+                                     })
+                            .error(function(data, status) {
+                                   var total = JSON.parse(data);        
+           
+					 var alertPopup = $ionicPopup.alert({
+					   title: 'FrontEndBuilder',
+					   template:total.error
+					 });
+					 alertPopup.then(function(res) {
+					 });
+                                   $ionicLoading.hide();
+                                   });
+ 
+                            })
+                   .error(function(data, status) {
+                          $ionicLoading.hide();
+                         var total = JSON.parse(data);        
+           
+					 var alertPopup = $ionicPopup.alert({
+					   title: 'FrontEndBuilder',
+					   template:total.error
+					 });
+					 alertPopup.then(function(res) {
+					 });
+                          
+                          });
+                   };
+                   
+                   
 function readURL300(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
 					$('#editsplash').attr('src', e.target.result); 
+             // $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -6825,6 +7697,7 @@ function readURL300(input) {
 
             reader.onload = function (e) {
 				  $('#editapp').attr('src', e.target.result);
+            //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -6847,6 +7720,7 @@ function readURL300(input) {
 
             reader.onload = function (e) {
 			    $('#editstore').attr('src', e.target.result);
+            //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -6935,11 +7809,13 @@ $scope.button_color='button-'+button;
 
                                           cancel: function() {
 
+                                         // alert('CANCELLED');
 
                                           },
 
                                           buttonClicked: function(index) {
 
+                                        //  alert('BUTTON CLICKED', index);
 
                                           if(index==0){
 
@@ -7126,6 +8002,7 @@ $scope.button_color='button-'+button;
 
                                           cancel: function() {
 
+                                         // alert('CANCELLED');
 
                                           },
 
@@ -7314,11 +8191,13 @@ $scope.button_color='button-'+button;
 
                                           cancel: function() {
 
+                                        //  alert('CANCELLED');
 
                                           },
 
                                           buttonClicked: function(index1) {
 
+                                        //  alert('BUTTON CLICKED', index1);
 
                                           if(index1==0){
 												
@@ -7526,39 +8405,14 @@ $scope.editupdatesettings = function(){
                   contentType: false,
                   processData: false,
                   success:function(response){
-			
+					//	alert(response);
+               // var response1 = JSON.parse(response);		
                 	colour=response.bar_color;
 							buttoncolour=response.bar_button_color; 			
 							button= response.button_color; 
-					appTitle = response.title;
-           appList='';       
-                   $.ajax({
-                  type: "GET",
-                  url: "http://build.myappbuilder.com/api/users.json",
-                  data:{'api_key':appkeyResult.api_key,'id':appkeyResult.id},
-                  cache: false,
-                  success:function(response){
-				
-                    $ionicLoading.hide();
-                    appList = response;
-                    localStorage["login"] = JSON.stringify(appkeyResult);
-                   
-          				},
-                  error:function(error,status){
-                    $ionicLoading.hide();
-                   var total = JSON.parse(error.responseText);        
-           
-					 var alertPopup = $ionicPopup.alert({
-					   title: appTitle,
-					   template:total.error
-					 });
-					 alertPopup.then(function(res) {
-					 });
-                  }
-            });
-            $ionicLoading.hide();
-           
-           console.log(JSON.stringify(floatarray));
+					
+            $scope.count();
+              console.log(JSON.stringify(floatarray));
 
                     for(var i=0;i<floatarray.length;i++){
 
@@ -7569,9 +8423,10 @@ $scope.editupdatesettings = function(){
                     $state.go('editnewapp1');          
 
                     }}  
+                 
                 },error:function(error){
                   $ionicLoading.hide();
-                 var total = JSON.parse(error.responseText);        
+                  var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: appTitle,
@@ -7630,155 +8485,96 @@ else
 $scope.button_color='button-'+button;
 }
  
-                console.log(JSON.stringify(twitter));
-
-                   if((twitter == 'undefined') || (twitter == 'null')){
-
-                   $scope.editbook1.twitter_editusername = '';   
-
+                   if(twitter == 'undefined'){
+                   $scope.editbook1.twitter_editusername = '';
+                   
                    }
-
                    else{
-
                    $scope.editbook1.twitter_editusername=twitter;
-
                    }
                    
-
-                   if((twitterkey == 'undefined') || (twitterkey == 'null')){
-
+                   if(twitterkey == 'undefined'){
                    $scope.editbook1.edittwitter_key = '';
-
+                   
                    }
-
                    else{
-
                    $scope.editbook1.edittwitter_key=twitterkey;
-
-                   }                   
-
-                   if((twittersecret == 'undefined') || (twittersecret == 'null')){
-
+                   }
+                   
+                   if(twittersecret == 'undefined'){
                    $scope.editbook1.edittwitter_secret = '';
-
+                   
                    }
-
                    else{
-
                    $scope.editbook1.edittwitter_secret=twittersecret;
-
                    }
-
-                   if((fb == 'undefined') || (fb == 'null')){
-
+                   
+                   if(fb == 'undefined'){
                    $scope.editbook1.editfacebook_link = '';
                    
                    }
-
                    else{
-
                    $scope.editbook1.editfacebook_link= fb;
-
                    }
-
-                   if((fbkey == 'undefined') || (fbkey == 'null')){
-
+                   
+                   if(fbkey == 'undefined'){
                    $scope.editbook1.editfacebook_key = '';
-
+                   
                    }
-
                    else{
-
                    $scope.editbook1.editfacebook_key=fbkey;
-
                    }
-
-                   if((fbsecret == 'undefined') || (fbsecret == 'null')){
-
+                   
+                   if(fbsecret == 'undefined'){
                    $scope.editbook1.editfacebook_secret = '';
-
+                   
                    }
-
                    else{
-
                    $scope.editbook1.editfacebook_secret=fbsecret;
-
                    }
-
-
-                   if((gplus == 'undefined') || (gplus == 'null')){
-
+                   
+                   if(gplus == 'undefined'){
                    $scope.editbook1.editgplus_link = '';
-
+                   
                    }
-
                    else{
-
                    $scope.editbook1.editgplus_link=gplus;;
-
                    }
-
-                   if((gpluskey == 'undefined') || (gpluskey == 'null')){
-
+                   if(gpluskey == 'undefined'){
                    $scope.editbook1.editgplus_key = '';
-
+                   
                    }
-
                    else{
-
                    $scope.editbook1.editgplus_key=gpluskey;
-
                    }
-
-                   if((gplussecret == 'undefined') || (gplussecret == 'null')){
-
+                   if(gplussecret == 'undefined'){
                    $scope.editbook1.editgplus_secret = '';
-
+                   
                    }
-
                    else{
-
                    $scope.editbook1.editgplus_secret=gplussecret;
-
                    }
-
-                   if((youtube == 'undefined') || (youtube == 'null')){
-
+                   if(youtube == 'undefined'){
                    $scope.editbook1.edityoutube_link = '';
-
+                   
                    }
-
                    else{
-
                    $scope.editbook1.edityoutube_link=youtube;
-
                    }
-
-                   if((flickr == 'undefined') || (flickr == 'null')){
-
+                   if(flickr == 'undefined'){
                    $scope.editbook1.editflickr_link= '';
-
+                   
                    }
-
                    else{
-
                   $scope.editbook1.editflickr_link=flickr;
-
                    }
-
-                   if((pin == 'undefined') || (pin == 'null')){
-
+                   if(pin == 'undefined'){
                    $scope.editbook1.editpinterest_link = '';
-
+                   
                    }
-
                    else{
-
                    $scope.editbook1.editpinterest_link=pin;
-
                    }
-
-
                
                 
              
@@ -7815,13 +8611,14 @@ $scope.updateeditSocialSettings = function(){
                   contentType: false,
                   processData: false,
                   success:function(response){
-	
+			  //   alert(JSON.stringify(response));
+			  //    alert('successfully Updated');
 			      $state.go('sample');
                   $ionicLoading.hide();
                  
                 },error:function(error){
                   $ionicLoading.hide();
-                  var total = JSON.parse(error.responseText);        
+                 var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Social',
@@ -7843,6 +8640,7 @@ function readURL31(input) {
             reader.onload = function (e) {
 	    		$('#editbuttonsrc').attr('src', e.target.result); 
 	    		 $('#editbuttonsrc').css({'width':'50px','height':'50px'});
+             // $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -7867,7 +8665,7 @@ $scope.homebuttonlist = function(){
 $scope.editbuttoncreate={}
 $('#editbuttonsrc').attr('src', localStorage.xxx); 
 
- 
+  // alert(localStorage.xxx);
 $scope.appTitle = appTitle;	
 
 if(colour == 'undefined'){	
@@ -7895,6 +8693,7 @@ $scope.button_color='button-'+button;
 }
 
 $("#editbuttonimage").change(function(){
+	//  localStorage.xxx = document.getElementById("editbuttonimage").value ;
       readURL31(this);
   });
   
@@ -7934,16 +8733,16 @@ $scope.editbuttoncreate.editbuttontitle = buttonTitle;
                 contentType: false,
                 processData: false,
                 success:function(response){
-			
+					//var response= JSON.parse(response);
  
                     buttonId = response.id;
                     buttonTitle = response.title;
-                
+                   // alert("Successfully Updated");
                     $ionicLoading.hide();
                 },
                 error:function(error,status){
                     $ionicLoading.hide();
-                 
+                    //alert("Successfully")
                    var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
@@ -7972,20 +8771,20 @@ $scope.editbuttoncreate.editbuttontitle = buttonTitle;
                 contentType: false,
                 processData: false,
                 success:function(response){
-				
+					//var response= JSON.parse(response);
  
                     buttonId = response.id;
                     buttonTitle = response.title;
-               
+                  //  alert("Successfully Updated");
                     $ionicLoading.hide();
                 },
                 error:function(error,status){
                     $ionicLoading.hide();
-                 
-                     var total = JSON.parse(error.responseText);        
+                    //alert("Successfully")
+                    var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
-					   title: 'Button',
+					   title: 'button',
 					   template:total.error
 					 });
 					 alertPopup.then(function(res) {
@@ -8000,7 +8799,7 @@ $scope.editbuttoncreate.editbuttontitle = buttonTitle;
 
 var customdismapid='';
 
-control.controller('mapdisplayCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
+control.controller('mapdisplayCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
 
 $ionicScrollDelegate.scrollTop();
 
@@ -8081,7 +8880,7 @@ $scope.float1=float1;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-							
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.dismappage = response; 
 						   $state.reload();   	  
@@ -8089,7 +8888,7 @@ $scope.float1=float1;
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -8117,14 +8916,14 @@ $scope.adddisAddress = function(){
           url: "http://build.myappbuilder.com/api/elements/addresses.json",
           data:{'api_key':appKey,'id':elementId,'address':$scope.createdisplaymap.title},
           success:function(response){
-		
+			// alert(JSON.stringify(response));
             $.ajax({
                         type: "GET",
                         url: "http://build.myappbuilder.com/api/elements/addresses.json",
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response=JSON.parse(response);       
                           $ionicLoading.hide();                       
 						    $scope.addressess = response;                 
 						    $scope.createdisplaymap.title='';
@@ -8158,8 +8957,7 @@ $scope.adddisAddress = function(){
       });
     }
       else{
-           
-					 var alertPopup = $ionicPopup.alert({
+       var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
 					   template:'Enter The Address'
 					 });
@@ -8193,13 +8991,13 @@ $scope.updatedisplayAddress = function(id,updateaddresss){
                   contentType: false,
                   processData: false,
                   success:function(response){
-			   
+			   //   alert('successfully Updated');
                   $ionicLoading.hide();
                 
                  
                 },error:function(error){
                   $ionicLoading.hide();
-                  var total = JSON.parse(error.responseText);        
+                var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -8220,7 +9018,7 @@ $scope.updatedisplayAddress = function(id,updateaddresss){
               showDelay: 0
       });
   
-  
+   
           $.ajax({
             type: "DELETE",
             url: "http://build.myappbuilder.com/api/elements/addresses/"+id+".json",
@@ -8234,14 +9032,14 @@ $scope.updatedisplayAddress = function(id,updateaddresss){
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
-				   
+							//var response=JSON.parse(response);       
                           $ionicLoading.hide();
 						$scope.addressess = response;  
 						   $state.reload();   
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -8254,7 +9052,7 @@ $scope.updatedisplayAddress = function(id,updateaddresss){
             },
             error:function(error,status){
                $ionicLoading.hide();
-                var total = JSON.parse(error.responseText);        
+               var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -8293,7 +9091,7 @@ $scope.mapdiscustom = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response2=JSON.parse(response);       
                           $ionicLoading.hide();                        
 					    $scope.dismappage = response;
 						   $state.reload();   
@@ -8302,7 +9100,7 @@ $scope.mapdiscustom = function(){
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                           var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -8317,7 +9115,7 @@ $scope.mapdiscustom = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-             var total = JSON.parse(error.responseText);        
+            var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -8329,8 +9127,7 @@ $scope.mapdiscustom = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+     var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
 					   template:'Enter Title And Value'
 					 });
@@ -8364,7 +9161,7 @@ $scope.removedismapCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response3=JSON.parse(response);       
                           $ionicLoading.hide();
 						    $scope.dismappage = response;
 						   $state.reload();   	  
@@ -8372,7 +9169,7 @@ $scope.removedismapCustomValue = function(id){
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -8385,7 +9182,7 @@ $scope.removedismapCustomValue = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-                var total = JSON.parse(error.responseText);        
+              var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -8459,7 +9256,7 @@ $scope.float1=float1;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-					
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.disformtype = response;
 						   $state.reload();   	  
@@ -8467,7 +9264,7 @@ $scope.float1=float1;
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Contact Form',
@@ -8503,7 +9300,7 @@ $scope.updatedisform = function(){
                   contentType: false,
                   processData: false,
                   success:function(response){
-			 
+			//      alert('successfully Updated');
                   $ionicLoading.hide();
                 
                  
@@ -8553,7 +9350,7 @@ $scope.createdisformcustom = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-							
+							//var response1=JSON.parse(response);
                           $ionicLoading.hide();                      
 						    $scope.disformtype = response;
 						   $state.reload();   
@@ -8561,7 +9358,7 @@ $scope.createdisformcustom = function(){
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                           var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Contact Form',
@@ -8576,7 +9373,7 @@ $scope.createdisformcustom = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);        
+           var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Contact Form',
@@ -8588,8 +9385,7 @@ $scope.createdisformcustom = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+      var alertPopup = $ionicPopup.alert({
 					   title: 'Contact Form',
 					   template:'Enter Title And Value'
 					 });
@@ -8623,7 +9419,7 @@ $scope.removeformdisCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-					
+							//var response2=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.disformtype = response;						 
 						   $state.reload();     
@@ -8643,7 +9439,7 @@ $scope.removeformdisCustomValue = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-                var total = JSON.parse(error.responseText);        
+               var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Contact Form',
@@ -8716,14 +9512,14 @@ $scope.float1=float1;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();   
 						     $scope.taskdisplaypage = response;
 						   $state.reload();   	  
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                           var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -8740,14 +9536,14 @@ $scope.float1=float1;
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
-					
+							//var response1=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.taskdisplay = response;
 						   $state.reload();    
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -8785,7 +9581,7 @@ $scope.adddisplayTask = function(task,desc){
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.taskdisplay = response;
 						$scope.createdisplaytask.taskTitle='';
@@ -8794,7 +9590,7 @@ $scope.adddisplayTask = function(task,desc){
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -8819,8 +9615,7 @@ $scope.adddisplayTask = function(task,desc){
               });   
 		  }else
 		  {
-           
-					 var alertPopup = $ionicPopup.alert({
+			  var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
 					   template:'Enter The Title'
 					 });
@@ -8846,7 +9641,7 @@ $scope.deletedisplayTask = function(id){
             data: {"api_key":appKey,'id':elementId},
             cache: false,
             success:function(response){
-
+//				alert(JSON.stringify(response));
                $ionicLoading.hide();
               $.ajax({
                         type: "GET",
@@ -8854,13 +9649,14 @@ $scope.deletedisplayTask = function(id){
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
+							//var response3=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.taskdisplay = response;
 						   $state.reload();    
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -8873,7 +9669,7 @@ $scope.deletedisplayTask = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-                var total = JSON.parse(error.responseText);        
+              var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -8910,13 +9706,13 @@ $scope.updatedisplayTask = function(updatesid,titles,descp){
                   contentType: false,
                   processData: false,
                   success:function(response){
-			
+			   //   alert('successfully Updated');
                   $ionicLoading.hide();
                 
             },
             error:function(error,status){
                $ionicLoading.hide();
-                var total = JSON.parse(error.responseText);        
+            var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -8955,14 +9751,14 @@ $scope.createtaskdiscustom = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-					
+							//var response5=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.taskdisplaypage = response;
 						   $state.reload();     
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                            var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -8977,7 +9773,7 @@ $scope.createtaskdiscustom = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-              var total = JSON.parse(error.responseText);        
+            var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -8989,8 +9785,7 @@ $scope.createtaskdiscustom = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+    var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
 					   template:'Enter Title And Value'
 					 });
@@ -9024,14 +9819,14 @@ $scope.removetaskdisCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response4=JSON.parse(response);
                           $ionicLoading.hide();   
 						     $scope.taskdisplaypage = response;
 						   $state.reload();   	  
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -9044,7 +9839,7 @@ $scope.removetaskdisCustomValue = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-              var total = JSON.parse(error.responseText);        
+             var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -9135,7 +9930,7 @@ $scope.creatediswebedit.diswebdesc=elementtext;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();
 						   $scope.diswebpage = response;
 						   $state.reload();   			                           
@@ -9174,7 +9969,7 @@ if(($scope.creatediswebedit.disweburl)!=elementurl){
                   contentType: false,
                   processData: false,
                   success:function(response){
-			
+			    //  alert('successfully Updated');
                   $ionicLoading.hide();  
                 },error:function(error){
                   $ionicLoading.hide();
@@ -9215,7 +10010,7 @@ $scope.creatediscusweb = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-					
+							//var response1 = JSON.parse(response);
                           $ionicLoading.hide(); 
 						    $scope.diswebpage = response;
 						   $state.reload();                              
@@ -9264,7 +10059,7 @@ $scope.removediswebCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response2 = JSON.parse(response);
                           $ionicLoading.hide();
 						   $scope.diswebpage = response;
 						   $state.reload();   			                           
@@ -9368,13 +10163,13 @@ else{
                   contentType: false,
                   processData: false,
                   success:function(response){
-			
+			    //  alert('successfully Updated');
                   $ionicLoading.hide();
                 
                  
                 },error:function(error){
                   $ionicLoading.hide();
-                var total = JSON.parse(error.responseText);        
+                 var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
@@ -9408,14 +10203,14 @@ $scope.tinymceOptions = {
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();                        
 						    $scope.disrsspage = response;
 						   $state.reload();   
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                           var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
@@ -9452,14 +10247,14 @@ $scope.createcusdisrss = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response1 = JSON.parse(response);
                           $ionicLoading.hide();                      
 						    $scope.disrsspage = response;                 
 						   $state.reload();     
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                            var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
@@ -9474,7 +10269,7 @@ $scope.createcusdisrss = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-              var total = JSON.parse(error.responseText);        
+            var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
@@ -9486,8 +10281,7 @@ $scope.createcusdisrss = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+      var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
 					   template:'Enter Title And Value'
 					 });
@@ -9521,7 +10315,7 @@ $scope.removerssdisCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response2 = JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disrsspage = response;
 						   $state.reload();       
@@ -9597,6 +10391,7 @@ function readURL14(input) {
             reader.onload = function (e) {
 			 $('#audiodisplayimg').attr('src', e.target.result);	
 			 
+           // $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -9651,13 +10446,14 @@ $scope.button_color='button-'+button;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disaudiopage = response;
 						   $state.reload();       
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Audio',
@@ -9725,6 +10521,7 @@ $scope.updateaudiodisplay = function(){
 						 template: 'Please choose Audio File below 10MB!'
 					   });
 					   alertPopup.then(function(res) {
+						 //console.log('Thank you for not eating my delicious ice cream cone');
 					   });
 					} 
 					 
@@ -9750,7 +10547,8 @@ $scope.updateaudiodisplay = function(){
                       })
                       
                       .success(function(data,status, headers, config){
-			
+					// alert(JSON.stringify(data));
+					//  alert('Successfully updated');
 						  $ionicLoading.hide();
 
 					  })
@@ -9795,13 +10593,14 @@ $scope.updateaudiodisplay = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response1=JSON.parse(response);
                           $ionicLoading.hide();                      
 						    $scope.disaudiopage = response;                 
 						   $state.reload();     
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Audio',
@@ -9816,7 +10615,7 @@ $scope.updateaudiodisplay = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);        
+          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Audio',
@@ -9828,8 +10627,7 @@ $scope.updateaudiodisplay = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+     var alertPopup = $ionicPopup.alert({
 					   title: 'Audio',
 					   template:'Enter Title And Value'
 					 });
@@ -9863,13 +10661,14 @@ $scope.removeaudiodisCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response2=JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disaudiopage = response;
 						   $state.reload();       
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                           var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Audio',
@@ -9916,15 +10715,17 @@ control.controller('picdisplayCtrl',function($scope,$state,$ionicScrollDelegate,
   }
   $scope.backdispic=function(){
 	  
-	  $.ajax({
+	  
+	  	$.ajax({
                         type: "GET",
                         url: "http://build.myappbuilder.com/api/elements/images.json",
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
+							//var response= JSON.parse(response);
                           $ionicLoading.hide();
 							previewpic =response;
-						   $state.go('previewpic');    
+								$state.go('previewpic');
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
@@ -9937,9 +10738,8 @@ control.controller('picdisplayCtrl',function($scope,$state,$ionicScrollDelegate,
 					 alertPopup.then(function(res) {
 					 });
                         }
-              }); 
+              });
               
-      
   }
  $scope.homedispic=function(){
        $state.go('sample');
@@ -10013,7 +10813,7 @@ $scope.button_color='button-'+button;
                         cache: false,
                         success:function(response){
 							
-		
+							//var response= JSON.parse(response);
 							
                           $ionicLoading.hide();
 							$scope.dispicpage = response;
@@ -10021,7 +10821,7 @@ $scope.button_color='button-'+button;
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -10038,8 +10838,10 @@ $scope.button_color='button-'+button;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.distxtpage = response;
+						   //  alert(JSON.stringify($scope.distxtpage));
 						   $state.reload();   						                            
                         },
                         error:function(error,status){
@@ -10082,10 +10884,11 @@ $scope.updatedistext = function(){
                   contentType: false,
                   processData: false,
                   success:function(response){
+			    //  alert('successfully Updated');
                   $ionicLoading.hide();                
                 },error:function(error){
                   $ionicLoading.hide();
-                 var total = JSON.parse(error.responseText);        
+                  var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -10111,6 +10914,7 @@ $scope.updatedistext = function(){
 					$('#dispictext').attr('src', e.target.result); 
 	    		 $('#dispictext').css({'width':'50px','height':'50px'});
 			   $('#textdis').attr('src', e.target.result); 
+            //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -10156,16 +10960,18 @@ $ionicLoading.show({
 								cache: false,
 								success:function(response){
 				
+								//	var response = JSON.parse(response);
 								  $ionicLoading.hide();
 
 									 $scope.dispicpage = response;
+								  //   alert(JSON.stringify($scope.editpicpage));
 								   $state.reload();   
 								  
 								  
 								},
 								error:function(error,status){
 								   $ionicLoading.hide();
-								 var total = JSON.parse(error.responseText);        
+								var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -10175,11 +10981,11 @@ $ionicLoading.show({
 					 });
 								}
 					     });              
-          
+                //    $state.go('navicon');
                  
                 },error:function(error){
                   $ionicLoading.hide();
-                 var total = JSON.parse(error.responseText);        
+                  var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -10222,7 +11028,7 @@ $scope.removepicdisCustom = function(id){
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -10235,7 +11041,7 @@ $scope.removepicdisCustom = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-             var total = JSON.parse(error.responseText);        
+              var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -10260,36 +11066,37 @@ $scope.ok = function(){
       });
          
          var datatag=$scope.contenteditCreate.elementeditTag;
-		 if(datatag == ''){
+         console.log(datatag);
+         if(datatag == ''){
 			  console.log(datatag);
 			 amenities='';
 		 }
 		 else{
 			  console.log(datatag);
 		for(var i=0;i<datatag.length;i++){
-
+				console.log(datatag);
                    if(i==0){
 
                    amenities = datatag[i].text;
-
+                   console.log(amenities);
                    }
 
                    else{
 
                    amenities = amenities+','+datatag[i].text;
-
+                   console.log(amenities);
                    }
 
                    }
 			   }
-                   
                    $.ajax({
                         type: "PUT",
                         url: "http://build.myappbuilder.com/api/elements/tags.json",
                         data:{'api_key':appKey,'element_id':elementId,'value':amenities},
                         cache: false,
                         success:function(response){   
-                                 
+                         //  alert('successfully Updated');      
+                        console.log(JSON.stringify(response));                 
                           $ionicLoading.hide();                        
                         },
                         error:function(error,status){
@@ -10336,10 +11143,10 @@ $scope.createpicdis = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-					
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.distxtpage = response;
-					
+						   //  alert(JSON.stringify($scope.distxtpage));
 						   $state.reload();                            
                         },
                         error:function(error,status){
@@ -10359,7 +11166,7 @@ $scope.createpicdis = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-         var total = JSON.parse(error.responseText);        
+           var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -10371,8 +11178,7 @@ $scope.createpicdis = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+    var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
 					   template:'Enter Title And Value'
 					 });
@@ -10405,15 +11211,15 @@ $scope.removedistxtCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response3=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.distxtpage = response;
-					
+						//   alert(JSON.stringify($scope.distxtpage));
 						   $state.reload();                            
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                           var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -10426,7 +11232,7 @@ $scope.removedistxtCustomValue = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-             var total = JSON.parse(error.responseText);        
+               var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -10509,6 +11315,8 @@ $scope.button_color='button-'+button;
       });
 
       $scope.popupClose=function() {
+      // alert('Tapped!', $scope.checkBox.element+" : "+$scope.checkBox.button);
+      // alert('Tapped!', $scope.checkBox.element+" : "+$scope.checkBox.button);
         myPopup.close();
       }
 
@@ -10530,10 +11338,12 @@ $scope.button_color='button-'+button;
         $ionicLoading.show({template: '<i class="icon ion-loading-a"></i>&nbsp;Please wait...'});
         $http.post('http://build.myappbuilder.com/api/app_wall_settings.json',{api_key: appKey,button_wall:button_wall,element_wall:element_wall})
               .success(function(data,status,headers,config){
-          
+                  //$ionicLoading.hide();
+//alert(JSON.stringify(data));
+                  //Appwall = data;
                   $.ajax({url:'http://build.myappbuilder.com/api/app_wall_settings.json', type:"GET",data:{'api_key':appKey},
                       success:function(response){
-                  
+                      //  alert(JSON.stringify(response))
                           Appwall = response;
                           $ionicLoading.hide();
                            myPopup.close();
@@ -10583,20 +11393,18 @@ $scope.button_color='button-'+button;
                    appWallPostFun();
                   },
                   error:function(error,status){
-                
+                  //  window.wizSpinner.hide();
                     $ionicLoading.hide();
                     var error = error.responseText;
                     if(error.error == "Unauthorized"){
-           
-					 var alertPopup = $ionicPopup.alert({
+                     var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Please Login'
 					 });
 					 alertPopup.then(function(res) {
 					 });
                     }else {
-           
-					 var alertPopup = $ionicPopup.alert({
+                      var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Login Error!'
 					 });
@@ -10624,7 +11432,7 @@ function appWallPostFun(){
     var replyappend = '';
     var z = 0;
     var p = 0;
-
+   // alert("msgLen:"+messages.length);
   
     if(messages.length > 0){
       $.each( messages, function( key, value ) {	
@@ -10737,7 +11545,7 @@ function appWallPostFun(){
     });
 
     $(".deleteMgs").click(function(){
-  
+    // ionicLoading.show(options);
           var deleteMgsNo = (this.id).split('-');
 
           if(localStorage.appwallLoginData){
@@ -10751,32 +11559,34 @@ function appWallPostFun(){
                   data:{'api_key':appKey},
                   cache: false,
                   success:function(response){
-			
+				// ionicLoading.hide();
                    messages = response;
                    $('#appwallListview').empty();
                    appWallPostFun();
                   },
                   error:function(error,status){
-				
+				//	window.wizSpinner.hide();
+                   // ionicLoading.hide();
                     var error = error.responseText;
                     if(error.error == "Unauthorized"){
                      alert('Please Login');
-					
                     }else {
-                     alert('Login Error!');
-					
+                    alert('Login Error!');
                     }
                   }
             });
               },
-              error:function(msg){   alert(msg);}
+              error:function(msg){ alert('Failure');}
             });
           }else{
-            
+            // login();
           }
     });
     
- 
+ /*   $("#textReplyMgs").click(function(event){
+        event.preventDefault();
+        replymessageFun();
+    });*/
 }
 
 function replymessageFun(){
@@ -10786,7 +11596,6 @@ function replymessageFun(){
     var replymessage = $('#'+replyarray).val();
       if(replymessage == ''){
         alert('Please Enter Your Reply...');
-				
       }else{
 
          $.ajax({url:'http://build.myappbuilder.com/api/messages.json', type:"POST",data:{'message[body]':replymessage,'message[parent_id]':replyMgsNo,'message[sender_id]':localStorage.sender_id,'api_key':appKey},
@@ -10799,28 +11608,29 @@ function replymessageFun(){
                   cache: false,
                   success:function(response){
 
-               
+                // ionicLoading.hide();
                     $('#'+replyarray).val('');
                    messages = response;
                    $('#appwallListview').empty();
                    appWallPostFun();
                   },
                   error:function(error,status){
-             
+                //  window.wizSpinner.hide();
+                 //   ionicLoading.hide();
+                    var error = error.responseText;
                     if(error.error == "Unauthorized"){
-                     alert('Please Login');
+                      alert('Please Login');
                     }else {
-                       alert('Login Error!');
+                    alert('Login Error!');
                     }
                   }
             });
-        },
-        error:function(){    alert('Failure');
-				}
-      });
-    }
+          },
+          error:function(){   alert('Failure');}
+        });
+      }
   }else{
-  
+   // login();
   }
 
 }
@@ -10831,8 +11641,8 @@ function postmessageFun(){
 
     var postmessage = $('#postmessage').val();
     if(postmessage == ''){
-     alert('Please Enter Your Comments...');
-				
+    alert('Please Enter Your Comments...');
+
     }else{
 		  
       $.ajax({url:'http://build.myappbuilder.com/api/messages.json', type:"POST",data:{'message[body]':postmessage,'message[sender_id]':localStorage.sender_id,'api_key':appKey},
@@ -10844,30 +11654,30 @@ function postmessageFun(){
                   data:{'api_key':appKey},
                   cache: false,
                   success:function(response){	
-            
+               //  window.wizSpinner.hide();
                  $('#postmessage').val('');
-           
+              //   $ionicLoading.hide();
                     messages = response;
                    
                     appWallPostFun();
                   },
                   error:function(error,status){
-               
+                   //  window.wizSpinner.hide();
+                  //  $ionicLoading.hide();
                     var error = error.responseText;
                     if(error.error == "Unauthorized"){
-                     alert('Please Login');
+                       alert('Please Login');
                     }else {
-                       alert('Login Error!');
+                    alert('Login Error!');
                     }
                   }
             });
         },
-        error:function(){    alert('Failure');
-				}
+        error:function(){  alert('Failure');}
       });
     }
   }else{
-   
+    //login();
   }
 
 }
@@ -10963,12 +11773,21 @@ $scope.button_color='button-'+button;
                   error:function(error,status){
                      $ionicLoading.hide();
                     var error = error.responseText;
-                  
+                     // alert(JSON.stringify(error));
                     if(error.error == "Unauthorized"){
-                     alert('Please Login');
-					
+                    var alertPopup = $ionicPopup.alert({
+					   title: 'Messages',
+					   template:'Please Login'
+					 });
+					 alertPopup.then(function(res) {
+					 });
                     }else {
-                        alert('Login Error!');
+                      var alertPopup = $ionicPopup.alert({
+					   title: 'Messages',
+					   template:'Login Error!'
+					 });
+					 alertPopup.then(function(res) {
+					 });
                     }
                   }
     });
@@ -10991,7 +11810,7 @@ function ButtonAppWallPostFun(){
               var replyappend ='';
               var z = 0;
               var p = 0;
-            
+              //alert("msgLen:"+messages.length);
               if(messages.length > 0){
                 $.each( messages, function( key, value ) {
                   $.each( value, function( k, v ) {
@@ -11082,24 +11901,24 @@ function ButtonAppWallPostFun(){
                             data:{'api_key':appKey,'button_id':buttonId},
                             cache: false,
                             success:function(response){
-						
+							//	alert(JSON.stringify(response));
+								//$ionicLoading.hide();
                                messages = response;
                               ButtonAppWallPostFun();
                             },
                             error:function(error,status){
-                     
+                           //  $ionicLoading.hide();
                               
                               var error = error.responseText;
                               if(error.error == "Unauthorized"){
-                               alert('Please Login');
+                                alert('Please Login');
                               }else {
-                                 alert('Login Error!');
+                             alert('Login Error!');
                               }
                             }
                       });
                         },
-                        error:function(){  alert('Failure');
-					}
+                        error:function(){  alert('Failure');}
                       });
                     }else{
                       
@@ -11127,12 +11946,13 @@ function ButtonreplymessageFun(){
                   cache: false,
                   success:function(response){
 
+                //  $ionicLoading.hide();
                     $('#'+replyarray).val('');
                     messages = response;
                     ButtonAppWallPostFun();
                   },
                   error:function(error,status){
-               
+                  //   $ionicLoading.hide();
                     var error = error.responseText;
                     if(error.error == "Unauthorized"){
                        alert('Please Login');
@@ -11157,14 +11977,14 @@ function ButtonpostmessageFun(){
   if(localStorage.appwallLoginData){
     var postmessage = $('#Buttonpostmessage').val();
     if(postmessage == ''){
-      alert('Please Enter Your Comments...');
+     alert('Please Enter Your Comments...');
 					
     }else{
 		
 				
       $.ajax({url:'http://build.myappbuilder.com/api/messages.json', type:"POST",data:{"message[body]":postmessage,"message[sender_id]":localStorage.sender_id,"api_key":appKey,"button_id":buttonId},
         success:function(response){
-		
+		//	alert(JSON.stringify(response));
           $('#ButtonappwallListview').empty();
           $.ajax({
                   type: "GET",
@@ -11172,25 +11992,25 @@ function ButtonpostmessageFun(){
                   data:{'api_key':appKey,'button_id':buttonId},
                   cache: false,
                   success:function(response){
-				
+					//alert(JSON.stringify(response));
+                  // $ionicLoading.hide();
                     $('#Buttonpostmessage').val('');
                     messages = response;
                     ButtonAppWallPostFun();
                   },
                   error:function(error,status){
-           
+                 //  $ionicLoading.hide();
                     
                     var error = error.responseText;
                     if(error.error == "Unauthorized"){
-                     alert('Please Login');
+                    alert('Please Login');
                     }else {
-                         alert( 'Login Error');
+                     alert('Login Error!');
                     }
                   }
             });
         },
-        error:function(){ alert('Network Failure');
-				}
+        error:function(){   alert('Failure');}
       });
     }
   }else{
@@ -11246,6 +12066,7 @@ $scope.button_color='button-'+button;
 				});
   $.ajax({url:'http://build.myappbuilder.com/api/messages.json',type:"GET",data:{"api_key":appKey,"element_id":elementId},
     success:function(response){
+//alert(JSON.stringify(response));
     $ionicLoading.hide();
       messages = response;
       ElementAppWallPostFun();
@@ -11254,14 +12075,14 @@ $scope.button_color='button-'+button;
     $ionicLoading.hide();
       var error = error.responseText;
       if(error.error == "Unauthorized"){
-        var alertPopup = $ionicPopup.alert({
+      var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Please Login'
 					 });
 					 alertPopup.then(function(res) {
 					 });
       }else {
-           var alertPopup = $ionicPopup.alert({
+          var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Login Error!'
 					 });
@@ -11288,7 +12109,7 @@ function ElementAppWallPostFun(){
               var replyappend ='';
               var z = 0;
               var p = 0;
-            
+              //alert("msgLen:"+messages.length);
               if(messages.length > 0){
                 $.each( messages, function( key, value ) {
                   $.each( value, function( k, v ) {
@@ -11366,9 +12187,9 @@ function ElementAppWallPostFun(){
                     $('#'+replyHide).toggle();
               });
 
-               $(".ElementdeleteMgs").click(function(){
+              $(".ElementdeleteMgs").click(function(){
                     var deleteMgsNo = (this.id).split('-');
-                 
+                    //alert(mgs_id[deleteMgsNo[1]])
                
                     if(localStorage.appwallLoginData){
                       $.ajax({url:'http://build.myappbuilder.com/api/messages.json?api_key='+appKey+'&message_id='+mgs_id[deleteMgsNo[1]], type:"DELETE",data:{},
@@ -11380,12 +12201,12 @@ function ElementAppWallPostFun(){
                             data:{'api_key':appKey,'element_id':elementId},
                             cache: false,
                             success:function(response){
-							
+								// $ionicLoading.hide();
                               messages = response;
                               ElementAppWallPostFun();
                             },
                             error:function(error,status){
-                       
+                          // $ionicLoading.hide();
                               
                               var error = error.responseText;
                               if(error.error == "Unauthorized"){
@@ -11410,8 +12231,7 @@ function ElementreplymessageFun(){
     var replyarray = "Elementreplymessage"+replyMgsNo1[1];
     var replymessage = $('#'+replyarray).val();
       if(replymessage == ''){
-         alert('Please Enter Your Reply...');
-					 
+       alert('Please Enter Your Reply...');
       }else{
  
 		 $.ajax({url:'http://build.myappbuilder.com/api/messages.json', type:"POST",data:{"message[body]":replymessage,"message[parent_id]":replyMgsNo,"message[sender_id]":localStorage.sender_id,"api_key":appKey,"element_id":elementId},
@@ -11423,24 +12243,24 @@ function ElementreplymessageFun(){
                   data:{'api_key':appKey,'element_id':elementId},
                   cache: false,
                   success:function(response){
-                
+                  // $ionicLoading.hide();
                     $('#'+replyarray).val('');
                     messages = response;
                     ElementAppWallPostFun();
                   },
                   error:function(error,status){
-              
+                //  $ionicLoading.hide();
                     
                     var error = error.responseText;
                     if(error.error == "Unauthorized"){
                      alert('Please Login');
                     }else {
-                      alert('Login Error!');
+                     alert('Login Error!');
                     }
                   }
             });
           },
-          error:function(){  alert('Failure');}
+          error:function(){   alert('Failure');}
         });
       }
   }else{
@@ -11469,13 +12289,13 @@ function ElementpostmessageFun(){
                   data:{'api_key':appKey,'element_id':elementId},
                   cache: false,
                   success:function(response){
-                 
+                   // $ionicLoading.hide();
                     $('#Elementpostmessage').val('');
                     messages = response;
                     ElementAppWallPostFun();
                   },
                   error:function(error,status){
-                 
+                   //  $ionicLoading.hide();
                     
                     var error =error.responseText;
                     if(error.error == "Unauthorized"){
@@ -11495,9 +12315,6 @@ function ElementpostmessageFun(){
 }
 
 
-var dataURL1='';
-var videoframebase1='';
-var videoframe1='';
 var customeditvideoid='';
 var imageeditvideo='';
 
@@ -11505,17 +12322,6 @@ control.controller('videoeditCtrl',function($scope,$state,$ionicScrollDelegate,$
   
     $ionicScrollDelegate.scrollTop();
  
- 
-  $scope.AppEditor = true;
-  
-    $scope.logbuttonlist1 = function(){
-    if($scope.AppEditor == false){
-      $scope.AppEditor = true;
-    }else{
-      $scope.AppEditor =false;
-    }
-  }
-  
 function readURL22(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -11524,6 +12330,7 @@ function readURL22(input) {
 				 $('#videoediturlimg').attr({'src':"img/btn_video.png"});
              $('#videoediturlimg').css({'width':'50px','height':'50px'}); 	
              $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');		
+        //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -11531,8 +12338,6 @@ function readURL22(input) {
   }
 
   $("#editvideo").change(function(){
-	  var objectURL = window.URL.createObjectURL(this.files[0]);
-	$('#videoframe').attr({'src':objectURL});
 	  check=true;
       readURL22(this);
   });
@@ -11545,13 +12350,13 @@ function readURL22(input) {
 				 $('#videoeditimg').attr('src', e.target.result); 
 	    		 $('#videoeditimg').css({'width':'50px','height':'50px'});
              $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');		
+        //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
         }
   }
 
-  
   $("#editvideothumb").change(function(){
 	  check=true;
       readURL221(this);
@@ -11569,7 +12374,7 @@ $scope.homeeditvideo = function(){
   
 $scope.appTitle = appTitle;	
 
-if(colour == 'undefined'){	
+if(colour == ""){	
 $scope.bar_color = 'bar-positive';
 }
 else
@@ -11577,7 +12382,7 @@ else
 $scope.bar_color = 'bar-'+colour;
 }
 
-if(buttoncolour == 'undefined'){
+if(buttoncolour == ""){
 $scope.bar_button_color ='button-positive'; 
 }
 else
@@ -11585,14 +12390,13 @@ else
 $scope.bar_button_color ='button-'+buttoncolour;
 }
 
-if(button == 'undefined'){
+if(button == ""){
 $scope.button_color = 'button-positive';
 }
 else
 {
 $scope.button_color='button-'+button;
 }
-
  
  	
 $scope.createeditvideo={}
@@ -11621,14 +12425,12 @@ if(videothumb){
   }
  if(videoimg){
     $('#editvideo').attr({'url':videoimg});   
-    $('#videoediturlimg').attr({'src':videoframe});
+    $('#videoediturlimg').attr({'src':videothumb});
    $('#videoediturlimg').css({'width':'50px','height':'50px'}); 			
   }
 
 $scope.updatevideo = function(){            
 	
-		 videoframebase1 = dataURL.replace("data:image/png;base64,","");
-
 	 $ionicLoading.show({
               content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
               animation: 'fade-in',
@@ -11642,10 +12444,6 @@ $scope.updatevideo = function(){
       formData.append('id', videoelement);
       formData.append('title', $scope.createeditvideo.editvideotitle);
       formData.append('text',$scope.createeditvideo.editvideotext);
-       if(videoframebase1){
-      formData.append('video_frame_base64',videoframebase1);
-      formData.append('video_frame_title','image.png');
-	}
       
   if(check==true){  
 	  	if((($("#editvideo").get(0).files[0].size) / 1024 / 1024) <= 10){
@@ -11658,6 +12456,7 @@ $scope.updatevideo = function(){
 				 template: 'Please choose Video File below 10MB!'
 			   });
 			   alertPopup.then(function(res) {
+				 //console.log('Thank you for not eating my delicious ice cream cone');
 			   });
 			}   
 
@@ -11669,7 +12468,7 @@ $scope.updatevideo = function(){
           
 	  }else{
 		   $('#editvideo').attr({'url':videoimg});   
-			$('#videoediturlimg').attr({'src':videoframe});
+			$('#videoediturlimg').attr({'src':videothumb});
 		   $('#videoediturlimg').css({'width':'50px','height':'50px'}); 		
 		   $('#videoeditimg').attr({'src':videothumb});
     	   $('#videoeditimg').css({'width':'50px','height':'50px'}); 
@@ -11682,10 +12481,11 @@ $scope.updatevideo = function(){
                       
                       .success(function(data,status, headers, config){
 						  $ionicLoading.hide();
+						// alert('Successfully updated');
 					  })
 					  .error(function(data,status, headers, config){
                         $ionicLoading.hide();
-                        var total = JSON.parse(data);        
+                       var total = JSON.parse(data);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Video',
@@ -11724,8 +12524,10 @@ $scope.createvideoedit = function(){
                         data:{'api_key':appKey,'element_id':videoelement},
                         cache: false,
                         success:function(response){
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.editvideopage = response;
+						  // alert(JSON.stringify($scope.editvideopage));
 						   $state.reload();   
                       
                         },
@@ -11746,7 +12548,7 @@ $scope.createvideoedit = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-               var total = JSON.parse(error.responseText);        
+            var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Video',
@@ -11758,8 +12560,7 @@ $scope.createvideoedit = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+     var alertPopup = $ionicPopup.alert({
 					   title: 'Video',
 					   template:'Enter Title And Value'
 					 });
@@ -11794,8 +12595,10 @@ $scope.removevideoCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':videoelement},
                         cache: false,
                         success:function(response){
+							//var response1=JSON.parse(response);
                            $ionicLoading.hide();
 						    $scope.editvideopage = response;
+						   //alert(JSON.stringify($scope.editvideopage));
 						   $state.reload()						  
                           
                         },
@@ -11832,20 +12635,10 @@ $scope.removevideoCustomValue = function(id){
 var customdisvideoid='';
 var imagedisvideo='';
 
-control.controller('videodisplayCtrl',function($scope,$state,$ionicScrollDelegate,$ionicLoading,$ionicPopup,$http,$ionicActionSheet){ 
+control.controller('videodisplayCtrl',function($scope,$state,$ionicPopup,$ionicScrollDelegate,$ionicLoading,$http,$ionicActionSheet){ 
 
   $ionicScrollDelegate.scrollTop();
 
-$scope.AppEditor = true;
-  
-    $scope.logbuttonlist1 = function(){
-    if($scope.AppEditor == false){
-      $scope.AppEditor = true;
-    }else{
-      $scope.AppEditor =false;
-    }
-  }
-  
  if(Appwall.element_wall == '0'){
     $scope.elementAppWall = false;
   }else if(Appwall.element_wall == '1'){
@@ -11863,6 +12656,7 @@ function readURL26(input) {
 				 $('#videodisurlimg').attr({'src':"img/btn_video.png"});
 				$('#videodisurlimg').css({'width':'50px','height':'50px'});
 				$('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')'); 		
+         // $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -11870,10 +12664,6 @@ function readURL26(input) {
   }
 
   $("#videodisplay").change(function(){
-	  
-	  var objectURL = window.URL.createObjectURL(this.files[0]);
-	$('#videoframe').attr({'src':objectURL});
-	
 	    check=true;
 	 
       readURL26(this);
@@ -11888,6 +12678,7 @@ function readURL26(input) {
 				 $('#videodisplayimg').attr('src', e.target.result); 
 	    		 $('#videodisplayimg').css({'width':'50px','height':'50px'});
              $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');		
+        //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -11940,6 +12731,7 @@ $scope.button_color='button-'+button;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disvideopage = response;
 						   $state.reload();       
@@ -11985,13 +12777,11 @@ if(contentvideothumb){
   }
  if(contentvideo){
     $('#videodisplay').attr({'url':contentvideo});
-      $('#videodisurlimg').attr({'src':contentvideoframe});
+      $('#videodisurlimg').attr({'src':contentvideothumb});
     $('#videodisurlimg').css({'width':'50px','height':'50px'});  
   }
 $scope.updatevideodisplay = function(){            
 		
-		 videoframebase1 = dataURL.replace("data:image/png;base64,","");
-		 
 	 $ionicLoading.show({
               content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
               animation: 'fade-in',
@@ -12005,10 +12795,7 @@ $scope.updatevideodisplay = function(){
       formData.append('id', elementId);
       formData.append('title', $scope.createdisplayvideo.displayvideotitle);
       formData.append('text',$scope.createdisplayvideo.displayvideotext);
-      if(videoframebase1){
-       formData.append('video_frame_base64',videoframebase1);
-      formData.append('video_frame_title','image.png');
-      }
+      
   if(check==true){  
 	  	  if((($("#videodisplay").get(0).files[0].size) / 1024 / 1024) <= 10){
 
@@ -12020,6 +12807,7 @@ $scope.updatevideodisplay = function(){
 					 template: 'Please choose Video File below 10MB!'
 				   });
 				   alertPopup.then(function(res) {
+					 //console.log('Thank you for not eating my delicious ice cream cone');
 				   });
            } 
             if($('#video_thumbdisplay').get(0).files[0]){
@@ -12030,7 +12818,7 @@ $scope.updatevideodisplay = function(){
           
 	  }else{
 		     $('#videodisplay').attr({'url':contentvideo});
-      $('#videodisurlimg').attr({'src':contentvideoframe});
+      $('#videodisurlimg').attr({'src':contentvideothumb});
     $('#videodisurlimg').css({'width':'50px','height':'50px'}); 		
 		    $('#videodisplayimg').attr({'src':contentvideothumb});
     $('#videodisplayimg').css({'width':'50px','height':'50px'});  
@@ -12043,6 +12831,7 @@ $scope.updatevideodisplay = function(){
                       
                       .success(function(data,status, headers, config){
 						  $ionicLoading.hide();
+						// alert('Successfully updated');
 					  })
 					  .error(function(data,status, headers, config){
                         $ionicLoading.hide();
@@ -12084,6 +12873,7 @@ $scope.updatevideodisplay = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();                      
 						    $scope.disvideopage = response;                 
 						   $state.reload();     
@@ -12117,8 +12907,7 @@ $scope.updatevideodisplay = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+     var alertPopup = $ionicPopup.alert({
 					   title: 'Video',
 					   template:'Enter Title And Value'
 					 });
@@ -12152,13 +12941,14 @@ $scope.removevideodisCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disvideopage = response;
 						   $state.reload();       
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                            var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Video',
@@ -12171,7 +12961,7 @@ $scope.removevideodisCustomValue = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-                var total = JSON.parse(error.responseText);        
+              var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Video',
@@ -12188,7 +12978,7 @@ $scope.removevideodisCustomValue = function(id){
 var amenities1='';
 var avatarimg='';
 
-control.controller('previewpicCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$http,$ionicModal,$ionicActionSheet){
+control.controller('previewpicCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$http,$ionicModal,$ionicActionSheet){
 	 
 $scope.data2={}
 $scope.elementTitle = elementtitle;
@@ -12242,22 +13032,25 @@ $scope.button_color='button-'+button;
 
 $scope.float1=float1;
 
+
 $scope.editpicpage =previewpic;
-     
-  
+        
+
  $.ajax({
                         type: "GET",
                         url: "http://build.myappbuilder.com/api/custom_values.json",
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response =JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.edittxtpage = response;
+						   //  alert(JSON.stringify($scope.distxtpage));
 						   $state.reload();   						                            
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                       var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -12274,9 +13067,9 @@ $scope.editpicpage =previewpic;
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){ 
-			  						
+			  				 console.log(JSON.stringify(response));	 	
 							 var datatag1=response;
-							  if(response.length == 0){
+							 if(response.length == 0){
 								 console.log(response.length);
 								 	$scope.tags=response;
 							 }
@@ -12284,14 +13077,17 @@ $scope.editpicpage =previewpic;
 							 for(var i=0;i<datatag1.length;i++){
 							   if(i==0){
 							   amenities1 = datatag1[i].name;
-							
+							   console.log(amenities1);
 							   }
 							   else{
 							   amenities1 = amenities1+','+datatag1[i].name;
+							   console.log(amenities1);
+							   console.log('else');
 							   }
 							   }                   
-							$scope.tags = amenities1.split(",");          
-                            $ionicLoading.hide();      
+							$scope.tags = amenities1.split(",");     
+							 $state.reload();        
+                            $ionicLoading.hide(); 
 						}                   
                         },
                         error:function(error,status){
@@ -12336,8 +13132,84 @@ $scope.editpicpage =previewpic;
 
 });
 
+control.controller('previewwebCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$http){
 
-control.controller('previewtaskCtrl',function($scope,$state,$ionicLoading,$ionicPopup){ 
+ $scope.backprevweb=function(){
+      $state.go('chapterlist');
+  }
+  $scope.homeprevweb=function(){
+      $state.go('sample');
+  }
+  $scope.logprevweb=function(){
+      $state.go('webdisplay');
+  }
+
+$scope.appTitle = appTitle;	
+
+if(colour == 'undefined'){	
+$scope.bar_color = 'bar-positive';
+}
+else
+{
+$scope.bar_color = 'bar-'+colour;
+}
+
+if(buttoncolour == 'undefined'){
+$scope.bar_button_color ='button-positive'; 
+}
+else
+{
+$scope.bar_button_color ='button-'+buttoncolour;
+}
+
+if(button == 'undefined'){
+$scope.button_color = 'button-positive';
+}
+else
+{
+$scope.button_color='button-'+button;
+}
+
+$scope.elementtitle = elementtitle;
+$scope.elementurl= elementurl;
+$scope.elementtext=elementtext;
+
+$scope.float1=float1;
+
+ $scope.tinymceOptions = {
+        
+
+        menubar: false,
+        theme: "modern",
+        plugins: [
+            "advlist autolink lists link image charmap print preview anchor",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime table contextmenu ",
+            "emoticons textcolor"
+        ],
+        toolbar1: "insertfile undo redo | styleselect | bold italic | bullist numlist outdent indent | link image | alignleft aligncenter alignright alignjustify forecolor backcolor"
+        
+	};
+	$.ajax({
+                        type: "GET",
+                        url: "http://build.myappbuilder.com/api/custom_values.json",
+                        data:{'api_key':appKey,'element_id':elementId},
+                        cache: false,
+                        success:function(response){
+                          $ionicLoading.hide();
+						   $scope.diswebpage = response;
+						   $state.reload();   			                           
+                        },
+                        error:function(error,status){
+                           $ionicLoading.hide();
+                          alert(error.responseText);
+                        }
+              });      
+                     
+
+});
+
+control.controller('previewtaskCtrl',function($scope,$state,$ionicPopup,$ionicLoading){ 
   
   $scope.logprevtask=function(){
 	  $state.go('taskdisplay');
@@ -12383,14 +13255,14 @@ $scope.float1=float1;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-						
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();   
 						     $scope.taskdisplaypage = response;
 						   $state.reload();   	  
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -12428,7 +13300,7 @@ $scope.float1=float1;
 
 });
 
-control.controller('previewformCtrl',function($scope,$state,$ionicLoading,$ionicPopup){ 
+control.controller('previewformCtrl',function($scope,$state,$ionicPopup,$ionicLoading){ 
   
   $scope.logprevform=function(){
 	  $state.go('formdisplay');
@@ -12476,7 +13348,7 @@ $scope.button_color='button-'+button;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-							
+							//var response1=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.disformtype = response;
 						   $state.reload();   	  
@@ -12484,7 +13356,7 @@ $scope.button_color='button-'+button;
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Contact Form',
@@ -12497,7 +13369,7 @@ $scope.button_color='button-'+button;
                 
 });
 
-control.controller('previewaudioCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicModal){ 
+control.controller('previewaudioCtrl',function($scope,$state,$ionicPopup,$ionicLoading, $ionicModal){ 
   
   $scope.logprevaudio=function(){
 	  $state.go('audiodisplay');
@@ -12537,14 +13409,14 @@ $scope.button_color='button-'+button;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-							
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disaudiopage = response;
 						   $state.reload();       
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Audio',
@@ -12588,7 +13460,7 @@ $scope.homeprevaudio=function(){
     $state.go('sample');
 }
 
-  $ionicModal.fromTemplateUrl('my-modal.html', {
+ $ionicModal.fromTemplateUrl('my-modal.html', {
             scope: $scope,
             animation: 'slide-in-right'
           }).then(function(modal) {
@@ -12606,9 +13478,10 @@ $scope.homeprevaudio=function(){
 		$('.playaudio').attr({'src':''});
 		$scope.registerpop.hide(); 
 	}
+  
 });
 
-control.controller('previewvideoCtrl',function($scope,$state,$ionicLoading,$ionicPopup,$http,$ionicModal){
+control.controller('previewvideoCtrl',function($scope,$state,$ionicPopup,$ionicLoading,$http,$ionicModal){
   
 $scope.logprevvideo=function(){
 	  $state.go('videodisplay');
@@ -12654,14 +13527,14 @@ $scope.button_color='button-'+button;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
-							
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disvideopage = response;
 						   $state.reload();       
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Video',
@@ -12687,11 +13560,10 @@ $scope.button_color='button-'+button;
         toolbar1: "insertfile undo redo | styleselect | bold italic | bullist numlist outdent indent | link image | alignleft aligncenter alignright alignjustify forecolor backcolor"
         
 	};
+	
  
 $scope.elementtitle = elementtitle;
 $scope.elementtext = elementtext;
-$scope.contentvideothumb=contentvideothumb;
-$scope.contentvideoframe=contentvideoframe;
 
     $('#videoprevimg').attr({'src':contentvideothumb});
     $('#videoprevimg').css({'width':'50px','height':'50px'}); 		
@@ -12699,10 +13571,12 @@ $scope.contentvideoframe=contentvideoframe;
       $('#videoprevurlimg').attr({'src':'img/video.png'});
     $('#videoprevurlimg').css({'width':'50px','height':'50px'});  
 
-	$scope.videoclick=function(){
+
+$scope.videoclick=function(){
 		$state.go('playvideo');
 	}
-	
+						
+						
 });
 var avatarimg='';
 var avatarimg1='';
@@ -12725,16 +13599,14 @@ var subpass1='';
 var subconfirmpass1='';
 
 
-control.controller('sublistCtrl',function($scope,$state,$ionicLoading,$http, $ionicPopup,$ionicModal, $ionicActionSheet){
-
-                   
+control.controller('sublistCtrl',function($scope,$state,$ionicLoading,$http,$ionicPopup, $ionicModal, $ionicActionSheet){
+                 
 
 $scope.backsublist=function(){
 
      $state.go('app');
 
 }
-
                    $scope.avatar123=function(val){  
 
                    if(val==null){
@@ -12750,7 +13622,6 @@ $scope.backsublist=function(){
                    }
                    }
 
-                   
       
 				$scope.nextpage = function(id,avatar,fullname,email,phone,user) {
                    subeditid1=id;
@@ -12777,9 +13648,11 @@ $.ajax({
       cache: false,
 
       success:function(response){
+		//var response7 = JSON.parse(response);
 
        $scope.subscriber =response;
        $state.reload();
+//alert(JSON.stringify($scope.subscribers));
           $ionicLoading.hide();
 
       },
@@ -12806,7 +13679,9 @@ $.ajax({
             var reader = new FileReader();
 
             reader.onload = function (e) {
-	    	
+	    		//$('#tst').attr('src',"data:image/jpeg;base64,"+e.target.result); 
+	    		// $('#tst').css({'width':'50px','height':'50px'});
+	    		//alert(e.target.result);
            $('.file-input-wrapper5 > .btn-file-input5').css('background-image', 'url('+e.target.result+')');
             }
 
@@ -12830,9 +13705,7 @@ $.ajax({
                    
 
                    $scope.addsubs = function() {
-					   
-					  $state.reload();
-					  
+					
 				    $('.file-input-wrapper5 > .btn-file-input5').css('background-image', 'url(img/add_image.png)');				
 
                    $scope.data2.firstname='';
@@ -12854,8 +13727,6 @@ $.ajax({
 					$("#tst").change(function(){
 						  readURL30(this);
 					  });
-					  
-					
 
                    };
 
@@ -12874,6 +13745,7 @@ $.ajax({
 
                           success:function(response){
 
+                          // alert(JSON.stringify(response));
 
                           $scope.subscriber = response;
 
@@ -12885,7 +13757,7 @@ $.ajax({
 
                           $ionicLoading.hide();
 
-                          var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Subscriber',
@@ -12983,6 +13855,7 @@ $.ajax({
 									  cache: false,
 
 									  success:function(response){
+									//	var response7 = JSON.parse(response);
 
 									   $scope.subscriber =response;
 									
@@ -12996,7 +13869,7 @@ $.ajax({
 
 										  $ionicLoading.hide();
 
-										   var total = JSON.parse(error.responseText);        
+										  var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Subscriber',
@@ -13008,6 +13881,7 @@ $.ajax({
 									  }
 
 								});
+							//	alert('Successfully Created');
 								
 							 $scope.registerpop.hide();
 							 
@@ -13015,7 +13889,7 @@ $.ajax({
 
                           $ionicLoading.hide();
 
-                         var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Subscriber',
@@ -13117,6 +13991,9 @@ $.ajax({
 
                           success:function(response){
 
+							//var response4 = JSON.parse(response);
+                          // alert(JSON.stringify(response));
+
                           $scope.subscriber = response;
 
                           $ionicLoading.hide();
@@ -13127,7 +14004,7 @@ $.ajax({
 
                           $ionicLoading.hide();
 
-                          var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Subscriber',
@@ -13212,9 +14089,12 @@ $.ajax({
 
                          success:function(response){
 
+							//var response6 = JSON.parse(response);
+                           //alert(JSON.stringify(response));
 
                               subid1=response.id;
                          
+								//  alert('Successfully Updated');
 								  
 								 $.ajax({
 
@@ -13228,6 +14108,7 @@ $.ajax({
 
 									  success:function(response){
 										  
+									//	var response7 = JSON.parse(response);
 
 									   $scope.subscriber =response;
 									   
@@ -13260,7 +14141,7 @@ $.ajax({
 
                           $ionicLoading.hide();
 
-                         var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Subscriber',
@@ -13278,14 +14159,324 @@ $.ajax({
 
 });
 
-control.controller('homeCtrl', ['$ionicPlatform', '$scope', '$rootScope', '$cordovaNetwork','$ionicLoading', '$location', function($ionicPlatform,$scope, $rootScope, $cordovaNetwork, $ionicLoading, $location) {
+control.controller('sublist1Ctrl',function($scope,$state,$ionicLoading,$http, $ionicPopup,$ionicModal, $ionicActionSheet){
+                 
+
+$scope.backsublist=function(){
+
+     $state.go('app1');
+
+}
+                   $scope.avatar123=function(val){  
+
+                   if(val==null){
+
+                   return 'img/btn_avatar.png';
+
+                   }
+
+                   else{
+
+                   return val;
+
+                   }
+                   }
+
+      
+				$scope.nextpage = function(id,avatar,fullname,email,phone,user) {
+                   subeditid1=id;
+                   subavatar1=avatar;
+                   subfullname1=fullname;
+                   subemail1=email;
+                   subphone1=phone;
+                   subusername1=user;
+                   $state.go('viewdetails1');
+               }
+               
+$scope.appTitle = appTitle;
+
+$.ajax({
+
+      type: "GET",
+
+      url: "http://build.myappbuilder.com/api/subscribers.json",
+
+      data:{'api_key':appKey},
+
+      cache: false,
+
+      success:function(response){
+		//var response7 = JSON.parse(response);
+
+       $scope.subscriber =response;
+       $state.reload();
+//alert(JSON.stringify($scope.subscribers));
+          $ionicLoading.hide();
+
+      },
+
+      error:function(error,status){
+
+          $ionicLoading.hide();
+
+          var total = JSON.parse(error.responseText);        
+           
+					 var alertPopup = $ionicPopup.alert({
+					   title: 'Subscriber',
+					   template:total.error
+					 });
+					 alertPopup.then(function(res) {
+					 });
+
+      }
+
+});
+
+     function readURL30(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+	    		//$('#tst').attr('src',"data:image/jpeg;base64,"+e.target.result); 
+	    		// $('#tst').css({'width':'50px','height':'50px'});
+	    		//alert(e.target.result);
+           $('.file-input-wrapper5 > .btn-file-input5').css('background-image', 'url('+e.target.result+')');
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+  }
+      
+                
+
+                   $ionicModal.fromTemplateUrl('my-modal.html', {
+
+                                               scope: $scope,
+
+                                               animation: 'slide-in-right'
+
+                                               }).then(function(modal) {
+
+                                                       $scope.registerpop = modal;
+
+                                                       });
+
+                   
+
+                   $scope.addsubs = function() {
+					
+				    $('.file-input-wrapper5 > .btn-file-input5').css('background-image', 'url(img/add_image.png)');				
+
+                   $scope.data2.firstname='';
+
+					$scope.data2.lastname='';
+
+					$scope.data2.email='';
+
+					$scope.data2.username='';
+
+					$scope.data2.phone='';
+					
+					$scope.data2.password='';
+					 
+                    $scope.data2.confirmpassword='';
+
+                   $scope.registerpop.show();
+                   
+					$("#tst").change(function(){					
+						  readURL30(this);
+					  });
+
+                   };
+
+   
+
+                   $scope.removesubs=function(){
+					  
+                   $.ajax({
+
+                          type: "GET",
+
+                          url: "http://build.myappbuilder.com/api/subscribers.json",
+
+                          data:{'api_key':appKey},
+
+                          cache: false,
+
+                          success:function(response){
+
+                          // alert(JSON.stringify(response));
+
+                          $scope.subscriber = response;
+
+                          $ionicLoading.hide();
+
+                          },
+
+                          error:function(error,status){
+
+                          $ionicLoading.hide();
+
+                         var total = JSON.parse(error.responseText);        
+           
+					 var alertPopup = $ionicPopup.alert({
+					   title: 'Subscriber',
+					   template:total.error
+					 });
+					 alertPopup.then(function(res) {
+					 });
+
+                          }
+
+                          });
+						
+                    $scope.registerpop.hide();
+
+                   }
+
+                   
+
+                   $scope.data2={}
+
+                   
+
+                  $scope.createsubs=function(){
+
+                   
+
+                   $ionicLoading.show({
+
+                                      content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
+
+                                      animation: 'fade-in',
+
+                                      showBackdrop: true,
+
+                                      maxWidth: 200,
+
+                                      showDelay: 0
+
+                                      });
+
+                   
+
+                   var formData = new FormData();
+
+                   formData.append('api_key',appKey);
+
+                   formData.append('subscriber[firstname]',$scope.data2.firstname);
+
+                   formData.append('subscriber[lastname]',$scope.data2.lastname);
+
+                   formData.append('subscriber[username]',$scope.data2.username);
+
+                   formData.append('subscriber[email]',$scope.data2.email);
+
+                   formData.append('subscriber[phone]',$scope.data2.phone);
+                   
+                   formData.append('subscriber[password]',$scope.data2.password);
+                   
+                   formData.append('subscriber[password_confirmation]',$scope.data2.confirmpassword);
+                   
+                   
+                    if($("#tst").get(0).files[0] != undefined){
+
+				    formData.append('subscriber[avatar]',$("#tst").get(0).files[0]);
+					
+					}
+                   
+
+                   $.ajax({
+
+                          type: "POST",
+
+                          url: "http://build.myappbuilder.com/api/subscribers.json",
+
+                          data: formData,
+
+                          cache: false,
+
+                          contentType: false,
+
+                          processData: false,
+
+                          success:function(response){
+
+                          subid=response.id;
+
+                          $.ajax({
+
+									  type: "GET",
+
+									  url: "http://build.myappbuilder.com/api/subscribers.json",
+
+									  data:{'api_key':appKey},
+
+									  cache: false,
+
+									  success:function(response){
+									//	var response7 = JSON.parse(response);
+
+									   $scope.subscriber =response;
+									
+									   $state.reload();
+
+										  $ionicLoading.hide();
+										
+									  },
+
+									  error:function(error,status){
+
+										  $ionicLoading.hide();
+
+										  var total = JSON.parse(error.responseText);        
+           
+					 var alertPopup = $ionicPopup.alert({
+					   title: 'Subscriber',
+					   template:total.error
+					 });
+					 alertPopup.then(function(res) {
+					 });
+
+									  }
+
+								});
+							//	alert('Successfully Created');
+								
+							 $scope.registerpop.hide();
+							 
+                          },error:function(error){
+
+                          $ionicLoading.hide();
+
+                         var total = JSON.parse(error.responseText);        
+           
+					 var alertPopup = $ionicPopup.alert({
+					   title: 'Subscriber',
+					   template:total.error
+					 });
+					 alertPopup.then(function(res) {
+					 });
+
+                          }
+
+                          });
+
+
+                   }
+  
+						
+});
+control.controller('homeCtrl', ['$ionicPlatform','$ionicPopup', '$scope', '$rootScope', '$cordovaNetwork', '$ionicLoading', '$location', function($ionicPlatform, $scope, $rootScope,$ionicPopup, $cordovaNetwork, $ionicLoading, $location) {
             
+                         //    alert(elementrssurl);
                               
                          $ionicLoading.show({
                                             template: 'Loading...'
                                             });
                          
                          function initialize() {
+                    //   alert('googles init called');
                          var feed = new google.feeds.Feed($rootScope.RSS);
                          
                          feed.setNumEntries(50);
@@ -13293,11 +14484,15 @@ control.controller('homeCtrl', ['$ionicPlatform', '$scope', '$rootScope', '$cord
                                    $ionicLoading.hide();
                                    if(!result.error) {
                                    $rootScope.entries = result.feed.entries;
+                                 // alert('move');
                                    $location.path('/entries');
                                    } else {
-           
-									alert("ERROR :" +result.error.message);
-					
+                                   var alertPopup = $ionicPopup.alert({
+					   title: 'Rss Feed',
+					   template:result.error.message
+					 });
+					 alertPopup.then(function(res) {
+					 });
                                    $location.path('chapterlist');
                                    }
                                    });
@@ -13306,18 +14501,37 @@ control.controller('homeCtrl', ['$ionicPlatform', '$scope', '$rootScope', '$cord
                          
                          $ionicPlatform.ready(function() {
                                               
-                                  
+                                          // alert("Started up!!");
+                                              
+                                          /*  if(window.cordova && window.cordova.plugins.Keyboard) {
+                                              cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                                              }
+                                              if(window.StatusBar) {
+                                              window.StatusBar.styleDefault();
+                                              }*/
+                                              
+                                             /* if($cordovaNetwork.isOnline()) {
+												  alert('s');
+                                              google.load("feeds", "1",{callback:initialize});
+                                              } else {
+                                              alert("offline, push to error");
+                                              $ionicLoading.hide();
+                                              $location.path('/offline');
+                                              
+                                              }*/
                                             
                                           google.load("feeds", "1",{callback:initialize});    
                                               });
                                 
                                 $rootScope.TITLE = "Raymond Camden's Blog";
+                                //RSS url
                                 $rootScope.RSS = elementrssurl;
 
                          
                          }])
 
-control.controller('entriesCtrl', ['$scope','$rootScope', '$location', function($scope,$rootScope,$location) {
+control.controller('entriesCtrl', ['$scope', '$ionicPopup','$rootScope', '$location', function($scope,$ionicPopup,$rootScope,$location) {
+                          // alert('EntriesCtrl called');
                           
                                    $scope.backprevfeed=function(){
                                       $location.path('chapterlist');
@@ -13351,7 +14565,8 @@ control.controller('entriesCtrl', ['$scope','$rootScope', '$location', function(
                             }])
 
 
-control.controller('entryCtrl', ['$scope', '$rootScope', '$location', '$stateParams', function($scope, $rootScope,$location, $stateParams) {
+control.controller('entryCtrl', ['$scope', '$rootScope', '$ionicPopup','$location', '$stateParams', function($scope, $rootScope, $ionicPopup,$location, $stateParams) {
+                        //  alert('EntryCtrl called');
                           
                                  $scope.backpreventry=function(){
                                  $location.path('entries');
@@ -13372,7 +14587,7 @@ control.controller('entryCtrl', ['$scope', '$rootScope', '$location', '$statePar
                           
                           }]);
 
-control.controller('viewdetailsCtrl',function($scope,$state,$ionicLoading,$http, $ionicModal, $ionicPopup,$ionicActionSheet){
+control.controller('viewdetailsCtrl',function($scope,$state,$ionicLoading,$http, $ionicModal,$ionicPopup, $ionicActionSheet){
      
      $scope.subfullname1=subfullname1;
      $scope.subemail1=subemail1;
@@ -13392,125 +14607,17 @@ control.controller('viewdetailsCtrl',function($scope,$state,$ionicLoading,$http,
                            
  });
 
-control.controller('sample1Ctrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){
-                                                        
-     $scope.appKey = appList.apps;
-     
-  $ionicScrollDelegate.scrollTop();
-
- $scope.AppEditor =false;
-
-  for(var i =0;i<(appList.apps).length;i++){
-    if((appList.apps[i]).app_image == null){
-         (appList.apps[i]).app_image = "img/no_image.png";
-
-    }
-  }
-  
- $scope.listViewClickFtn = function(appId,appTit){
-	 
-  $scope.appKey = appList.apps;
-
-    appKey = appId;
-    appTitle = appTit;
-    $ionicLoading.show({
-              content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
-              animation: 'fade-in',
-              showBackdrop: true,
-              maxWidth: 200,
-              showDelay: 0
-            });
-              $.ajax({
-                  type: "GET",
-                  url: "http://build.myappbuilder.com/api/buttons.json",
-                  data:{'api_key':appId},
-                  cache: false,
-                  success:function(response){
-                    
-                    buttonArray = response;
-					
-					   $.ajax({
-                                 type: "GET",
-                                 url: "http://build.myappbuilder.com/api/apps/general.json",
-                                 data:{'api_key':appId},
-                                 cache: false,
-                                 success:function(response1){
-                                 console.log('**************123456*************'+response1.bar_color);
-                                 console.log(JSON.stringify(response1));
-                                 
-                                 barcolor = response1.bar_color;
-                                 buttoncolor= response1.button_color;
-                                 barbuttoncolor= response1.bar_button_color;
-									
-									   $scope.bar_color=barcolor;
-                                 $scope.button_color=buttoncolor;
-                                 $scope.bar_button_color=barbuttoncolor;
-                                 
-                    $.ajax({url:'http://build.myappbuilder.com/api/app_wall_settings.json', type:"GET",data:{'api_key':appKey},
-                      success:function(response){
-                          Appwall = response;
-                          $ionicLoading.hide();
-                     $state.go('app1');
-                    
-                      },
-                      error:function(){
-                          $ionicLoading.hide();
-                         var alertPopup = $ionicPopup.alert({
-					   title: 'FrontEndBuilder',
-					   template:'Failure'
-					 });
-					 alertPopup.then(function(res) {
-					 });
-                      }
-                    });
-                    
-                  },
-                           error:function(error,status){
-                                 
-                               var total = JSON.parse(error.responseText);        
-           
-					 var alertPopup = $ionicPopup.alert({
-					   title: 'FrontEndBuilder',
-					   template:total.error
-					 });
-					 alertPopup.then(function(res) {
-					 });
-                                 }
-                                 });
-                          
-                          
-                          },
-                          error:function(error,status){
-                          $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
-           
-					 var alertPopup = $ionicPopup.alert({
-					   title: 'FrontEndBuilder',
-					   template:total.error
-					 });
-					 alertPopup.then(function(res) {
-					 });
-                          }
-                          });
-     
-                   }
-                   
-   $scope.logout1 = function(){
-	  OAuth.clearCache('twitter');
-            OAuth.clearCache('facebook');
-            OAuth.clearCache('google');
-  $state.go('login');     
-  }
- });
  
-control.controller('home1Ctrl', ['$ionicPlatform','$scope', '$rootScope', '$cordovaNetwork', '$ionicLoading', '$location', function($ionicPlatform,$scope, $rootScope, $cordovaNetwork, $ionicLoading, $location) {
+control.controller('home1Ctrl', ['$ionicPlatform', '$scope', '$rootScope','$ionicPopup', '$cordovaNetwork', '$ionicLoading', '$location', function($ionicPlatform, $scope, $ionicPopup,$rootScope, $cordovaNetwork, $ionicLoading, $location) {
                                 
+                                // alert(elementrssurl);
                                 
                                 $ionicLoading.show({
                                                    template: 'Loading...'
                                                    });
                                 
                                 function initialize() {
+                                //  alert('googles init called');
                                 var feed = new google.feeds.Feed($rootScope.RSS);
                                 
                                 feed.setNumEntries(30);
@@ -13518,9 +14625,15 @@ control.controller('home1Ctrl', ['$ionicPlatform','$scope', '$rootScope', '$cord
                                           $ionicLoading.hide();
                                           if(!result.error) {
                                           $rootScope.entries = result.feed.entries;
+                                          // alert('move');
                                           $location.path('/entries1');
                                           } else {
-                                          alert("ERROR :" +result.error.message);
+                                      var alertPopup = $ionicPopup.alert({
+					   title: 'Rss Feed',
+					   template:result.error.message
+					 });
+					 alertPopup.then(function(res) {
+					 });
                                    $location.path('chapterlist1');
                                           }
                                           });
@@ -13533,12 +14646,14 @@ control.controller('home1Ctrl', ['$ionicPlatform','$scope', '$rootScope', '$cord
                                               });
                                 
                                 $rootScope.TITLE = "Raymond Camden's Blog";
+                                //RSS url
                                 $rootScope.RSS = elementrssurl;
 
                                 
                                 }])
 
-control.controller('entries1Ctrl', ['$scope', '$rootScope','$location', function($scope,$rootScope,$location) {
+control.controller('entries1Ctrl', ['$scope', '$rootScope', '$ionicPopup','$location', function($scope,$ionicPopup,$rootScope,$location) {
+                                   // alert('EntriesCtrl called');
                                    
                                    $scope.backprevfeed=function(){
                                    $location.path('chapterlist1');
@@ -13569,7 +14684,8 @@ control.controller('entries1Ctrl', ['$scope', '$rootScope','$location', function
                                    }])
 
 
-control.controller('entry1Ctrl', ['$scope', '$rootScope', '$location', '$stateParams', function($scope, $rootScope, $location, $stateParams) {
+control.controller('entry1Ctrl', ['$scope', '$ionicPopup','$rootScope', '$location', '$stateParams', function($scope, $ionicPopup,$rootScope, $location, $stateParams) {
+                                 //  alert('EntryCtrl called');
                                  
                                  $scope.backpreventry=function(){
                                  $location.path('entries1');
@@ -13595,10 +14711,9 @@ control.controller('previewaudio1Ctrl',function($scope,$state,$ionicPopup,$ionic
 
 $scope.appTitle = appTitle;
                    
-                    $scope.elementAppwallgoFun=function(){
-					  $state.go('elementAppWall1');
-				  } 
-                   
+                   $scope.elementAppwallgoFun=function(){
+	  $state.go('elementAppWall1');
+  } 
                    if(barcolor == 'undefined'){
                    $scope.bar_color = 'bar-positive';
                    }
@@ -13661,17 +14776,18 @@ $scope.appTitle = appTitle;
         
 	};
 	
-	
-          $ionicModal.fromTemplateUrl('my-modal.html', {
+	  $ionicModal.fromTemplateUrl('my-modal.html', {
             scope: $scope,
             animation: 'slide-in-right'
           }).then(function(modal) {
             $scope.registerpop = modal;
           });
+          
  
 $scope.elementtitle = elementtitle;
 $scope.elementtext = elementtext;
-   $('#audioprevimg').attr({'src':contentimg});
+
+    $('#audioprevimg').attr({'src':contentimg});
     $('#audioprevimg').css({'width':'50px','height':'50px'}); 		
 
      $('#audioprevurlimg').attr({'src':'img/audio.png'});
@@ -13689,7 +14805,7 @@ $scope.elementtext = elementtext;
 		$('.playaudio').attr({'src':''});
 		$scope.registerpop.hide(); 
 	}
-	
+  
 $scope.backprevaudio=function(){
     $state.go('chapterlist1');
  }
@@ -13697,51 +14813,7 @@ $scope.homeprevaudio=function(){
     $state.go('sample1');
 }
 
-  
 });
-
-control.controller('sublist1Ctrl',function($scope,$state,$ionicLoading,$http, $ionicPopup,$ionicModal, $ionicActionSheet){
-                   
-                   $scope.backsublist=function(){
-                   $state.go('app1');
-                   }
-                   $scope.avatar123=function(val){
-                   if(val==null){
-                   return 'img/btn_avatar.png';
-                   }
-                   else{
-                   return val;
-                   }
-                   
-                   }
-                   
-                   $scope.appTitle = appTitle;
-                   
-                   $.ajax({
-                          type: "GET",
-                          url: "http://build.myappbuilder.com/api/subscribers.json",
-                          data:{'api_key':appKey},
-                          cache: false,
-                          success:function(response){
-                          $scope.subscriber = response;
-                          $ionicLoading.hide();
-                          },
-                          error:function(error,status){
-                          $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
-           
-					 var alertPopup = $ionicPopup.alert({
-					   title: 'Subscriber',
-					   template:total.error
-					 });
-					 alertPopup.then(function(res) {
-					 });
-                          }
-                          });
-                   
-                           
-                                           
-                   });
                    
 control.controller("appWall1Ctrl",function($scope,$state, $ionicLoading,$http,$ionicPopup){
                    
@@ -13793,6 +14865,7 @@ control.controller("appWall1Ctrl",function($scope,$state, $ionicLoading,$http,$i
                           data:{'api_key':appKey},
                           cache: false,
                           success:function(response){
+                          //  alert(JSON.stringify(response));
                         $ionicLoading.hide();
                           messages = response;
                           appWallPostFun();
@@ -13802,14 +14875,14 @@ control.controller("appWall1Ctrl",function($scope,$state, $ionicLoading,$http,$i
                           $ionicLoading.hide();
                           var error = JSON.parse(error.responseText);
                           if(error.error == "Unauthorized"){
-                          var alertPopup = $ionicPopup.alert({
+                       var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Please Login'
 					 });
 					 alertPopup.then(function(res) {
 					 });
                           }else {
-                         var alertPopup = $ionicPopup.alert({
+                       var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Login Error!'
 					 });
@@ -13873,15 +14946,16 @@ control.controller('buttonAppWall1Ctrl',function($scope,$state,$ionicPopup,$ioni
                           error:function(error,status){
                         $ionicLoading.hide();
                           var error = JSON.parse(error.responseText);
+                          // alert(JSON.stringify(error));
                           if(error.error == "Unauthorized"){
-                         var alertPopup = $ionicPopup.alert({
+                       var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Please Login'
 					 });
 					 alertPopup.then(function(res) {
 					 });
                           }else {
-                         var alertPopup = $ionicPopup.alert({
+                        var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Login Error!'
 					 });
@@ -13934,6 +15008,7 @@ control.controller('elementAppWall1Ctrl',function($scope,$state,$ionicLoading,$i
                   
                    $.ajax({url:'http://build.myappbuilder.com/api/messages.json',type:"GET",data:{"api_key":appKey,"element_id":elementId},
                           success:function(response){
+                          //alert(JSON.stringify(response));
                            $ionicLoading.hide();
                           messages = response;
                           ElementAppWallPostFun();
@@ -13942,14 +15017,14 @@ control.controller('elementAppWall1Ctrl',function($scope,$state,$ionicLoading,$i
                             $ionicLoading.hide();
                           var error = JSON.parse(error.responseText);
                           if(error.error == "Unauthorized"){
-                           var alertPopup = $ionicPopup.alert({
+                      var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Please Login'
 					 });
 					 alertPopup.then(function(res) {
 					 });
                           }else {
-                      var alertPopup = $ionicPopup.alert({
+                       var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Login Error!'
 					 });
@@ -13966,6 +15041,10 @@ var amenities1='';
 control.controller('previewpic1Ctrl',function($scope,$state,$ionicPopup,$ionicLoading,$http){
                    
                    
+                    $scope.elementAppwallgoFun=function(){
+	  $state.go('elementAppWall1');
+  } 
+  
                    $scope.elementTitle = elementtitle;
                    $scope.description = elementtext;
                    
@@ -13976,11 +15055,7 @@ control.controller('previewpic1Ctrl',function($scope,$state,$ionicPopup,$ionicLo
                    $scope.backprevtext = function(){
                    $state.go('chapterlist1');
                    }
-                  
-                  
-                   $scope.elementAppwallgoFun=function(){
-					  $state.go('elementAppWall1');
-				  } 
+                   
                   $scope.appTitle = appTitle;
                    
                    
@@ -14017,9 +15092,9 @@ control.controller('previewpic1Ctrl',function($scope,$state,$ionicPopup,$ionicLo
                    $scope.AppEditor =false;
                    }
                    }
-                  
-                  $scope.editpicpage =previewpic; 
                    
+                   
+                  $scope.editpicpage =previewpic;
                    
                    $.ajax({
                           type: "GET",
@@ -14029,6 +15104,7 @@ control.controller('previewpic1Ctrl',function($scope,$state,$ionicPopup,$ionicLo
                           success:function(response){
                           $ionicLoading.hide();
                           $scope.edittxtpage = response;
+                          //  alert(JSON.stringify($scope.distxtpage));
                           $state.reload();
                           },
                           error:function(error,status){
@@ -14052,7 +15128,7 @@ control.controller('previewpic1Ctrl',function($scope,$state,$ionicPopup,$ionicLo
                           success:function(response){
                           var datatag1=response;
                           console.log(response);
-                            if(response.length == 0){
+                           if(response.length == 0){
 								 console.log(response.length);
 								 	$scope.tags=response;
 							 }
@@ -14079,7 +15155,7 @@ control.controller('previewpic1Ctrl',function($scope,$state,$ionicPopup,$ionicLo
                           },
                           error:function(error,status){
                           $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+ var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -14122,8 +15198,9 @@ control.controller('previewtask1Ctrl',function($scope,$state,$ionicPopup,$ionicL
                    $scope.appTitle = appTitle;
                    
                     $scope.elementAppwallgoFun=function(){
-					  $state.go('elementAppWall1');
-				  } 
+	  $state.go('elementAppWall1');
+  } 
+                   
                    if(barcolor == 'undefined'){
                    $scope.bar_color = 'bar-positive';
                    }
@@ -14161,7 +15238,7 @@ control.controller('previewtask1Ctrl',function($scope,$state,$ionicPopup,$ionicL
                           },
                           error:function(error,status){
                           $ionicLoading.hide();
-                           var total = JSON.parse(error.responseText);        
+ var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -14184,7 +15261,7 @@ control.controller('previewtask1Ctrl',function($scope,$state,$ionicPopup,$ionicL
                           },
                           error:function(error,status){
                           $ionicLoading.hide();
-                            var total = JSON.parse(error.responseText);        
+                       var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -14201,6 +15278,10 @@ control.controller('previewtask1Ctrl',function($scope,$state,$ionicPopup,$ionicL
 control.controller('previewform1Ctrl',function($scope,$state,$ionicPopup,$ionicLoading){
                    
          
+          $scope.elementAppwallgoFun=function(){
+	  $state.go('elementAppWall1');
+  } 
+  
                    $scope.backprevform=function(){
                    $state.go('chapterlist1');
                    }
@@ -14211,9 +15292,7 @@ control.controller('previewform1Ctrl',function($scope,$state,$ionicPopup,$ionicL
                    $scope.elementemail = elementemail;
                    
                    $scope.appTitle = appTitle;
-                    $scope.elementAppwallgoFun=function(){
-					  $state.go('elementAppWall1');
-				  } 
+                   
                    
                    if(barcolor == 'undefined'){
                    $scope.bar_color = 'bar-positive';
@@ -14266,7 +15345,7 @@ control.controller('previewform1Ctrl',function($scope,$state,$ionicPopup,$ionicL
                    });
 
 
-control.controller('previewvideo1Ctrl',function($scope,$state,$ionicPopup,$ionicLoading,$http, $ionicModal){
+control.controller('previewvideo1Ctrl',function($scope,$state,$ionicPopup,$ionicLoading,$http,$ionicModal){
                  
                    $scope.backprevvideo = function(){
                    $state.go('chapterlist1');
@@ -14276,9 +15355,10 @@ control.controller('previewvideo1Ctrl',function($scope,$state,$ionicPopup,$ionic
                    }
                    
                    $scope.appTitle = appTitle;	
+                   
                     $scope.elementAppwallgoFun=function(){
-					  $state.go('elementAppWall1');
-				  } 
+	  $state.go('elementAppWall1');
+  } 
                    
                    if(barcolor == 'undefined'){
                    $scope.bar_color = 'bar-positive';
@@ -14316,7 +15396,7 @@ control.controller('previewvideo1Ctrl',function($scope,$state,$ionicPopup,$ionic
                           },
                           error:function(error,status){
                           $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Video',
@@ -14324,7 +15404,6 @@ control.controller('previewvideo1Ctrl',function($scope,$state,$ionicPopup,$ionic
 					 });
 					 alertPopup.then(function(res) {
 					 });
-					 
                           }
                           });  
                    
@@ -14347,8 +15426,6 @@ control.controller('previewvideo1Ctrl',function($scope,$state,$ionicPopup,$ionic
                    
                    $scope.elementtitle = elementtitle;
                    $scope.elementtext = elementtext;
-                   $scope.contentvideothumb=contentvideothumb;
-					$scope.contentvideoframe=contentvideoframe;
                    
                    $('#videoprevimg').attr({'src':contentvideothumb});
                    $('#videoprevimg').css({'width':'50px','height':'50px'}); 		
@@ -14356,11 +15433,9 @@ control.controller('previewvideo1Ctrl',function($scope,$state,$ionicPopup,$ionic
                    $('#videoprevurlimg').attr({'src':'img/video.png'});
                    $('#videoprevurlimg').css({'width':'50px','height':'50px'});  
                    
-              
-						$scope.videoclick1=function(){
+                  	$scope.videoclick=function(){
 							$state.go('playvideo1');
 						}
-						
                    });
 
 control.controller('app1Ctrl',function($scope,$state,$ionicModal,$ionicLoading,$ionicPopup,$http){
@@ -14377,6 +15452,7 @@ control.controller('app1Ctrl',function($scope,$state,$ionicModal,$ionicLoading,$
   
  var chapterArray = [];
   for (var i = 0; i < buttonArray.length; i++) {
+     // if((buttonArray[i].first_paragraph_type == "default")||(buttonArray[i].first_paragraph_type == null)){
         chapterArray.push(buttonArray[i]);
   }
   
@@ -14408,7 +15484,11 @@ $scope.appTitle = appTitle;
                    {
                    $scope.button_color='button-'+buttoncolor;
                    }
-                   
+                  
+                    $scope.subs=function(){
+                   $state.go('sublist1');
+                   }
+                    
  $scope.chapterClick = function(id,title){
 
     buttonId = id;
@@ -14471,7 +15551,7 @@ $scope.appTitle = appTitle;
 
   $scope.buttonTitle = buttonTitle;
 
- $scope.subTitClickFtn = function(id,title,type,email,text,url,rssurl,audioimg,audiourl,videoimg,videourl,tags,frame){
+ $scope.subTitClickFtn = function(id,title,type,email,text,url,rssurl,audioimg,audiourl,videoimg,videourl,tags){
 
     elementId = id;
     elementtype=type;
@@ -14484,7 +15564,6 @@ $scope.appTitle = appTitle;
 	contentaudio = audiourl;
 	contentvideo = videourl;
 	contentvideothumb = videoimg;
-	contentvideoframe=frame;
 	tagging=tags;
 
     for (var i = 0; i < elementArray.length; i++) {
@@ -14504,9 +15583,10 @@ $scope.appTitle = appTitle;
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
+							//var response= JSON.parse(response);
                           $ionicLoading.hide();
 							previewpic =response;
-						  $state.go('previewpic1');     
+							$state.go('previewpic1');
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
@@ -14521,7 +15601,7 @@ $scope.appTitle = appTitle;
                         }
               }); 
               
-		
+	
       }
       
      if(elementtype == "tasks_list"){
@@ -14531,6 +15611,7 @@ $scope.appTitle = appTitle;
       if(elementtype == "web_page"){
             var ref = window.open(elementurl, '_blank', 'location=yes');
             ref.addEventListener('loaderror', function(event) { alert('error: ' + event.message); });
+		//$state.go('previewweb');
       }
       
       if(elementtype == "contact_form"){
@@ -14559,8 +15640,6 @@ $scope.appTitle = appTitle;
   
 });
 
-var previewpic='';
-
 control.controller('app2Ctrl',function($scope,$state,$ionicModal,$ionicLoading,$ionicPopup,$http){
     
  if(Appwall.element_wall == '0'){
@@ -14575,7 +15654,11 @@ control.controller('app2Ctrl',function($scope,$state,$ionicModal,$ionicLoading,$
   
  var chapterArray = [];
   for (var i = 0; i < buttonArray.length; i++) {
+     // if((buttonArray[i].first_paragraph_type == "default")||(buttonArray[i].first_paragraph_type == null)){
         chapterArray.push(buttonArray[i]);
+     // }else{
+      //  alert("Hello : "+buttonArray[i].title)
+    //  }
     
   }
   
@@ -14617,11 +15700,12 @@ $scope.button_color='button-'+button;
       $scope.AppEditor =false;
     }
   }
+ //$scope.appKey = appList.apps;
  $scope.chapterClick = function(id,title){
 
     buttonId = id;
     buttonTitle = title;
-          
+   
     $state.go('chapterlist2');
   }
  $scope.editButton = function(id,title,image){
@@ -14649,6 +15733,7 @@ $scope.subs=function(){
   }
 
 $scope.moveItem = function(item, fromIndex, toIndex) {
+    //Move the item in the array
      $ionicLoading.show({
                 content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
                 animation: 'fade-in',
@@ -14665,7 +15750,7 @@ $scope.moveItem = function(item, fromIndex, toIndex) {
         $ionicLoading.hide();
     })
     .error(function(data,status,headers,config){
-         var total = JSON.parse(data);        
+       var total = JSON.parse(data);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Button',
@@ -14673,9 +15758,9 @@ $scope.moveItem = function(item, fromIndex, toIndex) {
 					 });
 					 alertPopup.then(function(res) {
 					 });
-					 
          $ionicLoading.hide();
     })
+          //console.log(item, fromIndex, toIndex)
   };
   
    $scope.deleteButton = function(id){
@@ -14712,8 +15797,13 @@ $scope.moveItem = function(item, fromIndex, toIndex) {
                               buttonArray= response;
                               chapterArray = [];
                               for (var i = 0; i < buttonArray.length; i++) {
+                                //  if((buttonArray[i].first_paragraph_type == "default")||(buttonArray[i].first_paragraph_type == null)){
                                     chapterArray.push(buttonArray[i]);
-                                 
+                                  //  alert("Hi : "+buttonArray[i].title)
+                                //  }else{
+                                   // alert("Hello : "+buttonArray[i].title)
+                               //   }
+                                
                               }
                               $scope.items = chapterArray;
                               $state.reload();
@@ -14722,7 +15812,7 @@ $scope.moveItem = function(item, fromIndex, toIndex) {
                             },
                             error:function(error,status){
                               $ionicLoading.hide();
-                               var total = JSON.parse(data);        
+                              var total = JSON.parse(data);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Button',
@@ -14735,7 +15825,7 @@ $scope.moveItem = function(item, fromIndex, toIndex) {
                       },
                       error:function(error,status){
                            $ionicLoading.hide();
-                            var total = JSON.parse(data);        
+                         var total = JSON.parse(data);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Button',
@@ -14806,10 +15896,9 @@ $scope.button_color='button-'+button;
     }
   }
 
-$scope.float1=float1;	
+$scope.float1=float1;
 
-$scope.editpicpage =previewpic;
-		
+$scope.editpicpage =previewpic;      
 
  $.ajax({
                         type: "GET",
@@ -14817,9 +15906,50 @@ $scope.editpicpage =previewpic;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response =JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.edittxtpage = response;
+						   //  alert(JSON.stringify($scope.distxtpage));
 						   $state.reload();   						                            
+                        },
+                        error:function(error,status){
+                           $ionicLoading.hide();
+                         var total = JSON.parse(error.responseText);        
+           
+					 var alertPopup = $ionicPopup.alert({
+					   title: 'Picture and Text',
+					   template:total.error
+					 });
+					 alertPopup.then(function(res) {
+					 });
+                        }
+              });        
+              
+               $.ajax({
+                        type: "GET",
+                        url: "http://build.myappbuilder.com/api/elements/tags.json",
+                        data:{'api_key':appKey,'id':elementId},
+                        cache: false,
+                        success:function(response){ 
+			  						
+							 var datatag1=response;
+							  if(response.length == 0){
+								 console.log(response.length);
+								 	$scope.tags=response;
+							 }
+							 else{
+							 for(var i=0;i<datatag1.length;i++){
+							   if(i==0){
+							   amenities1 = datatag1[i].name;
+							   }
+							   else{
+							   amenities1 = amenities1+','+datatag1[i].name;
+							   }
+							   }                   
+							$scope.tags = amenities1.split(",");          
+                            $ionicLoading.hide();   
+                             $state.reload();     
+						 }                    
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
@@ -14832,51 +15962,8 @@ $scope.editpicpage =previewpic;
 					 alertPopup.then(function(res) {
 					 });
                         }
-              });        
-              
-                   $.ajax({
-                        type: "GET",
-                        url: "http://build.myappbuilder.com/api/elements/tags.json",
-                        data:{'api_key':appKey,'id':elementId},
-                        cache: false,
-                        success:function(response){ 
-			  						
-							 var datatag1=response;
-							   if(response.length == 0){
-								 console.log(response.length);
-								 	$scope.tags=response;
-							 }
-							 else{
-							
-							 for(var i=0;i<datatag1.length;i++){
-							   if(i==0){
-							   amenities1 = datatag1[i].name;
-							 
-							   }
-							   else{
-							   amenities1 = amenities1+','+datatag1[i].name;
-							   
-							   }
-							   }                   
-							$scope.tags = amenities1.split(",");    
-							 
-                            $ionicLoading.hide();   
-						}                      
-                        },
-                        error:function(error,status){
-                           $ionicLoading.hide();
-                        var total = JSON.parse(error.responseText);        
-           
-					 var alertPopup = $ionicPopup.alert({
-					   title: 'Picture and Text',
-					   template:total.error
-					 });
-					 alertPopup.then(function(res) {
-					 });
-                        }
               });            
-              
-              
+
  $scope.tinymceOptions = {
         
 
@@ -14951,13 +16038,14 @@ $scope.float1=float1;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();   
 						     $scope.taskdisplaypage = response;
 						   $state.reload();   	  
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                       var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -14981,7 +16069,7 @@ $scope.float1=float1;
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                        var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -15042,6 +16130,7 @@ $scope.button_color='button-'+button;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response1=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.disformtype = response;
 						   $state.reload();   	  
@@ -15049,7 +16138,7 @@ $scope.button_color='button-'+button;
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Contact Form',
@@ -15102,6 +16191,7 @@ $scope.button_color='button-'+button;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disaudiopage = response;
 						   $state.reload();       
@@ -15152,12 +16242,14 @@ $scope.homeprevaudio=function(){
     $state.go('sample');
 }
 
-          $ionicModal.fromTemplateUrl('my-modal.html', {
+
+  $ionicModal.fromTemplateUrl('my-modal.html', {
             scope: $scope,
             animation: 'slide-in-right'
           }).then(function(modal) {
             $scope.registerpop = modal;
           });
+
 
  if(audioprevurlimg){
 	  $scope.audioclick=function(){
@@ -15171,10 +16263,11 @@ $scope.homeprevaudio=function(){
 		$('.playaudio').attr({'src':''});
 		$scope.registerpop.hide(); 
 	}
-	 
+  
+
 });
 
-control.controller('previewvideo2Ctrl',function($scope,$state,$ionicPopup,$ionicLoading,$http,$ionicModal){
+control.controller('previewvideo2Ctrl',function($scope,$state,$ionicPopup,$ionicLoading,$http, $ionicModal){
   
 $scope.logprevvideo=function(){
 	  $state.go('videodisplay2');
@@ -15219,6 +16312,7 @@ $scope.button_color='button-'+button;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disvideopage = response;
 						   $state.reload();       
@@ -15255,8 +16349,6 @@ $scope.button_color='button-'+button;
  
 $scope.elementtitle = elementtitle;
 $scope.elementtext = elementtext;
-$scope.contentvideothumb=contentvideothumb;
-$scope.contentvideoframe=contentvideoframe;
 
     $('#videoprevimg').attr({'src':contentvideothumb});
     $('#videoprevimg').css({'width':'50px','height':'50px'}); 		
@@ -15264,19 +16356,22 @@ $scope.contentvideoframe=contentvideoframe;
       $('#videoprevurlimg').attr({'src':'img/video.png'});
     $('#videoprevurlimg').css({'width':'50px','height':'50px'});  
 
-	 $scope.videoclick2=function(){
+ $scope.videoclick=function(){
 		 $state.go('playvideo2');
 	 }
+
 });
 
-control.controller('home2Ctrl', ['$ionicPlatform','$scope', '$rootScope', '$cordovaNetwork', '$ionicLoading', '$location', function($ionicPlatform, $scope,$rootScope, $cordovaNetwork, $ionicLoading, $location) {
+control.controller('home2Ctrl', ['$ionicPlatform','$ionicPopup', '$scope', '$rootScope', '$cordovaNetwork', '$ionicLoading', '$location', function($ionicPlatform,$ionicPopup, $scope, $rootScope, $cordovaNetwork, $ionicLoading, $location) {
             
+                         //    alert(elementrssurl);
                               
                          $ionicLoading.show({
                                             template: 'Loading...'
                                             });
                          
                          function initialize() {
+                    //   alert('googles init called');
                          var feed = new google.feeds.Feed($rootScope.RSS);
                          
                          feed.setNumEntries(50);
@@ -15284,9 +16379,15 @@ control.controller('home2Ctrl', ['$ionicPlatform','$scope', '$rootScope', '$cord
                                    $ionicLoading.hide();
                                    if(!result.error) {
                                    $rootScope.entries = result.feed.entries;
+                                 // alert('move');
                                    $location.path('/entries2');
                                    } else {
-                                   alert("ERROR :" +result.error.message);
+                                   var alertPopup = $ionicPopup.alert({
+					   title: 'Rss Feed',
+					   template:result.error.message
+					 });
+					 alertPopup.then(function(res) {
+					 });
                                    $location.path('chapterlist2');
                                    }
                                    });
@@ -15299,12 +16400,14 @@ control.controller('home2Ctrl', ['$ionicPlatform','$scope', '$rootScope', '$cord
                                               });
                                 
                                 $rootScope.TITLE = "Raymond Camden's Blog";
+                                //RSS url
                                 $rootScope.RSS = elementrssurl;
 
                          
                          }])
 
-control.controller('entries2Ctrl', ['$scope', '$rootScope', '$location', function($scope,$rootScope,$location) {
+control.controller('entries2Ctrl', ['$scope','$ionicPopup', '$rootScope', '$location', function($scope,$ionicPopup,$rootScope,$location) {
+                          // alert('EntriesCtrl called');
                           
                                    $scope.backprevfeed=function(){
                                       $location.path('chapterlist2');
@@ -15338,7 +16441,8 @@ control.controller('entries2Ctrl', ['$scope', '$rootScope', '$location', functio
                             }])
 
 
-control.controller('entry2Ctrl', ['$scope', '$rootScope', '$location', '$stateParams', function($scope, $rootScope,$location, $stateParams) {
+control.controller('entry2Ctrl', ['$scope','$ionicPopup', '$rootScope', '$location', '$stateParams', function($scope,$ionicPopup, $rootScope, $location, $stateParams) {
+                        //  alert('EntryCtrl called');
                           
                                  $scope.backpreventry=function(){
                                  $location.path('entries2');
@@ -15359,7 +16463,7 @@ control.controller('entry2Ctrl', ['$scope', '$rootScope', '$location', '$statePa
                           
                           }]);
 
-control.controller('viewdetails2Ctrl',function($scope,$state,$ionicLoading,$http, $ionicModal, $ionicPopup,$ionicActionSheet){
+control.controller('viewdetails2Ctrl',function($scope,$state,$ionicLoading,$http,$ionicPopup, $ionicModal, $ionicActionSheet){
      
      $scope.subfullname1=subfullname1;
      $scope.subemail1=subemail1;
@@ -15379,6 +16483,26 @@ control.controller('viewdetails2Ctrl',function($scope,$state,$ionicLoading,$http
                            
  });
 
+control.controller('viewdetails1Ctrl',function($scope,$state,$ionicLoading,$http,$ionicPopup, $ionicModal, $ionicActionSheet){
+     
+     $scope.subfullname1=subfullname1;
+     $scope.subemail1=subemail1;
+     $scope.subphone1=subphone1;
+     $scope.subavatar1=subavatar1;              
+     $scope.subusername1=subusername1;
+       
+                   $scope.backviewdetails=function(){
+                   $state.go('sublist1');
+                   }
+                   
+                   $scope.appTitle = appTitle;
+
+ if(subavatar1 == null){ 
+		   $('#checkavatar21').attr({'src':'img/btn_avatar.png'});
+     }
+                           
+ });
+ 
 control.controller('mapdisplay2Ctrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
 
 $ionicScrollDelegate.scrollTop();
@@ -15443,7 +16567,7 @@ $scope.float1=float1;
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -15460,6 +16584,7 @@ $scope.float1=float1;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.dismappage = response; 
 						   $state.reload();   	  
@@ -15467,7 +16592,7 @@ $scope.float1=float1;
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                             var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -15495,12 +16620,14 @@ $scope.adddisAddress = function(){
           url: "http://build.myappbuilder.com/api/elements/addresses.json",
           data:{'api_key':appKey,'id':elementId,'address':$scope.createdisplaymap.title},
           success:function(response){
+			// alert(JSON.stringify(response));
             $.ajax({
                         type: "GET",
                         url: "http://build.myappbuilder.com/api/elements/addresses.json",
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
+							//var response=JSON.parse(response);       
                           $ionicLoading.hide();                       
 						    $scope.addressess = response;                 
 						    $scope.createdisplaymap.title='';
@@ -15509,7 +16636,7 @@ $scope.adddisAddress = function(){
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                             var total = JSON.parse(error.responseText);        
+                           var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -15522,7 +16649,7 @@ $scope.adddisAddress = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-              var total = JSON.parse(error.responseText);        
+            var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -15534,8 +16661,7 @@ $scope.adddisAddress = function(){
       });
     }
       else{
-           
-					 var alertPopup = $ionicPopup.alert({
+     var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
 					   template:'Enter The Address'
 					 });
@@ -15569,6 +16695,7 @@ $scope.updatedisplayAddress = function(id,updateaddresss){
                   contentType: false,
                   processData: false,
                   success:function(response){
+			   //   alert('successfully Updated');
                   $ionicLoading.hide();
                 
                  
@@ -15594,7 +16721,7 @@ $scope.updatedisplayAddress = function(id,updateaddresss){
               maxWidth: 200,
               showDelay: 0
       });
-     
+   
           $.ajax({
             type: "DELETE",
             url: "http://build.myappbuilder.com/api/elements/addresses/"+id+".json",
@@ -15608,13 +16735,14 @@ $scope.updatedisplayAddress = function(id,updateaddresss){
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
+							//var response=JSON.parse(response);       
                           $ionicLoading.hide();
 						$scope.addressess = response;  
 						   $state.reload();   
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -15627,7 +16755,7 @@ $scope.updatedisplayAddress = function(id,updateaddresss){
             },
             error:function(error,status){
                $ionicLoading.hide();
-              var total = JSON.parse(error.responseText);        
+             var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -15637,7 +16765,7 @@ $scope.updatedisplayAddress = function(id,updateaddresss){
 					 });
             }
           });	
-	 
+	  
 }   
 
 $scope.mapdiscustom = function(){
@@ -15666,6 +16794,7 @@ $scope.mapdiscustom = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response2=JSON.parse(response);       
                           $ionicLoading.hide();                        
 					    $scope.dismappage = response;
 						   $state.reload();   
@@ -15674,7 +16803,7 @@ $scope.mapdiscustom = function(){
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                           var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -15689,7 +16818,7 @@ $scope.mapdiscustom = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);        
+           var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
@@ -15701,8 +16830,7 @@ $scope.mapdiscustom = function(){
       });
     }
       }else{
-          
-					 var alertPopup = $ionicPopup.alert({
+     var alertPopup = $ionicPopup.alert({
 					   title: 'Map and Location',
 					   template:'Enter Title And Value'
 					 });
@@ -15736,6 +16864,7 @@ $scope.removedismapCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response3=JSON.parse(response);       
                           $ionicLoading.hide();
 						    $scope.dismappage = response;
 						   $state.reload();   	  
@@ -15771,7 +16900,7 @@ $scope.removedismapCustomValue = function(id){
 });
 
 
-control.controller('formdisplay2Ctrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
+control.controller('formdisplay2Ctrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
 
 $ionicScrollDelegate.scrollTop();
 
@@ -15828,6 +16957,7 @@ $scope.button_color='button-'+button;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.disformtype = response;
 						   $state.reload();   	  
@@ -15835,7 +16965,7 @@ $scope.button_color='button-'+button;
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Contact Form',
@@ -15871,7 +17001,7 @@ $scope.updatedisform = function(){
                   contentType: false,
                   processData: false,
                   success:function(response){
-			
+			     // alert('successfully Updated');
                   $ionicLoading.hide();
                 
                  
@@ -15921,6 +17051,7 @@ $scope.createdisformcustom = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response1=JSON.parse(response);
                           $ionicLoading.hide();                      
 						    $scope.disformtype = response;
 						   $state.reload();   
@@ -15928,7 +17059,7 @@ $scope.createdisformcustom = function(){
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                           var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Contact Form',
@@ -15943,7 +17074,7 @@ $scope.createdisformcustom = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-           var total = JSON.parse(error.responseText);        
+ var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Contact Form',
@@ -15955,8 +17086,7 @@ $scope.createdisformcustom = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+      var alertPopup = $ionicPopup.alert({
 					   title: 'Contact Form',
 					   template:'Enter Title And Value'
 					 });
@@ -15990,6 +17120,7 @@ $scope.removeformdisCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response2=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.disformtype = response;						 
 						   $state.reload();     
@@ -16023,7 +17154,7 @@ $scope.removeformdisCustomValue = function(id){
 
 });
 
-control.controller('taskdisplay2Ctrl',function($scope,$ionicPopup,$state,$ionicLoading,$ionicScrollDelegate){ 
+control.controller('taskdisplay2Ctrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
  
  $ionicScrollDelegate.scrollTop();
  
@@ -16080,13 +17211,14 @@ $scope.float1=float1;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();   
 						     $scope.taskdisplaypage = response;
 						   $state.reload();   	  
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                       var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -16103,13 +17235,14 @@ $scope.float1=float1;
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
+							//var response1=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.taskdisplay = response;
 						   $state.reload();    
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                        var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -16147,6 +17280,7 @@ $scope.adddisplayTask = function(task,desc){
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.taskdisplay = response;
 						$scope.createdisplaytask.taskTitle='';
@@ -16155,7 +17289,7 @@ $scope.adddisplayTask = function(task,desc){
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                           var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -16168,7 +17302,7 @@ $scope.adddisplayTask = function(task,desc){
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                           var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -16180,8 +17314,7 @@ $scope.adddisplayTask = function(task,desc){
               });   
 		  }else
 		  {
-           
-					 var alertPopup = $ionicPopup.alert({
+			 	 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
 					   template:'Enter The Title'
 					 });
@@ -16207,6 +17340,7 @@ $scope.deletedisplayTask = function(id){
             data: {"api_key":appKey,'id':elementId},
             cache: false,
             success:function(response){
+//				alert(JSON.stringify(response));
                $ionicLoading.hide();
               $.ajax({
                         type: "GET",
@@ -16214,13 +17348,14 @@ $scope.deletedisplayTask = function(id){
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
+							//var response3=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.taskdisplay = response;
 						   $state.reload();    
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                        var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -16270,12 +17405,13 @@ $scope.updatedisplayTask = function(updatesid,titles,descp){
                   contentType: false,
                   processData: false,
                   success:function(response){
+			//      alert('successfully Updated');
                   $ionicLoading.hide();
                 
             },
             error:function(error,status){
                $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);        
+             var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -16314,6 +17450,7 @@ $scope.createtaskdiscustom = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response5=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.taskdisplaypage = response;
 						   $state.reload();     
@@ -16335,7 +17472,7 @@ $scope.createtaskdiscustom = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-           var total = JSON.parse(error.responseText);        
+          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -16347,8 +17484,7 @@ $scope.createtaskdiscustom = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+   var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
 					   template:'Enter Title And Value'
 					 });
@@ -16382,6 +17518,7 @@ $scope.removetaskdisCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response4=JSON.parse(response);
                           $ionicLoading.hide();   
 						     $scope.taskdisplaypage = response;
 						   $state.reload();   	  
@@ -16401,7 +17538,7 @@ $scope.removetaskdisCustomValue = function(id){
             },
             error:function(error,status){
                $ionicLoading.hide();
-            var total = JSON.parse(error.responseText);        
+             var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Task List',
@@ -16416,7 +17553,7 @@ $scope.removetaskdisCustomValue = function(id){
 });
 
 
-control.controller('rssdisplay2Ctrl',function($scope,$state,$ionicPopup,$ionicLoading,$ionicScrollDelegate){ 
+control.controller('rssdisplay2Ctrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
 
 $ionicScrollDelegate.scrollTop();
 
@@ -16500,12 +17637,13 @@ else{
                   contentType: false,
                   processData: false,
                   success:function(response){
+			   //   alert('successfully Updated');
                   $ionicLoading.hide();
                 
                  
                 },error:function(error){
                   $ionicLoading.hide();
-                  var total = JSON.parse(error.responseText);        
+                var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
@@ -16539,13 +17677,14 @@ $scope.tinymceOptions = {
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();                        
 						    $scope.disrsspage = response;
 						   $state.reload();   
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                       var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
@@ -16582,13 +17721,14 @@ $scope.createcusdisrss = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response1 = JSON.parse(response);
                           $ionicLoading.hide();                      
 						    $scope.disrsspage = response;                 
 						   $state.reload();     
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                           var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
@@ -16603,7 +17743,7 @@ $scope.createcusdisrss = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-             var total = JSON.parse(error.responseText);        
+           var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
@@ -16615,8 +17755,7 @@ $scope.createcusdisrss = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+     	 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
 					   template:'Enter Title And Value'
 					 });
@@ -16650,13 +17789,14 @@ $scope.removerssdisCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response2 = JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disrsspage = response;
 						   $state.reload();       
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                           var total = JSON.parse(error.responseText);        
+                            var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Rss Feed',
@@ -16684,7 +17824,7 @@ $scope.removerssdisCustomValue = function(id){
 });
 
 
-control.controller('audiodisplay2Ctrl',function($scope,$state,$ionicPopup,$ionicLoading,$http,$ionicScrollDelegate){ 
+control.controller('audiodisplay2Ctrl',function($scope,$state,$ionicLoading,$ionicPopup,$http,$ionicScrollDelegate){ 
 
 $ionicScrollDelegate.scrollTop();
 
@@ -16724,6 +17864,7 @@ function readURL14(input) {
             reader.onload = function (e) {
 			 $('#audiodisplayimg').attr('src', e.target.result);	
 			 
+           // $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -16778,13 +17919,14 @@ $scope.button_color='button-'+button;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disaudiopage = response;
 						   $state.reload();       
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                           var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Audio',
@@ -16852,6 +17994,7 @@ $scope.updateaudiodisplay = function(){
 						 template: 'Please choose Audio File below 10MB!'
 					   });
 					   alertPopup.then(function(res) {
+						 //console.log('Thank you for not eating my delicious ice cream cone');
 					   });
 					} 
 					 
@@ -16877,7 +18020,8 @@ $scope.updateaudiodisplay = function(){
                       })
                       
                       .success(function(data,status, headers, config){
-			
+					// alert(JSON.stringify(data));
+					//  alert('Successfully updated');
 						  $ionicLoading.hide();
 
 					  })
@@ -16922,6 +18066,7 @@ $scope.updateaudiodisplay = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response1=JSON.parse(response);
                           $ionicLoading.hide();                      
 						    $scope.disaudiopage = response;                 
 						   $state.reload();     
@@ -16943,7 +18088,7 @@ $scope.updateaudiodisplay = function(){
             },
           error:function(error){
             $ionicLoading.hide();
-             var total = JSON.parse(error.responseText);        
+            var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Audio',
@@ -16955,8 +18100,7 @@ $scope.updateaudiodisplay = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+   	 var alertPopup = $ionicPopup.alert({
 					   title: 'Audio',
 					   template:'Enter Title And Value'
 					 });
@@ -16990,6 +18134,7 @@ $scope.removeaudiodisCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response2=JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disaudiopage = response;
 						   $state.reload();       
@@ -17038,15 +18183,16 @@ control.controller('picdisplay2Ctrl',function($scope,$state,$ionicScrollDelegate
   }
   $scope.backdispic=function(){
 	  
-	  $.ajax({
+	  	$.ajax({
                         type: "GET",
                         url: "http://build.myappbuilder.com/api/elements/images.json",
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
+							//var response= JSON.parse(response);
                           $ionicLoading.hide();
 							previewpic =response;
-						  $state.go('previewpic2');  
+								$state.go('previewpic2');
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
@@ -17059,9 +18205,8 @@ control.controller('picdisplay2Ctrl',function($scope,$state,$ionicScrollDelegate
 					 alertPopup.then(function(res) {
 					 });
                         }
-              }); 
-              
-       
+              });
+               
   }
  $scope.homedispic=function(){
        $state.go('sample');
@@ -17135,6 +18280,7 @@ $scope.float1=float1;
                         cache: false,
                         success:function(response){
 							
+							//var response= JSON.parse(response);
 							
                           $ionicLoading.hide();
 							$scope.dispicpage = response;
@@ -17142,7 +18288,7 @@ $scope.float1=float1;
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                       var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -17159,13 +18305,15 @@ $scope.float1=float1;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.distxtpage = response;
+						   //  alert(JSON.stringify($scope.distxtpage));
 						   $state.reload();   						                            
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                        var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -17203,6 +18351,7 @@ $scope.updatedistext = function(){
                   contentType: false,
                   processData: false,
                   success:function(response){
+			     // alert('successfully Updated');
                   $ionicLoading.hide();                
                 },error:function(error){
                   $ionicLoading.hide();
@@ -17232,6 +18381,7 @@ $scope.updatedistext = function(){
 					$('#dispictext').attr('src', e.target.result); 
 	    		 $('#dispictext').css({'width':'50px','height':'50px'});
 			   $('#textdis').attr('src', e.target.result); 
+            //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -17277,9 +18427,11 @@ $ionicLoading.show({
 								cache: false,
 								success:function(response){
 				
+								//	var response = JSON.parse(response);
 								  $ionicLoading.hide();
 
 									 $scope.dispicpage = response;
+								  //   alert(JSON.stringify($scope.editpicpage));
 								   $state.reload();   
 								  
 								  
@@ -17296,10 +18448,11 @@ $ionicLoading.show({
 					 });
 								}
 					     });              
+                //    $state.go('navicon');
                  
                 },error:function(error){
                   $ionicLoading.hide();
-                var total = JSON.parse(error.responseText);        
+                 var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -17335,13 +18488,14 @@ $scope.removepicdisCustom = function(id){
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
+							//var response1=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.dispicpage = response;						     
 						   $state.reload();  						                            
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                         var total = JSON.parse(error.responseText);        
+                           var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
@@ -17379,28 +18533,24 @@ $scope.ok = function(){
       });
          
          var datatag=$scope.contenteditCreate.elementeditTag;
-			 if(datatag == ''){
+		if(datatag == ''){
 			  console.log(datatag);
 			 amenities='';
 		 }
 		 else{
 			  console.log(datatag);
 		for(var i=0;i<datatag.length;i++){
-
                    if(i==0){
 
                    amenities = datatag[i].text;
-
                    }
 
                    else{
 
                    amenities = amenities+','+datatag[i].text;
-
                    }
 
                    }
-                   
 			   }
                    $.ajax({
                         type: "PUT",
@@ -17408,6 +18558,7 @@ $scope.ok = function(){
                         data:{'api_key':appKey,'element_id':elementId,'value':amenities},
                         cache: false,
                         success:function(response){   
+                       //    alert('successfully Updated'); 
                           $ionicLoading.hide();                        
                         },
                         error:function(error,status){
@@ -17454,8 +18605,10 @@ $scope.createpicdis = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.distxtpage = response;
+						   //  alert(JSON.stringify($scope.distxtpage));
 						   $state.reload();                            
                         },
                         error:function(error,status){
@@ -17487,8 +18640,7 @@ $scope.createpicdis = function(){
       });
     }
       }else{
-           
-					 var alertPopup = $ionicPopup.alert({
+   	 var alertPopup = $ionicPopup.alert({
 					   title: 'Picture and Text',
 					   template:'Enter Title And Value'
 					 });
@@ -17521,8 +18673,10 @@ $scope.removedistxtCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response3=JSON.parse(response);
                           $ionicLoading.hide();
 						    $scope.distxtpage = response;
+						//   alert(JSON.stringify($scope.distxtpage));
 						   $state.reload();                            
                         },
                         error:function(error,status){
@@ -17554,8 +18708,6 @@ $scope.removedistxtCustomValue = function(id){
  
 });
 
-var contentvideoframe ='';
-
 control.controller('chapterlist2Ctrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate){ 
   
  $scope.newContentGo = function(){
@@ -17572,6 +18724,7 @@ control.controller('chapterlist2Ctrl',function($scope,$state,$ionicLoading,$ioni
  for (var i = 0; i < buttonArray.length; i++) {
       if(buttonId == buttonArray[i].id){
         elementArray = buttonArray[i].elements;
+     // alert(JSON.stringify(buttonArray[i].elements));
       }
   }
   
@@ -17605,9 +18758,11 @@ control.controller('chapterlist2Ctrl',function($scope,$state,$ionicLoading,$ioni
                         success:function(response){
                           buttonArray = response;
                           $ionicLoading.hide();
+                         // $state.go('previewChapter');
                           for (var i = 0; i < buttonArray.length; i++) {
 							  if(buttonId == buttonArray[i].id){
 								elementArray = buttonArray[i].elements;
+							 //  alert(JSON.stringify(buttonArray[i].elements));
 							  }
 						  }
 						  $scope.elementArray = elementArray;
@@ -17615,7 +18770,7 @@ control.controller('chapterlist2Ctrl',function($scope,$state,$ionicLoading,$ioni
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
-                          var total = JSON.parse(error.responseText);        
+                         var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Chapter',
@@ -17683,7 +18838,7 @@ $scope.button_color='button-'+button;
     }
   }
 
- $scope.subTitClickFtn = function(id,title,type,email,text,url,rssurl,audioimg,audiourl,videoimg,videourl,tags,frame){
+ $scope.subTitClickFtn = function(id,title,type,email,text,url,rssurl,audioimg,audiourl,videoimg,videourl,tags){
 
     elementId = id;
     elementtype=type;
@@ -17696,7 +18851,6 @@ $scope.button_color='button-'+button;
 	contentaudio = audiourl;
 	contentvideo = videourl;
 	contentvideothumb = videoimg;
-	contentvideoframe=frame;
 	tagging=tags;
 
     for (var i = 0; i < elementArray.length; i++) {
@@ -17709,15 +18863,17 @@ $scope.button_color='button-'+button;
       }
 
     if(elementtype == "default"){
-		$.ajax({
+		
+			$.ajax({
                         type: "GET",
                         url: "http://build.myappbuilder.com/api/elements/images.json",
                         data:{'api_key':appKey,'id':elementId},
                         cache: false,
                         success:function(response){
+							//var response= JSON.parse(response);
                           $ionicLoading.hide();
 							previewpic =response;
-						   $state.go('previewpic2');    
+								$state.go('previewpic2');
                         },
                         error:function(error,status){
                            $ionicLoading.hide();
@@ -17731,7 +18887,7 @@ $scope.button_color='button-'+button;
 					 });
                         }
               }); 
-		
+	
       }
       
      if(elementtype == "tasks_list"){
@@ -17741,6 +18897,7 @@ $scope.button_color='button-'+button;
       if(elementtype == "web_page"){
             var ref = window.open(elementurl, '_blank', 'location=yes');
             ref.addEventListener('loaderror', function(event) { alert('error: ' + event.message); });
+		//$state.go('previewweb');
       }
       
       if(elementtype == "contact_form"){
@@ -17815,6 +18972,7 @@ $scope.button_color='button-'+button;
 				});
   $.ajax({url:'http://build.myappbuilder.com/api/messages.json',type:"GET",data:{"api_key":appKey,"element_id":elementId},
     success:function(response){
+//alert(JSON.stringify(response));
     $ionicLoading.hide();
       messages = response;
       ElementAppWallPostFun();
@@ -17830,20 +18988,19 @@ $scope.button_color='button-'+button;
 					 alertPopup.then(function(res) {
 					 });
       }else {
-           var alertPopup = $ionicPopup.alert({
+        var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Login Error!'
 					 });
 					 alertPopup.then(function(res) {
 					 });
-					 
       }
     }
   });
   
 });
 
-control.controller('buttonAppWall2Ctrl',function($scope,$state,$ionicPopup,$ionicLoading){
+control.controller('buttonAppWall2Ctrl',function($scope,$state,$ionicLoading,$ionicPopup){
 
 $scope.backbuttonAppwall = function(){
 	$state.go('chapterlist2');
@@ -17902,21 +19059,21 @@ $scope.button_color='button-'+button;
                   error:function(error,status){
                      $ionicLoading.hide();
                     var error = error.responseText;
+                     // alert(JSON.stringify(error));
                     if(error.error == "Unauthorized"){
-                     var alertPopup = $ionicPopup.alert({
+                    var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Please Login'
 					 });
 					 alertPopup.then(function(res) {
 					 });
                     }else {
-                       var alertPopup = $ionicPopup.alert({
+                    var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Login Error!'
 					 });
 					 alertPopup.then(function(res) {
 					 });
-					 
                     }
                   }
     });
@@ -17989,7 +19146,8 @@ $scope.button_color='button-'+button;
       });
 
       $scope.popupClose=function() {
-
+      // alert('Tapped!', $scope.checkBox.element+" : "+$scope.checkBox.button);
+      // alert('Tapped!', $scope.checkBox.element+" : "+$scope.checkBox.button);
         myPopup.close();
       }
 
@@ -18011,9 +19169,12 @@ $scope.button_color='button-'+button;
         $ionicLoading.show({template: '<i class="icon ion-loading-a"></i>&nbsp;Please wait...'});
         $http.post('http://build.myappbuilder.com/api/app_wall_settings.json',{api_key: appKey,button_wall:button_wall,element_wall:element_wall})
               .success(function(data,status,headers,config){
-  
+                  //$ionicLoading.hide();
+//alert(JSON.stringify(data));
+                  //Appwall = data;
                   $.ajax({url:'http://build.myappbuilder.com/api/app_wall_settings.json', type:"GET",data:{'api_key':appKey},
                       success:function(response){
+                      //  alert(JSON.stringify(response))
                           Appwall = response;
                           $ionicLoading.hide();
                            myPopup.close();
@@ -18063,30 +19224,30 @@ $scope.button_color='button-'+button;
                    appWallPostFun();
                   },
                   error:function(error,status){
+                  //  window.wizSpinner.hide();
                     $ionicLoading.hide();
                     var error = error.responseText;
                     if(error.error == "Unauthorized"){
-                    var alertPopup = $ionicPopup.alert({
+                     var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Please Login'
 					 });
 					 alertPopup.then(function(res) {
 					 });
                     }else {
-                       var alertPopup = $ionicPopup.alert({
+                     var alertPopup = $ionicPopup.alert({
 					   title: 'Messages',
 					   template:'Login Error!'
 					 });
 					 alertPopup.then(function(res) {
 					 });
-					 
                     }
                   }
             });
             
  }); 
  
-control.controller('buttonlist2Ctrl',function($scope,$state,$ionicScrollDelegate,$ionicPopup,$ionicLoading,$ionicActionSheet){ 
+control.controller('buttonlist2Ctrl',function($scope,$state,$ionicScrollDelegate,$ionicLoading,$ionicPopup,$ionicActionSheet){ 
 
 $ionicScrollDelegate.scrollTop();
 
@@ -18100,6 +19261,7 @@ $scope.homebuttonlist = function(){
 $scope.editbuttoncreate={}
 $('#editbuttonsrc').attr('src', localStorage.xxx); 
 
+  // alert(localStorage.xxx);
 $scope.appTitle = appTitle;	
 
 if(colour == 'undefined'){	
@@ -18127,6 +19289,7 @@ $scope.button_color='button-'+button;
 }
 
 $("#editbuttonimage").change(function(){
+	//  localStorage.xxx = document.getElementById("editbuttonimage").value ;
       readURL31(this);
   });
   
@@ -18166,14 +19329,17 @@ $scope.editbuttoncreate.editbuttontitle = buttonTitle;
                 contentType: false,
                 processData: false,
                 success:function(response){
+					//var response= JSON.parse(response);
  
                     buttonId = response.id;
                     buttonTitle = response.title;
+                    alert("Successfully Updated");
                     $ionicLoading.hide();
                 },
                 error:function(error,status){
                     $ionicLoading.hide();
-                 var total = JSON.parse(error.responseText);        
+                    //alert("Successfully")
+                  var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Button',
@@ -18201,14 +19367,17 @@ $scope.editbuttoncreate.editbuttontitle = buttonTitle;
                 contentType: false,
                 processData: false,
                 success:function(response){
+					//var response= JSON.parse(response);
  
                     buttonId = response.id;
                     buttonTitle = response.title;
+                    alert("Successfully Updated");
                     $ionicLoading.hide();
                 },
                 error:function(error,status){
                     $ionicLoading.hide();
-                     var total = JSON.parse(error.responseText);        
+                    //alert("Successfully")
+                   var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Button',
@@ -18283,7 +19452,7 @@ $.ajax({
 
           $ionicLoading.hide();
 
-         var total = JSON.parse(error.responseText);        
+          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Subscriber',
@@ -18301,8 +19470,10 @@ $.ajax({
             var reader = new FileReader();
 
             reader.onload = function (e) {
-	    	
-           $('.file-input-wrapper7 > .btn-file-input7').css('background-image', 'url('+e.target.result+')');
+	    		//$('#tst').attr('src',"data:image/jpeg;base64,"+e.target.result); 
+	    		// $('#tst').css({'width':'50px','height':'50px'});
+	    		//alert(e.target.result);
+           $('.file-input-wrapper5 > .btn-file-input5').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -18326,7 +19497,7 @@ $.ajax({
 
                    $scope.addsubs = function() {
 					
-				    $('.file-input-wrapper7 > .btn-file-input7').css('background-image', 'url(img/add_image.png)');				
+				    $('.file-input-wrapper5 > .btn-file-input5').css('background-image', 'url(img/add_image.png)');				
 
                    $scope.data2.firstname='';
 
@@ -18375,7 +19546,7 @@ $.ajax({
 
                           $ionicLoading.hide();
 
-                       var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Subscriber',
@@ -18470,6 +19641,7 @@ $.ajax({
 									  cache: false,
 
 									  success:function(response){
+									//	var response7 = JSON.parse(response);
 
 									   $scope.subscriber =response;
 									
@@ -18495,6 +19667,7 @@ $.ajax({
 									  }
 
 								});
+							//	alert('Successfully Created');
 								
 							 $scope.registerpop.hide();
 							 
@@ -18502,7 +19675,7 @@ $.ajax({
 
                           $ionicLoading.hide();
 
-                        var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Subscriber',
@@ -18572,13 +19745,13 @@ $.ajax({
 
                    if(subavatar){
 						
-						$('.file-input-wrapper7 > .btn-file-input7').css('background-image', 'url('+subavatar+')');
+						$('.file-input-wrapper5 > .btn-file-input5').css('background-image', 'url('+subavatar+')');
 
                    }
 
                    else{
 
-				     	$('.file-input-wrapper7 > .btn-file-input7').css('background-image', 'url(img/add_image.png)');				
+				     	$('.file-input-wrapper5 > .btn-file-input5').css('background-image', 'url(img/add_image.png)');				
 
                    }
 
@@ -18610,7 +19783,7 @@ $.ajax({
 
                           $ionicLoading.hide();
 
-                       var total = JSON.parse(error.responseText);        
+                          var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Subscriber',
@@ -18690,6 +19863,7 @@ $.ajax({
 
                               subid1=response.id;
                          
+								 // alert('Successfully Updated');
 								  
 								 $.ajax({
 
@@ -18703,6 +19877,7 @@ $.ajax({
 
 									  success:function(response){
 										  
+									//	var response7 = JSON.parse(response);
 
 									   $scope.subscriber =response;
 									   
@@ -18716,7 +19891,7 @@ $.ajax({
 
 										  $ionicLoading.hide();
 
-										var total = JSON.parse(error.responseText);        
+										  var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Subscriber',
@@ -18735,7 +19910,7 @@ $.ajax({
 
                           $ionicLoading.hide();
 
-                       var total = JSON.parse(error.responseText);        
+                        var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: 'Subscriber',
@@ -18753,8 +19928,10 @@ $.ajax({
 
 });
 
-control.controller('editnewapp1Ctrl',function($scope,$state,$ionicLoading,$ionicPopup,$ionicScrollDelegate,$ionicPopup){ 	
-	     
+control.controller('editnewapp1Ctrl',function($scope,$state,$ionicLoading,$ionicScrollDelegate,$ionicPopup){ 	
+	    
+ $ionicScrollDelegate.scrollTop();
+ 
 $scope.appTitle = appTitle;	
 
 if(colour == 'undefined'){	
@@ -18783,8 +19960,8 @@ $scope.button_color='button-'+button;
 
 
 $scope.editappcre = {}
-
-$scope.editappcre.editfloaturl = editfloat1;
+ 
+ $scope.editappcre.editfloaturl = editfloat1;
  
 if(editfloat == 'true')
 	{
@@ -18796,7 +19973,7 @@ if(editfloat == 'true')
 	 }
  
   $scope.AppEditor = false;
-      
+  
 $scope.createnewapp11 = function(){
 	 
       $ionicLoading.show({
@@ -18812,12 +19989,13 @@ $scope.createnewapp11 = function(){
           url: "http://build.myappbuilder.com/api/book_custom_fields.json",
           data:{'api_key':appKey,'id':editfloatid,'title':'Floating Social Icons','value':$scope.editappcre.editcustomvalue},
           success:function(response){			
-              $ionicLoading.hide();   
-              $state.go('editsocial');  
+             //alert(JSON.stringify(response));    
+              $ionicLoading.hide(); 
+               $state.go('editsocial');    
             },
           error:function(error){
             $ionicLoading.hide();
-           var total = JSON.parse(error.responseText);        
+            var total = JSON.parse(error.responseText);        
            
 					 var alertPopup = $ionicPopup.alert({
 					   title: appTitle,
@@ -18833,10 +20011,9 @@ $scope.createnewapp11 = function(){
           url: "http://build.myappbuilder.com/api/book_custom_fields.json",
           data:{'api_key':appKey,'id':editfloatid1,'title':'Url','value':$scope.editappcre.editfloaturl},
           success:function(response){
-          
+             //  alert(JSON.stringify(response)); 
               $ionicLoading.hide();
               $state.go('editsocial');
-                       
             },
           error:function(error){
             $ionicLoading.hide();
@@ -18874,17 +20051,6 @@ control.controller('videodisplay2Ctrl',function($scope,$state,$ionicScrollDelega
     $scope.elementAppWall = true;
   }
   
-  
-  $scope.AppEditor = true;
-  
-    $scope.logbuttonlist1 = function(){
-    if($scope.AppEditor == false){
-      $scope.AppEditor = true;
-    }else{
-      $scope.AppEditor =false;
-    }
-  }
-  
   $scope.elementAppwallgoFun=function(){
 	  $state.go('elementAppWall2');
   }
@@ -18896,6 +20062,7 @@ function readURL26(input) {
 				 $('#videodisurlimg').attr({'src':"img/btn_video.png"});
 				$('#videodisurlimg').css({'width':'50px','height':'50px'});
 				$('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')'); 		
+         // $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -18903,10 +20070,6 @@ function readURL26(input) {
   }
 
   $("#videodisplay").change(function(){
-	  
-	  var objectURL = window.URL.createObjectURL(this.files[0]);
-	$('#videoframe').attr({'src':objectURL});
-	
 	    check=true;
 	 
       readURL26(this);
@@ -18921,6 +20084,7 @@ function readURL26(input) {
 				 $('#videodisplayimg').attr('src', e.target.result); 
 	    		 $('#videodisplayimg').css({'width':'50px','height':'50px'});
              $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');		
+        //  $('.file-input-wrapper > .btn-file-input').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -18973,6 +20137,7 @@ $scope.button_color='button-'+button;
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disvideopage = response;
 						   $state.reload();       
@@ -19018,13 +20183,11 @@ if(contentvideothumb){
   }
  if(contentvideo){
     $('#videodisplay').attr({'url':contentvideo});
-      $('#videodisurlimg').attr({'src':contentvideoframe});
+      $('#videodisurlimg').attr({'src':contentvideothumb});
     $('#videodisurlimg').css({'width':'50px','height':'50px'});  
   }
 $scope.updatevideodisplay = function(){            
 		
-		 videoframebase1 = dataURL.replace("data:image/png;base64,","");
-		 
 	 $ionicLoading.show({
               content: '<i class="icon ion-loading-a"></i>&nbsp;Please Wait..',
               animation: 'fade-in',
@@ -19038,10 +20201,7 @@ $scope.updatevideodisplay = function(){
       formData.append('id', elementId);
       formData.append('title', $scope.createdisplayvideo.displayvideotitle);
       formData.append('text',$scope.createdisplayvideo.displayvideotext);
-       if(videoframebase1){
-      formData.append('video_frame_base64',videoframebase1);
-      formData.append('video_frame_title','image.png');
-      }
+      
   if(check==true){  
 	  	  if((($("#videodisplay").get(0).files[0].size) / 1024 / 1024) <= 10){
 
@@ -19053,6 +20213,7 @@ $scope.updatevideodisplay = function(){
 					 template: 'Please choose Video File below 10MB!'
 				   });
 				   alertPopup.then(function(res) {
+					 //console.log('Thank you for not eating my delicious ice cream cone');
 				   });
            } 
             if($('#video_thumbdisplay').get(0).files[0]){
@@ -19063,7 +20224,7 @@ $scope.updatevideodisplay = function(){
           
 	  }else{
 		     $('#videodisplay').attr({'url':contentvideo});
-      $('#videodisurlimg').attr({'src':contentvideoframe});
+      $('#videodisurlimg').attr({'src':contentvideothumb});
     $('#videodisurlimg').css({'width':'50px','height':'50px'}); 		
 		    $('#videodisplayimg').attr({'src':contentvideothumb});
     $('#videodisplayimg').css({'width':'50px','height':'50px'});  
@@ -19076,6 +20237,7 @@ $scope.updatevideodisplay = function(){
                       
                       .success(function(data,status, headers, config){
 						  $ionicLoading.hide();
+						// alert('Successfully updated');
 					  })
 					  .error(function(data,status, headers, config){
                         $ionicLoading.hide();
@@ -19117,6 +20279,7 @@ $scope.updatevideodisplay = function(){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response = JSON.parse(response);
                           $ionicLoading.hide();                      
 						    $scope.disvideopage = response;                 
 						   $state.reload();     
@@ -19185,6 +20348,7 @@ $scope.removevideodisCustomValue = function(id){
                         data:{'api_key':appKey,'element_id':elementId},
                         cache: false,
                         success:function(response){
+							//var response=JSON.parse(response);
                           $ionicLoading.hide();
 							$scope.disvideopage = response;
 						   $state.reload();       
@@ -19217,6 +20381,7 @@ $scope.removevideodisCustomValue = function(id){
 }
 
 });
+
 
 control.controller('playvideo2Ctrl',function($scope,$state,$ionicScrollDelegate,$ionicLoading,$ionicPopup,$http,$ionicActionSheet){ 
 
@@ -19313,7 +20478,7 @@ else
 {
 $scope.button_color='button-'+button;
 }
-	
+
 $('.playvideo').attr({'src':contentvideo});
 
 $scope.videoclickclose=function(){

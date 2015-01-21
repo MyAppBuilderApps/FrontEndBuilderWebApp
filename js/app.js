@@ -1,16 +1,31 @@
- var control = angular.module('myappbuilder',['ionic', 'starter.controllers','ui.tinymce','ngCordova']);
-  
-    
- /* -----------------------------------------------------Login Page---------------------------------------------*/
-control.config(function($stateProvider, $urlRouterProvider) {
-	
+var app = angular.module('myappbuilder',['ionic', 'starter.controllers','ui.tinymce','checklist-model','ngCordova']);
 
+app.config(function($stateProvider,$urlRouterProvider){
+	
+  $stateProvider.state('editcontent', {
+                                url: '/editcontent',
+                                templateUrl: 'templates/editcontent.html',
+                                controller: 'editcontentCtrl'
+                                });
+                                
   $stateProvider.state('login', {
       url: '/login',
       templateUrl: 'templates/login.html',
       controller: 'loginCtrl'
   });     
   
+   $stateProvider.state('login1', {
+      url: '/login1',
+      templateUrl: 'templates/login1.html',
+      controller: 'login1Ctrl'
+  });   
+  
+   $stateProvider.state('sample2', {
+      url: '/sample2',
+      templateUrl: 'templates/sample2.html',
+       controller: 'sample2Ctrl'
+   });
+   
   $stateProvider.state('register', {
       url: '/register',
       templateUrl: 'templates/register.html',
@@ -446,7 +461,7 @@ control.config(function($stateProvider, $urlRouterProvider) {
                                     url: '/sublist2',
                                     templateUrl: 'templates/sublist2.html',
                                     controller: 'sublist2Ctrl'
-                                    });
+                                    });                                  
            
            $stateProvider.state('home2', {
                                 url: '/home2',
@@ -535,8 +550,13 @@ control.config(function($stateProvider, $urlRouterProvider) {
       url: '/editnewapp1',
       templateUrl: 'templates/editnewapp1.html',
       controller: 'editnewapp1Ctrl'
-  }); 
-   $stateProvider.state('playvideo2', {
+  });  
+     $stateProvider.state('viewdetails1', {
+      url: '/viewdetails1',
+      templateUrl: 'templates/viewdetails1.html',
+      controller: 'viewdetails1Ctrl'
+   }); 
+      $stateProvider.state('playvideo2', {
       url: '/playvideo2',
       templateUrl: 'templates/playvideo2.html',
       controller: 'playvideo2Ctrl'
@@ -550,16 +570,39 @@ control.config(function($stateProvider, $urlRouterProvider) {
       url: '/playvideo',
       templateUrl: 'templates/playvideo.html',
       controller: 'playvideoCtrl'
-  }); 
-$stateProvider.state('videoframe', {
-      url: '/videoframe',
-      templateUrl: 'templates/videoframe.html',
-      controller: 'videoframeCtrl'
-  });     
-  
-    $urlRouterProvider.otherwise('/login');
+  });  
+    $urlRouterProvider.otherwise('/editcontent');
 
 });
 
+app.filter('inSlicesOf',
+           ['$rootScope',
+            function($rootScope) {
+            makeSlices = function(items, count){
+            if (!count)
+            count = 3;
+            
+            if (!angular.isArray(items) && !angular.isString(items)) return items;
+            
+            var array = [];
+            for (var i = 0; i < items.length; i++) {
+            var chunkIndex = parseInt(i / count, 10);
+            var isFirst = (i % count === 0);
+            if (isFirst)
+            array[chunkIndex] = [];
+            array[chunkIndex].push(items[i]);
+            }
+            
+            if (angular.equals($rootScope.arrayinSliceOf, array))
+            return $rootScope.arrayinSliceOf;
+            else
+            $rootScope.arrayinSliceOf = array;
+            
+            return array;
+            };
+            
+            return makeSlices; 
+            }]
+           );
 
 

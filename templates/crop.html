@@ -1,0 +1,27 @@
+<ion-view>
+ <div  class="bar bar-header bar-positive" >
+        
+        <button class="button icon ion-ios7-arrow-back button-positive" ng-click="backsublist();"></button>
+        <h1 class="title" style="padding:0% 7% 0% 6%;font-size:17px;">{{appTitle}}</h1>
+    </div>
+
+ <ion-content>
+    
+   <div class="container">
+    <div class="imageBox">
+        <div class="thumbBox"></div>
+        <div class="spinner" style="display: none">Loading...</div>
+    </div>
+    <div class="action">
+		<input type="file" id="file" style="float:left; width: 250px">
+        <input type="button" id="btnCrop" value="Crop" style="float: right">
+        <input type="button" id="btnZoomIn" value="+" style="float: right">
+        <input type="button" id="btnZoomOut" value="-" style="float: right">
+    </div>
+    <div class="cropped">
+
+    </div>
+</div>
+    
+    </ion-content>
+</ion-view>

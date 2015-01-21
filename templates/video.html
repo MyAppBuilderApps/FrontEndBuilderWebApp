@@ -15,40 +15,25 @@
  </div>
 
  <ion-content > 
-  <div style="padding:10% 25% 0% 25%;" >
+  <div style="padding:10% 25% 0% 25%;">
   
-		  <label class="item item-input" style="width:100%;" >
+		  <label class="item item-input" style="width:100%;">
              <input type="text" id="videotitle" ng-model="videocreate.title" placeholder="Type Video Title">
 		  </label>
 
-		  <label class="item item-input" style="width:100%;" >
+		  <label class="item item-input" style="width:100%;">
              <input type="text" id="videodesc" ng-model="videocreate.desc" placeholder="Type Video Description">
 		  </label>
 
 	   
-        <div class="item item-input" style="padding:0px 0px 8px 0px;width:100%;" >
+        <div class="item item-input" style="padding:0px 0px 8px 0px;width:100%;">
              <div class="col col-50"><span class="input-label">Video upload</span></div>          
             <div class="col col-20"><img id="videoimg" style="width:50px;heigth:50px;" src="img/no_video.png" alt="your image" /></div>
-		    <div class="col col-30"><input type="file" id="video" accept="video/mp4,video/x-m4v,video/*;capture=camcorder" ng-click="logbuttonlist();"/></div> 
+		    <div class="col col-30"><input type="file" id="video" accept="video/mp4,video/x-m4v,video/*;capture=camcorder" /></div> 
 		 </div>    
 
-       <div  style="padding:4px 0px 10px 0px;width:100%;text-align: center;" ng-hide='AppEditor'>
-
-				<video id='videoframe' width="420" height="340" controls>
-							  <source src="{{frame1}}" >
-							  Your browser does not support the video tag.
-				 </video>
-				 
-				 <br/>
-				 
-				 <span></span>
-				<button onclick="shoot()" style="width: 64px;border: solid 2px #ccc;">Capture</button><br/><br/>
-				
-				
-				<div id="output" style="display: inline-block;top: 6px; position: relative ;border: dotted 1px #ccc; padding: 2px;"></div>
-		</div>
        
-	  <div class="item item-input" style="padding:0px 0px 8px 0px;width:100%;" >
+	  <div class="item item-input" style="padding:0px 0px 8px 0px;width:100%;">
             <div class="col col-50"><span class="input-label">Video thumbnail upload</span></div>          
            <div class="col col-20"><img id="videothumbimg" style="width:50px;heigth:50px;" src="img/no_image.png" alt="your image" /></div>
 		   <div class="col col-30"><input type="file" id="videothumb" /></div>  
@@ -60,5 +45,3 @@
 </div>
    </ion-content>
 </ion-view>
-
-

@@ -9,34 +9,45 @@
 		</div>
 		
  </ion-header-bar>
- 
+<br/>
+  <div class="bar bar-subheader" style="margin-top:8px;">
+	   <div style="margin-left:5%;font-size:16px;" class="doubleline">
+				{{elementtitle}}
+	</div>
+  </div>    
+
   <ion-content > 
 
    <div style="padding:8% 25% 0% 25%;">
   
 <p>
-	      <a href="http://www.facebook.com/sharer.php?u={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="img/ic_fb.png" alt="" style="width:32px;height:32px;"/></a>
+		 <a href="http://www.facebook.com/sharer.php?u={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="img/ic_fb.png" alt="" style="width:32px;height:32px;"/></a>
 	      <a href="http://twitter.com/share?url={{float1}}&text=To Download This App Click Here {{appTitle}}" target="_blank"><img src="img/ic_twitter.png" alt="" style="width:32px;height:32px;"/></a>
 		  <a href="mailto:?Subject={{appTitle}}&Body=To%20Download%20This%20App%20Click%20This%20Link!%20 {{float1}}"><img src="img/ic_mail1.png" alt="" style="width:32px;height:32px;"/></a>
-
 	</p>
 	
-      <div class="list card">
-      
-      <div class="item item-avatar">
-          <img src="{{contentvideothumb}}">
-              <h2>{{elementtitle}}</h2>
-              
-      </div>
-      
-      <div class="item item-body">
-          <img src="img/play.png" ng-style="{ 'background-image': 'url(' + contentvideoframe + ')' }" style="width:100%;height:200px; background-size: cover; background-repeat: no-repeat; background-position: center center;" ng-click="videoclick();"/>
-          <p ng-bind-html="elementtext"></p>
-          
-      </div>
-      
-  </div>
-  
+       <div class="list list-inset">
+        
+		   <div class="item item-text-wrap" ng-bind-html="elementtext" style="padding:8px 2px 8px 2px;">
+	        </div>  
+	        
+
+	        	
+	    <div class="item item-input" style="padding:1px 0px 0px 0px;width:100%;">
+            <div class="col col-70"><span class="input-label">Video upload</span></div> 
+            <div class="col col-5"></div>
+            <div class="col col-25"><img id="videoprevurlimg" style="width:50px;heigth:50px;" src="img/no_video.png" alt="your image" ng-click="videoclick();"/></div>               
+		</div>    
+
+        
+	     <div class="item item-input" style="padding:1px 0px 0px 0px;width:100%;">
+            <div class="col col-70"><span class="input-label">Video thumbnail upload</span></div>
+            <div class="col col-5"></div>          
+            <div class="col col-25"><img id="videoprevimg" style="width:50px;heigth:50px;" src="img/no_image.png" alt="your image" /></div>
+		 </div>    
+	  	  
+	  	
+	  	   
 			<div class="item item-divider">
 				Custom values
 			</div>
@@ -54,17 +65,16 @@
  </ion-content>
 </ion-view>
 
-
 <script id="my-modal.html" type="text/ng-template">
 	<div class="modal">
 	<ion-header-bar>
 		<h1 class="title">Video</h1>
-		<button class="button button-clear button-primary" ng-click="videoclickclose();"><img src="img/close.png" style="width:30px;height:30px;"/></button>
+		<button class="button button-clear button-primary" ng-click="registerpop.hide();"><img src="img/close.png" style="width:30px;height:30px;"/></button>
 	</ion-header-bar>
 	
 	<ion-content>
-		<video class='playvideo' width="420" height="340" style="margin-left:14%;margin-top:4%;" controls>
-					  <source src="{{contentvideo}}" >
+		<video width="420" height="340" style="margin-left:14%;margin-top:4%;" controls>
+					  <source id='playvideo' src="{{contentvideo}}" >
 					  Your browser does not support the video tag.
 		 </video>
 

@@ -30,31 +30,15 @@
 	    <div class="item item-input" style="padding:0px 0px 8px 0px;width:100%;">
              <div class="col col-50"><span class="input-label">Video upload</span></div>     
              <div class="col col-20"><img id="videoediturlimg" style="width:50px;heigth:50px;" src="img/no_image.png" alt="your image" /></div>      
-		     <div class="col col-30"><input type="file" name="videoedit" accept="video/*" id="editvideo" ng-click="logbuttonlist1();"/></div> 
+		     <div class="col col-30"><input type="file" name="videoedit" accept="video/*" id="editvideo" /></div> 
 		  </div>    
 
        
-         <div style="padding:4px 0px 10px 0px;width:100%;text-align: center;" ng-hide='AppEditor'>
-
-				<video id='videoframe' width="420" height="340" controls>
-							  <source src="{{frame1}}" >
-							  Your browser does not support the video tag.
-				 </video>
-				 
-				 <br/>
-				 
-				 <span></span>
-				<button onclick="shoot()" style="width: 64px;border: solid 2px #ccc;">Capture</button><br/><br/>
-				
-				
-				<div id="output" style="display: inline-block;top: 6px; position: relative ;border: dotted 1px #ccc; padding: 2px;"></div>
-		</div>
-		
-	    <div class="item item-input" style="padding:0px 0px 8px 0px;width:100%;">
+	 <div class="item item-input" style="padding:0px 0px 8px 0px;width:100%;">
             <div class="col col-50"><span class="input-label">Video thumbnail upload</span></div>          
             <div class="col col-20"><img id="videoeditimg" style="width:50px;heigth:50px;" src="img/no_image.png" alt="your image" /></div>
             <div class="col col-30"><input type="file" id="editvideothumb" /></div>  
-	    </div>    
+	</div>    
 
        
        <button style="margin-top:5%;" ng-class="button_color" class="button button-full" ng-click="updatevideo();" >Update</button>
